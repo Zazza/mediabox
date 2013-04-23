@@ -36,23 +36,15 @@ app.settings = {
 		defaultExtension: 'js',
 		defaultLanguageTag: 'javascript',
 		sourceViewable: true
-	},
-	
-	uploads: {
-		root: 'uploads',
-		sizeThreshold: 0
-	},
-	
-	mediaTypes: {
-		php: 'text/html'
 	}
 }
 
 app.globals = {
     config: {
-        theme: 'black',
-        pre_width: 350,
-        pre_height: 240
+        theme: 'default',
+        baseUrl: '/mediabox/',
+        session_limit: 3600,
+        session_long_limit: 2592000
     },
     mediaTypes: {
         image: 'img/ftypes/image.png',
@@ -72,6 +64,14 @@ app.globals = {
         ['image', 'bmp', 'jpg', 'jpeg', 'gif', 'png'],
         ['audio', 'ogg', 'mp3'],
         ['video', 'mp4'],
-        ['text', 'txt']
+        ['text', 'txt'],
+        ['doc', 'doc', 'rtf', 'docx'],
+        ['pdf', 'pdf', 'djvu'],
+        ['txt', 'txt', 'lst', 'ini'],
+        ['flv', 'flv'],
+        ['exe', 'exe', 'com',' bat', 'sh'],
+        ['xls', 'xls', 'xlsx'],
+        ['html', 'htm', 'html', 'shtml', 'xml'],
+        ['zip', 'zip', 'rar', 'tar', 'gz', '7z', 'bz2']
     ]
 }

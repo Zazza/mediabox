@@ -28,11 +28,12 @@ $(document).ready(function() {
     $("#fs-menu").kendoTabStrip({
         animation:	{
             open: {
+                duration: 100,
                 effects: "fadeIn"
             }
         },
         select: function(e) {
-            $.ajax({type:"GET",url:"fm/fsMenu/",data:"tab="+e.item.id});
+            $.ajax({type:"GET",url:"app/fsMenu/",data:"tab="+e.item.id});
         }
     });
 
@@ -259,6 +260,11 @@ $(document).ready(function() {
 
                             $("#fm_music").append(result);
                         }
+                    } else if (value["obj"] == "type") {
+                        $("#typeAll").html(value["all"]);
+                        $("#typeImage").html(value["image"]);
+                        $("#typeVideo").html(value["video"]);
+                        $("#typeMusic").html(value["music"]);
                     }
                 })
 
@@ -270,7 +276,8 @@ $(document).ready(function() {
                 });
 
                 $(".fm_ajax-loader").hide();
-        });
+                $(".swipebox").swipebox();
+        })
     }
 
     var splitter = $("#splitter").data("kendoSplitter");
@@ -491,8 +498,6 @@ var sort = $(".files-adv-sort").kendoDropDownList({
     }
 });
 
-$(".swipebox").swipebox();
-
 $(".files-actions").on("click", ".upload", function(){
     $(".adv-menu-div").hide();
 
@@ -590,10 +595,19 @@ var themes = $("#theme-selector").kendoDropDownList({
     dataSource: themes_data,
     index: 0,
     change: function(e) {
-        $.ajax({ type: "GET", url: "fm/theme/", data: "theme=" + themes.data("kendoDropDownList").value() })
+        $.ajax({ type: "GET", url: "app/theme/", data: "theme=" + themes.data("kendoDropDownList").value() })
             .done(function(res) {
                 location.reload();
             })
     }
 });
 // END select.html
+
+// Logout
+$("#logout").click(function(){
+    $.ajax({ type: "POST", url: "auth/logout/" })
+        .done(function(res) {
+            location.reload();
+        })
+})
+

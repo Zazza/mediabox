@@ -1,4 +1,7 @@
 (function( $ ){
+    /**
+     * Initialize
+     */
 
     var jcrop_api;
     var _id;
@@ -6,20 +9,20 @@
     var original_height;
     var current_width;
     var current_height;
+    $("#image-comment-editor").wysihtml5();
+    //$("#image-comment-editor").kendoEditor();
+
+    $("#preview-scroll").css("height", $(window).height() - 75);
+    $(window).resize(function() {
+        $("#preview-scroll").css("height", $(window).height() - 75);
+    });
+
+    $("#preview-scroll").mCustomScrollbar({ scrollInertia:150, advanced:{ updateOnContentResize: true } });
 
     var methods = {
         init: function( options ) {
             $("#fs").fadeOut();
             $("#preview").delay(500).fadeIn();
-
-            $("#preview-scroll").css("height", $(window).height() - 75);
-            $(window).resize(function() {
-                $("#preview-scroll").css("height", $(window).height() - 75);
-            });
-
-            $("#image-comment-editor").wysihtml5();
-
-            $("#preview-scroll").mCustomScrollbar({ scrollInertia:150, advanced:{ updateOnContentResize: true } });
 
             return this;
         },
@@ -67,7 +70,7 @@
                             jcrop_api = this;
                         });
 
-                        $(this).addClass("current");
+                        $(src).addClass("current");
 
                         /**
                          * Get Crops
@@ -104,6 +107,15 @@
                         /**
                          * Show comments
                          */
+                        $.ajax({ type: "GET", dataType: "JSON", url: 'image/getComments/', data: "id=" + _id })
+                            .done(function(res) {
+                                $.each(res, function(key, value){
+                                    var timestamp = new Date(value.timestamp);
+                                    var monthNames = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ];
+                                    var time = timestamp.getHours() + ":" + timestamp.getMinutes() + ", " + timestamp.getDate() + "-" + monthNames[timestamp.getMonth()] + "-" + timestamp.getFullYear();
+                                    $("#image-comments").append(time + ": " + decodeURIComponent(value.text));
+                                })
+                            })
                     });
                 });
         }
@@ -174,7 +186,7 @@
         var y2 = $("#y2").val();
         var desc = $("#crop-object-text").val();
 
-        if (!x1 && !x2 && !y1 && !y2) {
+        if (!x1 || !x2 || !y1 || !y2) {
             $("#crop-object").prepend("<div class='k-block k-error-colored crop-error' style='margin-bottom: -10px'>selection area isn't chosen</div>");
         } else if (!desc) {
             $("#div-crop-object-text").addClass("error");
@@ -238,11 +250,13 @@
     };
 
     $("#image-comment-save").click(function(){
-        alert($("#image-comment-editor").data("kendoEditor").encodedValue());
+        $.ajax({ type: "GET", url: 'image/addComment/', dataType: "JSON", data: "id=" + _id + "&text=" + encodeURIComponent($("#image-comment-editor").val()) })
+            .done(function(res) { $("#image-comments").append($("#image-comment-editor").val()); })
     });
 
     $("#preview").on("click", "#back", function(){
         $(this).image("close");
+        $("div.current").removeClass("current");
     });
 
     $("#preview").on("click", "#next", function(){

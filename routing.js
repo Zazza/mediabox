@@ -12,6 +12,8 @@ app.routes = {
 	    'staticWeb',
 	    {type: 'staticWeb', root: sincerity.container.getLibrariesFile('web')}]}
     ],
+    '/auth/{action}/': {type: 'implicit', id: 'auth'},
+    '/app/{action}/': {type: 'implicit', id: 'app'},
     '/fm/{action}/': {type: 'implicit', id: 'fm'},
     '/thumb/{_id}/': {type: 'implicit', id: 'thumb'},
     '/image/{action}/': {type: 'implicit', id: 'image'},

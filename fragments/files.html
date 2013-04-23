@@ -1,12 +1,9 @@
-<%
- var type = getType();
-%>
 <div id="fs-menu">
     <ul>
-        <li title="All" id="tab-all"><i class="adv-menu-img icon-uploadalt"></i>&nbsp;All(<%= type["all"] %>)</li>
-        <li title="Images" id="tab-images"><i class="adv-menu-img icon-camera"></i>&nbsp;Images(<%= type["image"] %>)</li>
-        <li title="Video" id="tab-video"><i class="adv-menu-img icon-film"></i>&nbsp;Video(<%= type["video"] %>)</li>
-        <li title="Music" id="tab-music"><i class="adv-menu-img icon-music"></i>&nbsp;Music(<%= type["music"] %>)</li>
+        <li title="All" id="tab-all"><i class="adv-menu-img icon-uploadalt"></i>&nbsp;All(<span id="typeAll"></span>)</li>
+        <li title="Images" id="tab-images"><i class="adv-menu-img icon-camera"></i>&nbsp;Images(<span id="typeImage"></span>)</li>
+        <li title="Video" id="tab-video"><i class="adv-menu-img icon-film"></i>&nbsp;Video(<span id="typeVideo"></span>)</li>
+        <li title="Music" id="tab-music"><i class="adv-menu-img icon-music"></i>&nbsp;Music(<span id="typeMusic"></span>)</li>
     </ul>
 
     <!-- All FS -->
@@ -46,8 +43,8 @@
                     <div style="float: left; padding-right: 5px;"><img src="img/ftypes/folder.png" style="width: 15px;" alt="[DIR]" /></div>
                     <div style="float: left;" class="dname">#: name #</div>
 
-                    <div class="dname">#: date #</div>
-                    <div class="ddate">[folder]</div>
+                    <div class="dname_li">#: date #</div>
+                    <div class="ddate_li">[folder]</div>
                 </div>
             </div>
             # } #

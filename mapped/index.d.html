@@ -1,6 +1,7 @@
 <%
-    document.execute('/data/')
+    document.execute('/data-auth/')
 
+    var auth = conversation.getCookie("auth")
     var current_directory = conversation.getCookie("current_directory")
     var theme = conversation.getCookie("theme")
     var fsMenu = conversation.getCookie("fs_menu");
@@ -9,7 +10,7 @@
     if (theme)
         var current_theme = theme.value
     else
-        var current_theme = "default"
+        var current_theme = application.globals.get('config.theme')
 
     if (fsMenu)
         var current_fs_menu = fsMenu.value
@@ -27,25 +28,32 @@
         var volume_level = 50
 
 var view = "icon"
+
+if (!auth || !session_check(auth.value)) {
 %>
+<!-- login.html -->
+<%& '/login/' %>
+<!-- END login.html -->
+<% } else { %>
+
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/html">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Multimedia Filemanager</title>
-    <link href="kendo/styles/kendo.common.min.css" rel="stylesheet" type="text/css" />
-    <link href="kendo/styles/kendo.<%= current_theme %>.min.css" rel="stylesheet" type="text/css" />
-    <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
-    <link href="css/jquery.fileupload-ui.css" rel="stylesheet" media="screen">
-    <link href="css/jquery.mCustomScrollbar.css" rel="stylesheet" type="text/css" />
-    <link href="css/swipebox.css" rel="stylesheet" type="text/css" />
-    <link href="css/whhg.css" rel="stylesheet" type="text/css" />
-    <link href="css/style.css" rel="stylesheet" media="screen">
-    <link href="css/jquery.Jcrop.min.css" rel="stylesheet" media="screen">
-    <script src="kendo/jquery.min.js" type="text/javascript"></script>
+    <link href="<%= application.globals.get('config.baseUrl') %>kendo/styles/kendo.common.min.css" rel="stylesheet" type="text/css" />
+    <link href="<%= application.globals.get('config.baseUrl') %>kendo/styles/kendo.<%= current_theme %>.min.css" rel="stylesheet" type="text/css" />
+    <link href="<%= application.globals.get('config.baseUrl') %>css/bootstrap.min.css" rel="stylesheet" media="screen" />
+    <link href="<%= application.globals.get('config.baseUrl') %>css/bootstrap-wysihtml5.css" rel="stylesheet" type="text/css" />
+    <link href="<%= application.globals.get('config.baseUrl') %>css/jquery.fileupload-ui.css" rel="stylesheet" media="screen" />
+    <link href="<%= application.globals.get('config.baseUrl') %>css/jquery.mCustomScrollbar.css" rel="stylesheet" type="text/css" />
+    <link href="<%= application.globals.get('config.baseUrl') %>css/swipebox.css" rel="stylesheet" type="text/css" />
+    <link href="<%= application.globals.get('config.baseUrl') %>css/whhg.css" rel="stylesheet" type="text/css" />
+    <link href="<%= application.globals.get('config.baseUrl') %>css/style.css" rel="stylesheet" media="screen">
+    <link href="<%= application.globals.get('config.baseUrl') %>css/jquery.Jcrop.min.css" rel="stylesheet" media="screen" />
+    <script src="<%= application.globals.get('config.baseUrl') %>kendo/jquery.min.js" type="text/javascript"></script>
 </head>
 <body>
-
 <div id="header">
     <ul id="main-menu">
         <!--<li id="home"><i style="margin-right: 4px; font-size: 16px;" class="icon-legacyfilemanager"></i><span>File Manager<span></li>-->
@@ -159,18 +167,21 @@ var view = "icon"
 <input type="hidden" id="x2" />
 <input type="hidden" id="y1" />
 <input type="hidden" id="y2" />
-<script src="kendo/kendo.web.min.js" type="text/javascript"></script>
-<script src="js/load-image.min.js"></script>
-<script src="js/jquery.Jcrop.min.js" type="text/javascript"></script>
-<script src="js/bootstrap.min.js" type="text/javascript"></script>
-<script src="js/jquery.mCustomScrollbar.concat.min.js"></script>
-<script src="js/jquery.Jcrop.min.js"></script>
-<script src="js/jquery.mousewheel-3.0.6.pack.js"></script>
-<script src="js/jquery.swipebox.js"></script>
-<script src="js/image.js" type="text/javascript"></script>
-<script src="js/audio.js" type="text/javascript"></script>
-<script src="js/video.js" type="text/javascript"></script>
-<script src="js/fm.js" type="text/javascript"></script>
+
+<script src="<%= application.globals.get('config.baseUrl') %>kendo/kendo.web.min.js" type="text/javascript"></script>
+<script src="<%= application.globals.get('config.baseUrl') %>js/load-image.min.js"></script>
+<script src="<%= application.globals.get('config.baseUrl') %>js/jquery.Jcrop.min.js" type="text/javascript"></script>
+<script src="<%= application.globals.get('config.baseUrl') %>js/bootstrap.min.js" type="text/javascript"></script>
+<script src="<%= application.globals.get('config.baseUrl') %>js/wysihtml5-0.3.0.min.js"></script>
+<script src="<%= application.globals.get('config.baseUrl') %>js/bootstrap-wysihtml5.js"></script>
+<script src="<%= application.globals.get('config.baseUrl') %>js/jquery.mCustomScrollbar.concat.min.js"></script>
+<script src="<%= application.globals.get('config.baseUrl') %>js/jquery.Jcrop.min.js"></script>
+<script src="<%= application.globals.get('config.baseUrl') %>js/jquery.mousewheel-3.0.6.pack.js"></script>
+<script src="<%= application.globals.get('config.baseUrl') %>js/jquery.swipebox.js"></script>
+<script src="<%= application.globals.get('config.baseUrl') %>js/image.js" type="text/javascript"></script>
+<script src="<%= application.globals.get('config.baseUrl') %>js/audio.js" type="text/javascript"></script>
+<script src="<%= application.globals.get('config.baseUrl') %>js/video.js" type="text/javascript"></script>
+<script src="<%= application.globals.get('config.baseUrl') %>js/fm.js" type="text/javascript"></script>
 <script>
     $(document).ready(function() {
         var ths = $("#theme-selector").data("kendoDropDownList");
@@ -183,3 +194,4 @@ var view = "icon"
 </script>
 </body>
 </html>
+<% } %>

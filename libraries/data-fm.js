@@ -1,14 +1,12 @@
 importClass(com.mongodb.Mongo, com.mongodb.rhino.BSON)
 
-document.executeOnce('/sincerity/cryptography/')
-
 var connection = new Mongo()
 var db = connection.getDB('mediabox')
 
-function fs(id) {
+function fs(uid, id) {
     var collection = db.getCollection('fs')
 
-    var query = {parent: id.toString()}
+    var query = {uid: uid, parent: id.toString()}
     var nodes = BSON.from(collection.find(BSON.to(query)).toArray());
 
     var tree = new Array();
@@ -33,20 +31,20 @@ function hasChildren(id) {
     }
 }
 
-function addFolder(name, parent) {
+function addFolder(uid, name, parent) {
     var collection = db.getCollection('fs')
 
-    var doc = {name: name, parent: parent}
+    var doc = {uid: uid, name: name, parent: parent}
     collection.insert(BSON.to(doc))
 }
 
-function getFiles(id) {
+function getFiles(uid, id) {
     var files = new Array();
 
     // Get Dirs
     var collection = db.getCollection('fs')
 
-    var query = {parent: id.toString()}
+    var query = {uid: uid, parent: id.toString()}
     var nodes = BSON.from(collection.find(BSON.to(query)).toArray());
 
     var num_file = nodes.length;
@@ -58,7 +56,7 @@ function getFiles(id) {
     // Get Files
     var collection = db.getCollection('files')
 
-    var query = {parent: id.toString()}
+    var query = {uid: uid, parent: id.toString()}
     var nodes = BSON.from(collection.find(BSON.to(query)).toArray());
 
     var ico
@@ -67,8 +65,8 @@ function getFiles(id) {
     for (var i = 0; i < nodes.length; i++) {
         shortname = "";
 
-        if (application.globals.get('mediaTypes.' + type)) {
-            ico = application.globals.get('mediaTypes.' + type)
+        if (application.globals.get('mediaTypes.' + nodes[i]["type"])) {
+            ico = application.globals.get('mediaTypes.' + nodes[i]["type"])
         } else {
             ico = application.globals.get('mediaTypes.any')
         }
@@ -81,38 +79,16 @@ function getFiles(id) {
 
         if (nodes[i]["data"]) {
             files[num_file + i] = '{"id": "'+nodes[i]["_id"]+'", "name": "' + nodes[i]["name"] + '", "shortname": "'+shortname+'", "obj": "file", "type": "'+nodes[i]["type"]+'", "size": "'+nodes[i]["size"]+'", "type": "'+nodes[i]["type"]+'", "ico": "'+ico+'", "data": "'+nodes[i]["data"]+'"}';
-            //files[num_file + i] = '{"id": "'+nodes[i]["_id"]+'", "name": "' + nodes[i]["name"] + '", "obj": "file", "type": "'+nodes[i]["type"]+'", "size": "'+nodes[i]["size"]+'", "type": "'+nodes[i]["type"]+'", "ico": "'+ico+'", "data": "' + getIco(nodes[i]["_id"]) + '"}';
         } else {
             files[num_file + i] = '{"id": "'+nodes[i]["_id"]+'", "name": "' + nodes[i]["name"] + '", "shortname": "'+shortname+'", "obj": "file", "type": "'+nodes[i]["type"]+'", "size": "'+nodes[i]["size"]+'", "type": "'+nodes[i]["type"]+'", "ico": "'+ico+'", "data": "'+ico+'"}';
         }
     }
 
-    return "[" + files.join(",") + "]";
-}
-
-function getIco(id) {
-    // Get Dirs
-    var collection = db.getCollection('files')
-
-    var query = {_id: {$oid: id}}
-    var file = BSON.from(collection.findOne(BSON.to(query)));
-
-    var ico
-    var res
-
-    if (application.globals.get('mediaTypes.' + file.type)) {
-        ico = application.globals.get('mediaTypes.' + file.type)
+    if (files.length > 0) {
+        return "[" + files.join(",") + "," + getType(uid, id) + "]";
     } else {
-        ico = application.globals.get('mediaTypes.any')
+        return "[" + getType(uid, id) + "]";
     }
-
-    if (file.data) {
-        res = file.data.toString()
-    } else {
-        res = ico
-    }
-
-    return res
 }
 
 function in_array(needle, haystack, strict) {
@@ -139,11 +115,11 @@ function get_type(extension) {
     return 'unknown'
 }
 
-function uploadFile(filename, size, extension, id) {
+function uploadFile(uid, filename, size, extension, id) {
     var collection = db.getCollection('files')
 
     var type = get_type(extension)
-    var doc = BSON.to({parent: id, name: filename, size: size, type: type})
+    var doc = BSON.to({uid: uid, parent: id, name: filename, size: size, type: type})
     collection.insert(doc)
 
     return '{"_id": "' + doc.get('_id') + '", "type": "'+type+'"}'
@@ -158,17 +134,10 @@ function uploadThumb(id, data) {
     return true;
 }
 
-function getType(id) {
-    var current_directory = conversation.getCookie("current_directory");
-    if (current_directory) {
-        var parent_id = current_directory.value;
-    } else {
-        var parent_id = 0;
-    }
-
+function getType(uid, id) {
     var collection = db.getCollection('files')
 
-    var query = {parent: parent_id.toString()}
+    var query = {uid: uid, parent: id.toString()}
     var files = BSON.from(collection.find(BSON.to(query)).toArray());
 
     var type = new Array()
@@ -194,13 +163,13 @@ function getType(id) {
         }
     }
 
-    return type;
+    return '{"obj": "type", "all": "'+type["all"]+'", "image": "'+type["image"]+'", "video": "'+type["video"]+'", "music": "'+type["music"]+'"}';
 }
 
-function removeFile(filename, parent_id) {
+function removeFile(uid, filename, parent_id) {
     var collection = db.getCollection('files')
 
-    var query = {parent: parent_id.toString(), name: filename}
+    var query = {uid: uid, parent: parent_id.toString(), name: filename}
 
     var res = BSON.from(collection.findOne(BSON.to(query)))
     BSON.from(collection.remove(BSON.to(query)));

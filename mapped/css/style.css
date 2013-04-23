@@ -67,8 +67,8 @@ a:hover {color: black;}
 #pl-audio {bottom: 10px; position: fixed; top: 45px; width: 180px;}
 
 .file_icon_size {color: #777;}
-.dname, .file_list_date {float: right; color: #AAA; text-align: right; width: 140px;}
-.ddate, .file_list_size {float: right; padding-right: 5px; color: #AAA; text-align: right; width: 80px;}
+.dname_li, .file_list_date {float: right; color: #AAA; text-align: right; width: 140px;}
+.ddate_li, .file_list_size {float: right; padding-right: 5px; color: #AAA; text-align: right; width: 80px;}
 
 .fm_ajax-loader {display: none; position:fixed; height: 100%; width: 100%; background: url("../img/ajax-loader.gif") 40% 40% no-repeat;}
 
@@ -77,5 +77,5 @@ a:hover {color: black;}
 #image-cloud {margin-left: 20px;}
 
 #image-comment-form {overflow: hidden; margin: 10px 0;}
-#image-comment-editor {}
+#image-comment-editor {width:740px; height:200px}
 #image-comment-save {margin: 5px 0;}

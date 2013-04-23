@@ -2,7 +2,8 @@ importClass(com.mongodb.Mongo, com.mongodb.rhino.BSON)
 
 document.executeOnce('/sincerity/classes/')
 document.executeOnce('/sincerity/templates/')
-document.executeOnce('/data/')
+document.executeOnce('/data-fm/')
+document.executeOnce('/data-auth/')
 
 FmResource = Sincerity.Classes.define(function() {
 
@@ -14,6 +15,11 @@ FmResource = Sincerity.Classes.define(function() {
     }
 
     Public.handleGet = function(conversation) {
+        var auth = conversation.getCookie("auth")
+        if (!auth || !session_check(auth.value)) {
+            return
+        }
+
         var action = conversation.locals.get('action')
 
         /*
@@ -35,8 +41,6 @@ FmResource = Sincerity.Classes.define(function() {
          }
          */
         var current_directory = conversation.getCookie("current_directory");
-        var theme = conversation.getCookie("theme");
-        var fsMenu = conversation.getCookie("fs_menu");
 
         if (action == "fs") {
             var id = conversation.query.get("id")
@@ -44,7 +48,7 @@ FmResource = Sincerity.Classes.define(function() {
                 return '[{"text": "Upload", "id": "0", "expanded": true, "hasChildren": true, "spriteCssClass": "rootfolder"}]'
             }
 
-            return fs(id);
+            return fs(uid_get(), id);
         } else if (action == "chdir") {
             if (!current_directory) {
                 current_directory = conversation.createCookie("current_directory")
@@ -54,51 +58,18 @@ FmResource = Sincerity.Classes.define(function() {
                 current_directory.save()
             } else {
                 current_directory.value = conversation.query.get("id")
-      //          current_directory.remove()
                 current_directory.maxAge = -1
                 current_directory.path = "/"
                 current_directory.save()
             }
 
-            return getFiles(conversation.query.get("id"));
+            return getFiles(uid_get(), conversation.query.get("id"));
         } else if (action == "upload") {
-            return uploadFile(conversation.query.get("file"), conversation.query.get("size"), conversation.query.get("extension"), current_directory.value);
+            return uploadFile(uid_get(), conversation.query.get("file"), conversation.query.get("size"), conversation.query.get("extension"), current_directory.value);
         } else if (action == "create") {
-            return addFolder(conversation.query.get("name"), current_directory.value);
+            return addFolder(uid_get(), conversation.query.get("name"), current_directory.value);
         } else if (action == "remove") {
-            return removeFile(conversation.query.get("file"), current_directory.value);
-        } else if (action == "theme") {
-            if (!theme) {
-                theme = conversation.createCookie("theme")
-                theme.value = conversation.query.get("theme")
-                theme.maxAge = -1
-                theme.path = "/"
-                theme.save()
-            } else {
-                theme.value = conversation.query.get("theme")
-                theme.maxAge = -1
-                theme.path = "/"
-                theme.save()
-            }
-
-            return true;
-        } else if (action == "getIco") {
-            return getIco(conversation.query.get("id"));
-        } else if (action == "fsMenu") {
-            if (!fsMenu) {
-                fsMenu = conversation.createCookie("fs_menu")
-                fsMenu.value = conversation.query.get("tab")
-                fsMenu.maxAge = -1
-                fsMenu.path = "/"
-                fsMenu.save()
-            } else {
-                fsMenu.value = conversation.query.get("tab")
-                fsMenu.maxAge = -1
-                fsMenu.path = "/"
-                fsMenu.save()
-            }
-
-            return true;
+            return removeFile(uid_get(), conversation.query.get("file"), current_directory.value);
         }
     }
 

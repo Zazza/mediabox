@@ -3,6 +3,7 @@ importClass(com.mongodb.Mongo, com.mongodb.rhino.BSON)
 document.executeOnce('/sincerity/classes/')
 document.executeOnce('/sincerity/templates/')
 document.executeOnce('/data-audio/')
+document.executeOnce('/data-auth/')
 
 AudioResource = Sincerity.Classes.define(function() {
 
@@ -14,6 +15,11 @@ AudioResource = Sincerity.Classes.define(function() {
     }
 
     Public.handleGet = function(conversation) {
+        var auth = conversation.getCookie("auth")
+        if (!auth || !session_check(auth.value)) {
+            return
+        }
+
         var action = conversation.locals.get('action')
 
         var volume = conversation.getCookie("volume");

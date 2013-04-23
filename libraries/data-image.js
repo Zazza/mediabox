@@ -1,7 +1,5 @@
 importClass(com.mongodb.Mongo, com.mongodb.rhino.BSON)
 
-document.executeOnce('/sincerity/cryptography/')
-
 var connection = new Mongo()
 var db = connection.getDB('mediabox')
 
@@ -48,6 +46,32 @@ function getTags(id) {
 
     for (var i = 0; i < tags.length; i++) {
         res[i] = '{"tag": "'+tags[i]["tag"]+'"}'
+    }
+
+    return "[" + res.join(",") + "]";
+}
+
+function addComment(_id, text) {
+    var collection = db.getCollection('image-comments')
+
+    var timestamp = new Date();
+
+    var doc = BSON.to({image_id: _id, timestamp: timestamp, text: decodeURIComponent(text)})
+    collection.insert(doc)
+
+    return true
+}
+
+function getComments(id) {
+    var collection = db.getCollection('image-comments')
+
+    var query = {image_id: id.toString()}
+    var comments = BSON.from(collection.find(BSON.to(query)).toArray());
+
+    var res = new Array()
+
+    for (var i = 0; i < comments.length; i++) {
+        res[i] = '{"text": "'+encodeURIComponent(comments[i]["text"])+'", "timestamp": "'+comments[i]["timestamp"]+'"}'
     }
 
     return "[" + res.join(",") + "]";
