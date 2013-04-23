@@ -1,0 +1,71 @@
+<div id="preview" style="display: none; overflow: hidden; padding: 0 10px;">
+
+    <div style="overflow: hidden; margin-top: 10px;">
+        <ul class="nav nav-pills pull-left" style="margin-bottom: 0;">
+            <li id="back"><i style="font-size: 12px;" class="icon-pageback"></i>&nbsp;<span>Back</span></li>
+
+            <li id="saveCrop"><i style="font-size: 12px;" class="icon-selectionadd"></i>&nbsp;<span>Save crop</span></li>
+            <li id="clearCrop"><i style="font-size: 12px;" class="icon-selectionremove"></i>&nbsp;<span>Clear crop</span></li>
+            <li id="addTag"><i style="font-size: 12px;" class="icon-tag"></i>&nbsp;<span>Add tag</span></li>
+        </ul>
+
+        <ul id="image-actions" class="nav nav-pills pull-right" style="margin-bottom: 0;">
+            <li id="zoomIn"><i style="font-size: 12px;" class="icon-zoom-in"></i>&nbsp;<span>Zoom In</span></li>
+            <li id="zoomOut"><i style="font-size: 12px;" class="icon-zoom-out"></i>&nbsp;<span>Zoom Out</span></li>
+            <li id="fullscreen"><i style="font-size: 12px;" class="icon-fullscreen"></i>&nbsp;<span>Fullscreen</span></li>
+            <li id="prev"><i style="font-size: 12px;" class="icon-chevron-left"></i>&nbsp;<span>Previous</span></li>
+            <li id="next"><i style="font-size: 12px;" class="icon-chevron-right"></i>&nbsp;<span>Next</span></li>
+        </ul>
+    </div>
+
+    <div class="k-widget" style="height: 1px; margin: 4px 0;">&nbsp;</div>
+
+    <div id="preview-scroll">
+        <div id="preview-div-img" style="padding: 20px;"></div>
+
+        <div id="image-cloud">
+            <div style="overflow: hidden;">
+                <div style="float: left; width: 70px; position: relative; top: 3px; font-weight: bold;">Selected:</div>
+                <div style="float: left;" id="image-crops"></div>
+            </div>
+            <div style="overflow: hidden;">
+                <div style="float: left; width: 70px; position: relative; top: 3px; font-weight: bold;">Tags:</div>
+                <div style="float: left;" id="image-tags"></div>
+            </div>
+        </div>
+
+        <div style="margin-top: 20px;">
+            <h3>Comments:</h3>
+        </div>
+
+        <div id="image-comments"></div>
+
+        <div id="image-comment-form">
+            <textarea id="image-comment-editor" style="width:740px; height:200px">fggggggggggg</textarea>
+            <button id="image-comment-save" class="k-button">Save</button>
+        </div>
+    </div>
+
+    <div id="crop-object" style="display: none;">
+        <div class="control-group" id="div-crop-object-text">
+            <input type="text" id="crop-object-text" style="margin-top: 20px; width: 270px;">
+        </div>
+        <hr />
+        <div style="text-align: right;">
+            <button id="crop-object-close" class="k-button">Cancel</button>
+            <button id="crop-object-save" class="k-button">Save</button>
+        </div>
+    </div>
+
+    <div id="image-tag" style="display: none;">
+        <div class="control-group" id="div-image-tag-text">
+            <input type="text" id="image-tag-text" style="margin-top: 20px; width: 270px;">
+        </div>
+        <hr />
+        <div style="text-align: right;">
+            <button id="image-tag-close" class="k-button">Cancel</button>
+            <button id="image-tag-save" class="k-button">Save</button>
+        </div>
+    </div>
+
+</div>

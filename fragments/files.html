@@ -1,0 +1,310 @@
+<%
+ var type = getType();
+%>
+<div id="fs-menu">
+    <ul>
+        <li title="All" id="tab-all"><i class="adv-menu-img icon-uploadalt"></i>&nbsp;All(<%= type["all"] %>)</li>
+        <li title="Images" id="tab-images"><i class="adv-menu-img icon-camera"></i>&nbsp;Images(<%= type["image"] %>)</li>
+        <li title="Video" id="tab-video"><i class="adv-menu-img icon-film"></i>&nbsp;Video(<%= type["video"] %>)</li>
+        <li title="Music" id="tab-music"><i class="adv-menu-img icon-music"></i>&nbsp;Music(<%= type["music"] %>)</li>
+    </ul>
+
+    <!-- All FS -->
+    <div class="fs-type" id="fs-all" style="padding: 0;">
+
+        <div class="files-simple-actions" style="overflow: hidden">
+            <ul class="files-actions nav nav-pills pull-left" style="margin: 0 0 0 10px; padding-top: 4px;">
+                <li class="remove"><i style="font-size: 12px;" class="icon-deletefile"></i>&nbsp;<span>Delete</span></li>
+                <li class="copy"><i style="font-size: 12px;" class="icon-copy"></i>&nbsp;<span>Copy</span></li>
+                <li class="past"><i style="font-size: 12px;" class="icon-clipboard-paste"></i>&nbsp;<span>Past</span></li>
+                <li class="upload"><i style="font-size: 12px;" class="icon-uploadalt"></i>&nbsp;<span>Upload</span></li>
+            </ul>
+
+            <ul class="files-adv-actions nav nav-pills pull-right" style="margin: 6px 6px 0 0;">
+                <li>
+                    <span style="position: relative; top: 2px;">Sort:</span>
+                    <div class="files-adv-sort"></div>
+                </li>
+            </ul>
+        </div>
+
+        <div class="k-widget" style="height: 1px; margin: 0 6px;">&nbsp;</div>
+
+        <div class="structure" style="padding: 0 4px; overflow-x: hidden; overflow-y: auto;">
+
+            <script type="text/x-kendo-template" id="dirTemplate">
+            # if(1) { #
+            <div class="ddir fm_dirs" title="#: name #" id="#: id #" style="text-align: center; cursor: pointer">
+                <div class="fm_unsellabel" id="#: name #">
+                    <div><img src="img/ftypes/folder.png" style="width: 80px;" alt="[DIR]" /></div>
+                    <div class="dname">#: name #</div>
+                </div>
+            </div>
+            # } else { #
+            <div class="ddir fm_dirs_li" title="#: name #" id="#: id #" style="cursor: pointer">
+                <div class="fm_unsellabel" id="#: name #">
+                    <div style="float: left; padding-right: 5px;"><img src="img/ftypes/folder.png" style="width: 15px;" alt="[DIR]" /></div>
+                    <div style="float: left;" class="dname">#: name #</div>
+
+                    <div class="dname">#: date #</div>
+                    <div class="ddate">[folder]</div>
+                </div>
+            </div>
+            # } #
+            </script>
+
+            <script type="text/x-kendo-template" id="fileTemplate">
+            # if(1) { #
+            <div title="#: name #" data-id="#: id #" class="dfile fm_file" style="text-align: center; cursor: pointer">
+                <div class="fm_unsellabel" id="#: name #">
+                    <a class="fm_pre"><img class="file-img-preview" src="#: data #" data-id="#: id #" style="height: 80px;" alt="[FILE]" /></a>
+                    <div class="fname">#: shortname #</div>
+                    <div class="fullname" style="display: none">#: name #</div>
+
+                    <div class="file_icon_size">#: size #</div>
+                    <input type="hidden" class="type" value="#: type #">
+                </div>
+            </div>
+            # } else { #
+            <div title="#: name #" data-id="#: id #" class="dfile fm_file_li" style="cursor: pointer">
+                <div class="fm_unsellabel" id="#: name #">
+                    <div style="float: left; padding-right: 5px;"><a class="fm_pre"><img src="#: data #" style="height: 15px;" alt="[FILE]" /></a></div>
+                    <div style="float: left;" class="fname">#: shortname #</div>
+                    <div style="float: left; display: none" class="fullname">#: name #</div>
+
+                    <div class="file_list_date">#: date #</div>
+                    <div class="file_list_size">#: size #</div>
+                    <input type="hidden" class="type" value="#: type #">
+                </div>
+            </div>
+            # } #
+            </script>
+
+            <div class="fm_ajax-loader"></div>
+
+            <div id="fm_folders"></div>
+            <div id="fm_files"></div>
+
+        </div>
+
+
+        <ul class="fs-footer-menu" style="position: relative; bottom: -1px;">
+            <li>
+                <b>Size:&nbsp;</b><span class="fm_total"></span>
+                <ul>
+                    <li style="padding: 10px 4px;">
+                        <p>Size:&nbsp;</b><span class="fm_total"></span></p>
+                        <p>Quota: 358Mb From {{ limit }}</p>
+                    </li>
+                </ul>
+            </li>
+            <li style="padding: 0 5px;">Selected: 0 ({{ files|length }}) files</li>
+
+            <li class="fm_sel"><i class="icon-check" style="margin-right: 5px;"></i><span>Select all</span></li>
+            <li class="fm_unsel"><i class="icon-undo" style="margin-right: 5px;"></i><span>Unselect all</span></li>
+
+            <li style="float: right; padding: 0 7px;" data-id="list" class="view"><i class="icon-list"></i></li>
+            <li style="float: right; padding: 0 7px;" data-id="icon" class="view"><i class="icon-th-large"></i></li>
+        </ul>
+    </div>
+    <!-- End All FS -->
+
+
+
+    <div class="fs-type" id="fs-images" style="padding: 0;">
+
+        <div class="files-simple-actions" style="overflow: hidden">
+            <ul class="files-actions nav nav-pills pull-left" style="margin: 0 0 0 10px; padding-top: 4px;">
+                <li class="remove"><i style="font-size: 12px;" class="icon-deletefile"></i>&nbsp;<span>Delete</span></li>
+                <li class="copy"><i style="font-size: 12px;" class="icon-copy"></i>&nbsp;<span>Copy</span></li>
+                <li class="past"><i style="font-size: 12px;" class="icon-clipboard-paste"></i>&nbsp;<span>Past</span></li>
+                <li class="upload"><i style="font-size: 12px;" class="icon-uploadalt"></i>&nbsp;<span>Upload</span></li>
+                <li class="k-widget" style="height: 20px; margin: 0px 11px 4px 0;"></li>
+                <li id="slideshow"><i style="font-size: 12px;" class="icon-fullscreen"></i>&nbsp;<span>Slideshow</span></li>
+            </ul>
+
+            <ul class="files-adv-actions nav nav-pills pull-right" style="margin: 6px 6px 0 0;">
+                <li>
+                    <span style="position: relative; top: 2px;">Sort:</span>
+                    <div class="files-adv-sort"></div>
+                </li>
+            </ul>
+        </div>
+
+        <div class="k-widget" style="height: 1px; margin: 0 6px;">&nbsp;</div>
+
+        <div class="structure" style="padding: 0 4px; overflow-x: hidden; overflow-y: auto;">
+            <script type="text/x-kendo-template" id="imageTemplate">
+                # if(1) { #
+                <div title="#: name #" data-id="#: id #" class="dfile fm_file" style="text-align: center; cursor: pointer">
+                    <div class="fm_unsellabel" id="#: name #">
+                        <div class="fm_pre swipebox" href="#: path #"><img class="file-img-preview" data-id="#: id #" src="#: data #" style="height: 80px;" alt="[FILE]" /></div>
+                        <div class="fname">#: shortname #</div>
+                        <div class="fullname" style="display: none">#: name #</div>
+
+                        <div class="file_icon_size">#: size #</div>
+                        <input type="hidden" class="type" value="#: type #">
+                    </div>
+                </div>
+                # } else { #
+
+                # } #
+            </script>
+
+            <div class="fm_ajax-loader"></div>
+            <div id="fm_images"></div>
+        </div>
+
+        <ul class="fs-footer-menu" style="position: relative; bottom: -1px;">
+            <li>
+                <b>Size:&nbsp;</b>{{ type.image.size }}
+                <ul>
+                    <li style="padding: 10px 4px;">
+                        <p>Size:&nbsp;</b><span class="fm_total"></span></p>
+                        <p>Quota: 358Mb From {{ limit }}</p>
+                    </li>
+                </ul>
+            </li>
+            <li style="padding: 0 5px;">Selected: 0 ({{ type.image.count }}) files</li>
+
+            <li class="fm_sel"><i class="icon-check" style="margin-right: 5px;"></i><span>Select all</span></li>
+            <li class="fm_unsel"><i class="icon-undo" style="margin-right: 5px;"></i><span>Unselect all</span></li>
+
+            <li style="float: right; padding: 0 7px;" data-id="list" class="view"><i class="icon-list"></i></li>
+            <li style="float: right; padding: 0 7px;" data-id="icon" class="view"><i class="icon-th-large"></i></li>
+        </ul>
+    </div>
+
+    <div class="fs-type" id="fs-films" style="padding: 0;">
+
+        <div class="files-simple-actions" style="overflow: hidden">
+            <ul class="files-actions nav nav-pills pull-left" style="margin: 0 0 0 10px; padding-top: 4px;">
+                <li class="remove"><i style="font-size: 12px;" class="icon-deletefile"></i>&nbsp;<span>Delete</span></li>
+                <li class="copy"><i style="font-size: 12px;" class="icon-copy"></i>&nbsp;<span>Copy</span></li>
+                <li class="past"><i style="font-size: 12px;" class="icon-clipboard-paste"></i>&nbsp;<span>Past</span></li>
+                <li class="upload"><i style="font-size: 12px;" class="icon-uploadalt"></i>&nbsp;<span>Upload</span></li>
+                <li class="k-widget" style="height: 20px; margin: 0px 11px 4px 0;"></li>
+                <li id="slideshow"><i style="font-size: 12px;" class="icon-addtolist"></i>&nbsp;<span>All to playlist</span></li>
+            </ul>
+
+            <ul class="files-adv-actions nav nav-pills pull-right" style="margin: 6px 6px 0 0;">
+                <li>
+                    <span style="position: relative; top: 2px;">Sort:</span>
+                    <div class="files-adv-sort"></div>
+                </li>
+            </ul>
+        </div>
+
+        <div class="k-widget" style="height: 1px; margin: 0 6px;">&nbsp;</div>
+
+        <div class="structure" style="padding: 0 4px; overflow-x: hidden; overflow-y: auto;">
+            <script type="text/x-kendo-template" id="videoTemplate">
+                # if(1) { #
+                <div title="#: name #" data-id="#: id #" class="dfile fm_file" style="text-align: center; cursor: pointer">
+                    <div class="fm_unsellabel" id="#: name #">
+                        <a class="fm_pre"><img class="file-img-preview" src="#: ico #" style="height: 80px;" alt="[FILE]" /></a>
+                        <div class="fname">#: shortname #</div>
+                        <div class="fullname" style="display: none">#: name #</div>
+
+                        <div class="file_icon_size">#: size #</div>
+                        <input type="hidden" class="type" value="#: type #">
+                    </div>
+                </div>
+                # } else { #
+
+                # } #
+            </script>
+
+            <div class="fm_ajax-loader"></div>
+            <div id="fm_video"></div>
+        </div>
+
+        <ul class="fs-footer-menu" style="position: relative; bottom: -1px;">
+            <li>
+                <b>Size:&nbsp;</b>{{ type.video.size }}
+                <ul>
+                    <li style="padding: 10px 4px;">
+                        <p>Size:&nbsp;</b><span class="fm_total"></span></p>
+                        <p>Quota: 358Mb From {{ limit }}</p>
+                    </li>
+                </ul>
+            </li>
+            <li style="padding: 0 5px;">Selected: 0 ({{ type.video.count }}) files</li>
+
+            <li class="fm_sel"><i class="icon-check" style="margin-right: 5px;"></i><span>Select all</span></li>
+            <li class="fm_unsel"><i class="icon-undo" style="margin-right: 5px;"></i><span>Unselect all</span></li>
+
+            <li style="float: right; padding: 0 7px;" data-id="list" class="view"><i class="icon-list"></i></li>
+            <li style="float: right; padding: 0 7px;" data-id="icon" class="view"><i class="icon-th-large"></i></li>
+        </ul>
+    </div>
+
+    <div class="fs-type" id="fs-music" style="padding: 0;">
+
+        <div class="files-simple-actions" style="overflow: hidden">
+            <ul class="files-actions nav nav-pills pull-left" style="margin: 0 0 0 10px; padding-top: 4px;">
+                <li class="remove"><i style="font-size: 12px;" class="icon-deletefile"></i>&nbsp;<span>Delete</span></li>
+                <li class="copy"><i style="font-size: 12px;" class="icon-copy"></i>&nbsp;<span>Copy</span></li>
+                <li class="past"><i style="font-size: 12px;" class="icon-clipboard-paste"></i>&nbsp;<span>Past</span></li>
+                <li class="upload"><i style="font-size: 12px;" class="icon-uploadalt"></i>&nbsp;<span>Upload</span></li>
+                <li class="k-widget" style="height: 20px; margin: 0px 11px 4px 0;"></li>
+                <li id="slideshow"><i style="font-size: 12px;" class="icon-addtolist"></i>&nbsp;<span>All to playlist</span></li>
+            </ul>
+
+            <ul class="files-adv-actions nav nav-pills pull-right" style="margin: 6px 6px 0 0;">
+                <li>
+                    <span style="position: relative; top: 2px;">Sort:</span>
+                    <div class="files-adv-sort"></div>
+                </li>
+            </ul>
+        </div>
+
+        <div class="k-widget" style="height: 1px; margin: 0 6px;">&nbsp;</div>
+
+        <div class="structure" style="padding: 0 4px; overflow-x: hidden; overflow-y: auto;">
+            <script type="text/x-kendo-template" id="musicTemplate">
+                # if(1) { #
+                <div title="#: name #" data-id="#: id #" class="dfile fm_file" style="text-align: center; cursor: pointer">
+                    <div class="fm_unsellabel" id="#: name #">
+                        <a class="fm_pre"><img class="file-img-preview" src="#: ico #" style="height: 80px;" alt="[FILE]" /></a>
+                        <div class="fname">#: shortname #</div>
+                        <div class="fullname" style="display: none">#: name #</div>
+
+                        <div class="file_icon_size">#: size #</div>
+                        <input type="hidden" class="type" value="#: type #">
+                    </div>
+                </div>
+                # } else { #
+
+                # } #
+            </script>
+
+            <div class="fm_ajax-loader"></div>
+            <div id="fm_music"></div>
+        </div>
+
+        <ul class="fs-footer-menu" style="position: relative; bottom: -1px;">
+            <li>
+                <b>Size:&nbsp;</b>{{ type.music.size }}
+                <ul>
+                    <li style="padding: 10px 4px;">
+                        <p>Size:&nbsp;</b><span class="fm_total"></span></p>
+                        <p>Quota: 358Mb From {{ limit }}</p>
+                    </li>
+                </ul>
+            </li>
+            <li style="padding: 0 5px;">Selected: 0 ({{ type.music.count }}) files</li>
+
+            <li class="fm_sel"><i class="icon-check" style="margin-right: 5px;"></i><span>Select all</span></li>
+            <li class="fm_unsel"><i class="icon-undo" style="margin-right: 5px;"></i><span>Unselect all</span></li>
+
+            <li style="float: right; padding: 0 7px;" data-id="list" class="view"><i class="icon-list"></i></li>
+            <li style="float: right; padding: 0 7px;" data-id="icon" class="view"><i class="icon-th-large"></i></li>
+        </ul>
+    </div>
+
+    <input type="hidden" id="cur_id" value="{{ cur_id }}" />
+    <!--<input type="hidden" id="cur_dir" value="" />-->
+</div>
+
+

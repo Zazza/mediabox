@@ -1,0 +1,47 @@
+<div class="adv-menu-div" id="adv-menu-upload" style="display: none;">
+    <!--
+    <input name="files" type="file" id="files" />
+    -->
+
+    <input name="files" id="files" type="file" />
+
+    <div style="margin-top: 10px; color: #999; text-align: center;">drop files here</div>
+
+    <div id="perc"></div>
+
+    <script type="text/x-kendo-template" id="fileUploadTemplate">
+        <ul class="k-upload-files k-reset">
+            <li class="k-file" id="u_#: id #">
+                <span class="k-icon k-success">uploaded</span>
+                            <span class="k-filename" title="#: name #">
+                            #: name #
+                            <span class="k-progress">
+                            <span class="k-state-selected k-progress-status" style="width: 0%;"></span>
+                            </span>
+                            </span>
+                <button class="k-button k-button-icontext k-upload-action" type="button">
+                    <span class="k-icon k-delete"></span>
+                    Remove
+                </button>
+            </li>
+        </ul>
+    </script>
+
+
+</div>
+
+<div class="adv-menu-div" id="adv-menu-buffer" style="display: none;">
+    <div id="buffer">
+        {{ buffer|raw }}
+    </div>
+</div>
+
+<div class="adv-menu-div" id="adv-menu-audio" style="display: none;">
+    <div id="pl-audio" class="droptarget"></div>
+</div>
+
+<div class="adv-menu-div" id="adv-menu-settings" style="display: none;">
+    <div style="overflow: hidden; margin-bottom: 3px;">Theme:
+        <div id="theme-selector"></div>
+    </div>
+</div>

@@ -1,0 +1,185 @@
+<%
+    document.execute('/data/')
+
+    var current_directory = conversation.getCookie("current_directory")
+    var theme = conversation.getCookie("theme")
+    var fsMenu = conversation.getCookie("fs_menu");
+    var volume = conversation.getCookie("volume");
+
+    if (theme)
+        var current_theme = theme.value
+    else
+        var current_theme = "default"
+
+    if (fsMenu)
+        var current_fs_menu = fsMenu.value
+    else
+        var current_fs_menu = "tab-all"
+
+    if (current_directory)
+        var startdir = current_directory.value
+    else
+        var startdir = 0
+
+    if (volume)
+        var volume_level = volume.value
+    else
+        var volume_level = 50
+
+var view = "icon"
+%>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multimedia Filemanager</title>
+    <link href="kendo/styles/kendo.common.min.css" rel="stylesheet" type="text/css" />
+    <link href="kendo/styles/kendo.<%= current_theme %>.min.css" rel="stylesheet" type="text/css" />
+    <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link href="css/jquery.fileupload-ui.css" rel="stylesheet" media="screen">
+    <link href="css/jquery.mCustomScrollbar.css" rel="stylesheet" type="text/css" />
+    <link href="css/swipebox.css" rel="stylesheet" type="text/css" />
+    <link href="css/whhg.css" rel="stylesheet" type="text/css" />
+    <link href="css/style.css" rel="stylesheet" media="screen">
+    <link href="css/jquery.Jcrop.min.css" rel="stylesheet" media="screen">
+    <script src="kendo/jquery.min.js" type="text/javascript"></script>
+</head>
+<body>
+
+<div id="header">
+    <ul id="main-menu">
+        <!--<li id="home"><i style="margin-right: 4px; font-size: 16px;" class="icon-legacyfilemanager"></i><span>File Manager<span></li>-->
+
+        <li id="logout" style="float: right; padding: 0 5px;"><i style="font-size: 16px;" class="icon-exit"></i><span>&nbsp;</span></li>
+        <li style="float: right; margin-right: 20px;">
+            <i style="font-size: 16px;" class="icon-volume-up" title="Volume" /></i>
+
+            <ul>
+                <li>
+                    <input id="volume" style="width: 10px; margin: 10px 0 10px 7px; padding: 0;" />
+                </li>
+            </ul>
+        </li>
+        <li style="float: right; margin-right: 10px;">
+            <div style="overflow: hidden;" id="player-controls">
+                <div id="current-track" class="k-block k-inset" style="float: left;">&nbsp;</div>
+
+                <div style="float: left;" id="track-prev"><i class="icon-step-backward" style="margin-right: 10px;"></i></div>
+                <div style="float: left;" class="track-play"><i class="icon-play" style="margin-right: 10px;"></i></div>
+                <div style="float: left;" id="track-stop"><i class="icon-stop" style="margin-right: 10px;"></i></div>
+                <div style="float: left;" id="track-next"><i class="icon-step-forward" style="margin-right: 10px;"></i></div>
+
+                <div id="track-slider" style="float: left; height: 26px; margin-right: 10px;"><input class="slider" style="width: 174px;" /></div>
+                <div id="current-track-time" style="float: left; margin-right: 10px;">0:00</div>
+            </div>
+        </li>
+    </ul>
+</div>
+
+<div id="splitter">
+
+    <div>
+        <div style="overflow: hidden; padding-bottom: 5px; margin: 7px 5px 2px; border-bottom: 1px solid #111;">
+            <ul id="ftree-menu"  class="nav nav-pills pull-left" style="margin: 0; padding: 0;">
+                <li id="newDirWin" title="new folder" style="cursor: pointer; border: 0; margin: 0 10px;"><i style="font-size: 16px;" class="icon-createfolder" alt="New folder"></i></li>
+                <li id="rmDir" title="delete folder" style="cursor: pointer; border: 0; margin: 0 10px;"><i style="font-size: 16px;" class="icon-deletefolder" alt="Delete folder"></i></li>
+                <li id="renameDirWin" title="rename folder" style="cursor: pointer; border: 0; margin: 0 10px;"><i style="font-size: 16px;" class="icon-editalt" alt="Rename folder"></i></li>
+            </ul>
+        </div>
+
+        <div id="treeview"></div>
+    </div>
+
+    <div id="vertical">
+        <div id="fs-container">
+            <div id="fs">
+                <!-- files.html -->
+                <%& '/files/' %>
+                <!-- End files.html -->
+            </div>
+        </div>
+        <div id="video-preview" style="display: none; overflow: hidden; padding: 0 10px;">
+            <div style="overflow: hidden; margin-top: 10px;">
+                <ul class="nav nav-pills pull-left" style="margin-bottom: 0;">
+                    <li id="back"><i style="font-size: 12px;" class="icon-pageback"></i>&nbsp;<span>Back</span></li>
+                </ul>
+
+                <ul id="image-actions" class="nav nav-pills pull-right" style="margin-bottom: 0;">
+                    <li id="fullscreen"><i style="font-size: 12px;" class="icon-fullscreen"></i>&nbsp;<span>Fullscreen</span></li>
+                    <li id="prev"><i style="font-size: 12px;" class="icon-chevron-left"></i>&nbsp;<span>Previous</span></li>
+                    <li id="next"><i style="font-size: 12px;" class="icon-chevron-right"></i>&nbsp;<span>Next</span></li>
+                </ul>
+            </div>
+
+            <div class="k-widget" style="height: 1px; margin: 4px 0;">&nbsp;</div>
+
+            <div>
+                <video id="video-player" width="100%"></video>
+                <div id="video-controls">
+                    <button type="button" id="play-pause">Play</button>
+                    <input type="range" id="seek-bar" value="0">
+                    <button type="button" id="mute">Mute</button>
+                    <input type="range" id="volume-bar" min="0" max="1" step="0.1" value="1">
+                    <button type="button" id="full-screen">Full-Screen</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- preview.html -->
+        <%& '/preview/' %>
+        <!-- End preview.html -->
+
+    </div>
+
+    <div id="advanced-panel" class="k-header">
+        <div id="advanced-panel-left" class="k-content" style="float: left; width: 0;">
+
+            <!-- advanced.html -->
+            <%& '/advanced/' %>
+            <!-- End advanced.html -->
+
+        </div>
+        <div id="advanced-panel-right" style="float: right;">
+            <div class="advanced-panel-div" id="upload-show"><i style="font-size: 16px;" class="adv-menu-img icon-uploadalt" title="Upload"></i></div>
+            <div class="advanced-panel-div" id="buffer-show"><i style="font-size: 16px;" class="adv-menu-img icon-clipboard-paste" title="Buffer"></i></div>
+            <div class="advanced-panel-div" id="player-show"><i style="font-size: 16px;" class="adv-menu-img icon-music" title="Player"></i></div>
+            <div class="advanced-panel-div" id="settings-show"><i style="font-size: 16px;" class="adv-menu-img icon-settingstwo-gearalt" title="Settings"></i></div>
+        </div>
+    </div>
+
+</div>
+
+<div id="fileRes" style="display: none;"><input type="text" id="fullurl" onclick="$(this).select()" style="width: 400px;"></div>
+
+<input type="hidden" id="start_dir" value="<%= startdir %>" />
+<input type="hidden" id="volume-level" value="<%= volume_level %>" />
+<input type="hidden" id="buffer_count" value="" />
+<input type="hidden" id="viewMode" value="<%= view %>" />
+<input type="hidden" id="x1" />
+<input type="hidden" id="x2" />
+<input type="hidden" id="y1" />
+<input type="hidden" id="y2" />
+<script src="kendo/kendo.web.min.js" type="text/javascript"></script>
+<script src="js/load-image.min.js"></script>
+<script src="js/jquery.Jcrop.min.js" type="text/javascript"></script>
+<script src="js/bootstrap.min.js" type="text/javascript"></script>
+<script src="js/jquery.mCustomScrollbar.concat.min.js"></script>
+<script src="js/jquery.Jcrop.min.js"></script>
+<script src="js/jquery.mousewheel-3.0.6.pack.js"></script>
+<script src="js/jquery.swipebox.js"></script>
+<script src="js/image.js" type="text/javascript"></script>
+<script src="js/audio.js" type="text/javascript"></script>
+<script src="js/video.js" type="text/javascript"></script>
+<script src="js/fm.js" type="text/javascript"></script>
+<script>
+    $(document).ready(function() {
+        var ths = $("#theme-selector").data("kendoDropDownList");
+        ths.select(function(dataItem) {
+            return dataItem.value === "<%= current_theme %>";
+        });
+
+        $("#fs-menu").data("kendoTabStrip").select("#<%= current_fs_menu %>");
+    });
+</script>
+</body>
+</html>
