@@ -469,10 +469,10 @@ $(document).ready(function() {
  * FILES.HTML
  */
 $(".fs-type").css("height", $(window).height() - 65);
-$(".structure").css("height", $(".fs-type").height() - 65);
+$(".structure").css("height", $(".fs-type").height() - 66);
 $(window).resize(function() {
     $(".fs-type").css("height", $(window).height() - 65);
-    $(".structure").css("height", $(".fs-type").height() - 65);
+    $(".structure").css("height", $(".fs-type").height() - 66);
 });
 
 $(".structure").mCustomScrollbar({ scrollInertia:150 });

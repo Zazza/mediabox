@@ -49,11 +49,11 @@ a:hover {color: black;}
 
 #player-controls {background-color: transparent;}
 #track-main-info {padding: 2px 6px;}
-#current-track {width: 300px;margin: 2px 10px 0 0;}
+#current-track {width: 300px; height: 22px; margin: 2px 10px 0 0; line-height: 20px;}
 
 .sort > span {font-size: 10px; cursor: pointer; padding: 1px 10px;}
 
-.structure {padding: 0;}
+.structure {padding: 0 5px; margin: 2px 10px; overflow-x: hidden; overflow-y: auto;}
 
 .fs-type {overflow: hidden;}
 .fs-footer-menu {font-size: 11px; border-bottom: 0 none; border-left: 0 none; border-right: 0 none;}
