@@ -9,26 +9,26 @@
     var original_height;
     var current_width;
     var current_height;
-    $("#image-comment-editor").wysihtml5();
+    //$("#image-comment-editor").wysihtml5();
     //$("#image-comment-editor").kendoEditor();
 
-    $("#preview-scroll").css("height", $(window).height() - 75);
+    $("#preview-scroll").css("height", $(window).height() - 67);
     $(window).resize(function() {
-        $("#preview-scroll").css("height", $(window).height() - 75);
+        $("#preview-scroll").css("height", $(window).height() - 67);
     });
 
     $("#preview-scroll").mCustomScrollbar({ scrollInertia:150, advanced:{ updateOnContentResize: true } });
 
     var methods = {
         init: function( options ) {
-            $("#fs").fadeOut();
+            $("#splitter").fadeOut();
             $("#preview").delay(500).fadeIn();
 
             return this;
         },
         close: function() {
             $("#preview").fadeOut();
-            $("#fs").delay(500).fadeIn();
+            $("#splitter").delay(500).fadeIn();
         },
         loadImg : function( options ) {
             var src = $(this);
@@ -80,7 +80,7 @@
                                 $("#image-crops").html("");
 
                                 $.each(res, function(key, value){
-                                    $("#image-crops").append('<span class="label label-success image-crop" data-x1="'+value.x1+'" data-x2="'+value.x2+'" data-y1="'+value.y1+'" data-y2="'+value.y2+'" data-ws="'+value.ws+'">'+value.description+'</span>');
+                                    $("#image-crops").append('<div class="image-crop" data-x1="'+value.x1+'" data-x2="'+value.x2+'" data-y1="'+value.y1+'" data-y2="'+value.y2+'" data-ws="'+value.ws+'">'+value.description+'</div>');
                                 })
 
                                 $("#image-crops").on("mouseover", ".image-crop", function(){
@@ -100,7 +100,7 @@
                                 $("#image-tags").html("");
 
                                 $.each(res, function(key, value){
-                                    $("#image-tags").append('<span class="label label-info image-tag">'+value.tag+'</span>');
+                                    $("#image-tags").append('<div class="image-tag">'+value.tag+'</div>');
                                 })
                             })
 
@@ -118,6 +118,22 @@
                             })
                     });
                 });
+        },
+        preview : function( options ) {
+            var xmlhttp;
+            var img = this;
+            if (window.XMLHttpRequest) { // code for IE7+, Firefox, Chrome, Opera, Safari
+                xmlhttp = new XMLHttpRequest();
+            } else { // code for IE6, IE5
+                xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+            }
+            xmlhttp.onreadystatechange = function() {
+                if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                    $(img).attr("src", xmlhttp.responseText);
+                }
+            };
+            xmlhttp.open("GET", 'fm/getThumb/?name='+$(img).attr("data-id") );
+            xmlhttp.send(null);
         }
     };
     $.fn.image = function( method ) {

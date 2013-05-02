@@ -1,6 +1,8 @@
-<div id="preview" style="display: none; overflow: hidden; padding: 0 10px;">
+<div id="preview" class="" style="display: none; overflow: hidden; width: 100%; padding: 0;">
 
-    <div style="overflow: hidden; margin-top: 10px;">
+
+
+    <div style="overflow: hidden; padding: 8px 10px 2px 10px;" class="">
         <ul class="nav nav-pills pull-left" style="margin-bottom: 0;">
             <li id="back"><i style="font-size: 12px;" class="icon-pageback"></i>&nbsp;<span>Back</span></li>
 
@@ -18,52 +20,62 @@
         </ul>
     </div>
 
-    <div id="preview-scroll" class="k-block">
-        <div id="preview-div-img" style="padding: 20px;"></div>
+    <div id="preview-scroll" style="overflow: hidden;" class="k-block">
 
-        <div id="image-cloud">
-            <div style="overflow: hidden;">
-                <div style="float: left; width: 70px; position: relative; top: 3px; font-weight: bold;">Selected:</div>
-                <div style="float: left;" id="image-crops"></div>
+        <div class="" style="float: left; width: 200px;">
+
+            <div id="image-cloud">
+                <div style="font-weight: bold; margin: 10px 0;">SELECTED</div>
+                <div id="image-crops"></div>
+                <div style="font-weight: bold; margin: 10px 0;">TAGS</div>
+                <div id="image-tags"></div>
             </div>
-            <div style="overflow: hidden;">
-                <div style="float: left; width: 70px; position: relative; top: 3px; font-weight: bold;">Tags:</div>
-                <div style="float: left;" id="image-tags"></div>
+
+        </div>
+
+
+
+        <div class="" style="margin-left: 200px;">
+
+            <div class="">
+                <div id="preview-div-img" style="padding: 20px;"></div>
+
+                <div style="margin-top: 20px;">
+                    <h3>Comments:</h3>
+                </div>
+
+                <div id="image-comments"></div>
+
+                <div id="image-comment-form">
+                    <textarea id="image-comment-editor"></textarea>
+                    <div><button id="image-comment-save" class="k-button">Save</button></div>
+                </div>
             </div>
+
+            <div id="crop-object" style="display: none;">
+                <div class="control-group" id="div-crop-object-text">
+                    <input type="text" id="crop-object-text" style="margin-top: 20px; width: 270px;">
+                </div>
+                <hr />
+                <div style="text-align: right;">
+                    <button id="crop-object-close" class="k-button">Cancel</button>
+                    <button id="crop-object-save" class="k-button">Save</button>
+                </div>
+            </div>
+
+            <div id="image-tag" style="display: none;">
+                <div class="control-group" id="div-image-tag-text">
+                    <input type="text" id="image-tag-text" style="margin-top: 20px; width: 270px;">
+                </div>
+                <hr />
+                <div style="text-align: right;">
+                    <button id="image-tag-close" class="k-button">Cancel</button>
+                    <button id="image-tag-save" class="k-button">Save</button>
+                </div>
+            </div>
+
         </div>
 
-        <div style="margin-top: 20px;">
-            <h3>Comments:</h3>
-        </div>
-
-        <div id="image-comments"></div>
-
-        <div id="image-comment-form">
-            <textarea id="image-comment-editor"></textarea>
-            <div><button id="image-comment-save" class="k-button">Save</button></div>
-        </div>
-    </div>
-
-    <div id="crop-object" style="display: none;">
-        <div class="control-group" id="div-crop-object-text">
-            <input type="text" id="crop-object-text" style="margin-top: 20px; width: 270px;">
-        </div>
-        <hr />
-        <div style="text-align: right;">
-            <button id="crop-object-close" class="k-button">Cancel</button>
-            <button id="crop-object-save" class="k-button">Save</button>
-        </div>
-    </div>
-
-    <div id="image-tag" style="display: none;">
-        <div class="control-group" id="div-image-tag-text">
-            <input type="text" id="image-tag-text" style="margin-top: 20px; width: 270px;">
-        </div>
-        <hr />
-        <div style="text-align: right;">
-            <button id="image-tag-close" class="k-button">Cancel</button>
-            <button id="image-tag-save" class="k-button">Save</button>
-        </div>
     </div>
 
 </div>

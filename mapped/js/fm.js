@@ -93,7 +93,20 @@ $(document).ready(function() {
         window.loadImage(
             file.rawFile,
             function (img) {
-                $.ajax({ type: "POST", url: 'thumb/' + id + '/', data: img.toDataURL()})
+/*
+                if (img.toBlob) {
+                    img.toBlob(
+                        function (blob) {
+                            var uri = 'thumb/' + id + '/';
+                            var xhr = new XMLHttpRequest();
+                            xhr.open("POST", uri, true)
+                            xhr.send(blob);
+                        },
+                        'image/jpeg'
+                    );
+                }
+*/
+               $.ajax({ type: "POST", url: 'thumb/' + id + '/', data: img.toDataURL() })
             },
             {
                 maxHeight: 80,
@@ -183,7 +196,7 @@ $(document).ready(function() {
             { size: "200px", resizable: true, scrollable: true, min: "130px", max: "300px" },
             { resizable: true, scrollable: false },
             //{ size: "200px", resizable: false, scrollable: true, min: "130px", max: "300px" }
-            { size: "50px", resizable: false, scrollable: false }
+            { size: "0px", resizable: false, scrollable: false }
         ]
     });
 
@@ -219,7 +232,7 @@ $(document).ready(function() {
                         var type = value["type"];
 
                         var data = [
-                            { name: value["name"], shortname: value["shortname"], id: value["id"], date: "0000-00-00", size: value["size"], pre_img: "0", ico: value["ico"], type: type, data: value["data"] }
+                            { name: value["name"], shortname: value["shortname"], id: value["id"], date: "0000-00-00", size: value["size"], pre_img: "0", ico: value["ico"], type: type, data: value["data"], ext: value["ext"] }
                         ];
 
                         var result = kendo.render(template, data);
@@ -231,7 +244,7 @@ $(document).ready(function() {
                             var template = kendo.template(templateContent);
 
                             var data = [
-                                { name: value["name"], shortname: value["shortname"], id: value["id"], date: "0000-00-00", size: "0", pre_img: "0", ico: value["ico"], path: "http://fm/get/?id=" + value["id"], type: type, data: value["data"] }
+                                { name: value["name"], shortname: value["shortname"], id: value["id"], date: "0000-00-00", size: "0", pre_img: "0", ico: value["ico"], path: "http://fm/get/?id=" + value["id"], type: type, data: value["data"], ext: value["ext"] }
                             ];
 
                             var result = kendo.render(template, data);
@@ -242,7 +255,7 @@ $(document).ready(function() {
                             var template = kendo.template(templateContent);
 
                             var data = [
-                                { name: value["name"], shortname: value["shortname"], id: value["id"], date: "0000-00-00", size: "0", pre_img: "0", ico: value["ico"], type: type, data: value["data"] }
+                                { name: value["name"], shortname: value["shortname"], id: value["id"], date: "0000-00-00", size: "0", pre_img: "0", ico: value["ico"], type: type, data: value["data"], ext: value["ext"] }
                             ];
 
                             var result = kendo.render(template, data);
@@ -253,7 +266,7 @@ $(document).ready(function() {
                             var template = kendo.template(templateContent);
 
                             var data = [
-                                { name: value["name"], shortname: value["shortname"], id: value["id"], date: "0000-00-00", size: "0", pre_img: "0", ico: value["ico"], type: type, data: value["data"] }
+                                { name: value["name"], shortname: value["shortname"], id: value["id"], date: "0000-00-00", size: "0", pre_img: "0", ico: value["ico"], type: type, data: value["data"], ext: value["ext"] }
                             ];
 
                             var result = kendo.render(template, data);
@@ -398,6 +411,7 @@ $(document).ready(function() {
         }
     });
 
+    /*
     $(".advanced-panel-div").click(function(){
         $(".adv-menu-div").hide();
 
@@ -429,6 +443,31 @@ $(document).ready(function() {
             $("#advanced-panel-left").width("190px");
         }
     });
+    */
+
+    $("body").on("click", ".advanced-panel-show", function(){
+        if ($("#advanced-panel-left").width() == "190") {
+            var splitter = $("#splitter").data("kendoSplitter");
+            splitter.size("#advanced-panel", "0px");
+            $("#advanced-panel-left").width("0px");
+
+            $(".adv-menu-div").hide();
+        } else {
+            var splitter = $("#splitter").data("kendoSplitter");
+            splitter.size("#advanced-panel", "190px");
+            $("#advanced-panel-left").width("190px");
+
+            if ($(this).hasClass("upload")) {
+                $("#adv-menu-upload").show();
+            } else if ($(this).hasClass("buffer")) {
+                $("#adv-menu-buffer").show();
+            } else if ($(this).attr("id") == "playlist") {
+                $("#adv-menu-audio").show();
+            } else if ($(this).attr("id") == "settings") {
+                $("#adv-menu-settings").show();
+            }
+        }
+    });
 
     $("#fs").on("dblclick", ".ddir", function(){
         var splitter = $("#splitter").data("kendoSplitter");
@@ -446,36 +485,37 @@ $(document).ready(function() {
             $(this).image("init").image("loadImg");
         } else if (type == "audio") {
 
-            $(".track").removeClass("current");
-            $(this).addClass("current");
+            $(this).player("load").player("play");
 
-            var player = document.getElementById("audio-player");
-            $("#audio-player").attr("src", $("#cur_dir").val() + "/" + $(this).attr("title"));
-
-            player.play();
         } else if (type == "video") {
             $("#fs").fadeOut();
             $("#video-preview").delay(500).fadeIn();
 
-            var player = $('#video-player')[0];
-            player.src = $("#cur_dir").val() + "/" + $(this).attr("title");
-            player.play();
+            //var player = $('#video-player')[0];
+            //player.src = $("#cur_dir").val() + "/" + $(this).attr("title");
+            //player.play();
+
+            var video_element = $('#video-player');
+            $(video_element).attr("src", "http://fm/get/?id=" + $(this).attr("data-id"));
+            $(video_element).attr("type", "video/" + $(this).attr("data-ext"));
+
+            $(video_element).mediaelementplayer();
+            //new MediaElement('video-player');
         }
     });
 });
-
 
 /**
  * FILES.HTML
  */
 $(".fs-type").css("height", $(window).height() - 65);
-$(".structure").css("height", $(".fs-type").height() - 66);
+$(".structure").css("height", $(".fs-type").height() - 60);
 $(window).resize(function() {
     $(".fs-type").css("height", $(window).height() - 65);
-    $(".structure").css("height", $(".fs-type").height() - 66);
+    $(".structure").css("height", $(".fs-type").height() - 60);
 });
 
-$(".structure").mCustomScrollbar({ scrollInertia:150 });
+$(".structure").mCustomScrollbar({ advanced:{ updateOnContentResize: true }, scrollInertia:150 });
 $(".adv-menu-div").mCustomScrollbar({ scrollInertia:150 });
 
 var data = [
@@ -498,6 +538,7 @@ var sort = $(".files-adv-sort").kendoDropDownList({
     }
 });
 
+/*
 $(".files-actions").on("click", ".upload", function(){
     $(".adv-menu-div").hide();
 
@@ -512,9 +553,10 @@ $(".files-actions").on("click", ".upload", function(){
     $("#advanced-panel-left").addClass("advanced-panel-show");
 
     var splitter = $("#splitter").data("kendoSplitter");
-    splitter.size("#advanced-panel", "240px");
+    splitter.size("#advanced-panel", "190px");
     $("#advanced-panel-left").width("190px");
 });
+*/
 
 $(".files-actions").on("click", ".copy", function(){
     copyFiles();

@@ -70,6 +70,8 @@ FmResource = Sincerity.Classes.define(function() {
             return addFolder(uid_get(), conversation.query.get("name"), current_directory.value);
         } else if (action == "remove") {
             return removeFile(uid_get(), conversation.query.get("file"), current_directory.value);
+        } else if (action == "getThumb") {
+            return getThumb(uid_get(), conversation.query.get("name"));
         }
     }
 

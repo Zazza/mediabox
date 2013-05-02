@@ -49,11 +49,14 @@ a:hover {color: black;}
 
 #player-controls {background-color: transparent;}
 #track-main-info {padding: 2px 6px;}
-#current-track {width: 300px; height: 22px; margin: 2px 10px 0 0; line-height: 20px;}
+#current-track {width: 300px; height: 22px; margin: 2px 10px 0 0; line-height: 20px; padding: 0 10px;}
+#current-track-duration {width: 46px; height: 22px; margin: 2px 10px 0 0; line-height: 20px; padding: 0 8px;}
 
 .sort > span {font-size: 10px; cursor: pointer; padding: 1px 10px;}
 
-.structure {padding: 0 5px; margin: 2px 10px; overflow-x: hidden; overflow-y: auto;}
+.structure {padding: 0 5px; margin: 0; overflow-x: hidden; overflow-y: auto; border-radius: 0; border-bottom: 0;}
+#preview {border-radius: 0;}
+#preview-scroll {padding: 0 5px; margin: 0; overflow-x: hidden; overflow-y: auto; border-radius: 0;}
 
 .fs-type {overflow: hidden;}
 .fs-footer-menu {font-size: 11px; border-bottom: 0 none; border-left: 0 none; border-right: 0 none;}
@@ -72,9 +75,9 @@ a:hover {color: black;}
 
 .fm_ajax-loader {display: none; position:fixed; height: 100%; width: 100%; background: url("../img/ajax-loader.gif") 40% 40% no-repeat;}
 
-.image-crop, .image-tag {margin: 2px 4px;}
+.image-crop, .image-tag {margin: 2px 4px; font-size: 10px;}
 .image-crop {cursor: pointer;}
-#image-cloud {margin-left: 20px;}
+#image-cloud {padding: 14px 10px;}
 
 #image-comment-form {overflow: hidden; margin: 10px 0;}
 #image-comment-editor {width:740px; height:200px}

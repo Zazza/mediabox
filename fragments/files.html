@@ -14,7 +14,8 @@
                 <li class="remove"><i style="font-size: 12px;" class="icon-deletefile"></i>&nbsp;<span>Delete</span></li>
                 <li class="copy"><i style="font-size: 12px;" class="icon-copy"></i>&nbsp;<span>Copy</span></li>
                 <li class="past"><i style="font-size: 12px;" class="icon-clipboard-paste"></i>&nbsp;<span>Past</span></li>
-                <li class="upload"><i style="font-size: 12px;" class="icon-uploadalt"></i>&nbsp;<span>Upload</span></li>
+                <li class="advanced-panel-show upload"><i style="font-size: 12px;" class="icon-uploadalt"></i>&nbsp;<span>Upload</span></li>
+                <li class="advanced-panel-show buffer"><i style="font-size: 12px;" class="icon-clipboard-paste"></i>&nbsp;<span>Buffer</span></li>
             </ul>
 
             <ul class="files-adv-actions nav nav-pills pull-right" style="margin: 6px 6px 0 0;">
@@ -50,7 +51,7 @@
 
             <script type="text/x-kendo-template" id="fileTemplate">
             # if(1) { #
-            <div title="#: name #" data-id="#: id #" class="dfile fm_file" style="text-align: center; cursor: pointer">
+            <div title="#: name #" data-id="#: id #" data-ext="#: ext #" class="dfile fm_file" style="text-align: center; cursor: pointer">
                 <div class="fm_unsellabel" id="#: name #">
                     <a class="fm_pre"><img class="file-img-preview" src="#: data #" data-id="#: id #" style="height: 80px;" alt="[FILE]" /></a>
                     <div class="fname">#: shortname #</div>
@@ -61,7 +62,7 @@
                 </div>
             </div>
             # } else { #
-            <div title="#: name #" data-id="#: id #" class="dfile fm_file_li" style="cursor: pointer">
+            <div title="#: name #" data-id="#: id #" data-ext="#: ext #" class="dfile fm_file_li" style="cursor: pointer">
                 <div class="fm_unsellabel" id="#: name #">
                     <div style="float: left; padding-right: 5px;"><a class="fm_pre"><img src="#: data #" style="height: 15px;" alt="[FILE]" /></a></div>
                     <div style="float: left;" class="fname">#: shortname #</div>
@@ -83,7 +84,7 @@
         </div>
 
 
-        <ul class="fs-footer-menu" style="position: relative; bottom: -1px;">
+        <ul class="fs-footer-menu" style="position: relative; bottom: 0;">
             <li>
                 <b>Size:&nbsp;</b><span class="fm_total"></span>
                 <ul>
@@ -128,8 +129,7 @@
 
         <div class="structure k-block">
             <script type="text/x-kendo-template" id="imageTemplate">
-                # if(1) { #
-                <div title="#: name #" data-id="#: id #" class="dfile fm_file" style="text-align: center; cursor: pointer">
+                <div title="#: name #" data-id="#: id #" data-ext="#: ext #" class="dfile fm_file" style="text-align: center; cursor: pointer">
                     <div class="fm_unsellabel" id="#: name #">
                         <div class="fm_pre swipebox" href="#: path #"><img class="file-img-preview" data-id="#: id #" src="#: data #" style="height: 80px;" alt="[FILE]" /></div>
                         <div class="fname">#: shortname #</div>
@@ -139,16 +139,18 @@
                         <input type="hidden" class="type" value="#: type #">
                     </div>
                 </div>
-                # } else { #
 
-                # } #
+                <script>
+                    var img = $("img[data-id='#: id #']");
+                    $(img).image("preview");
+                </script>
             </script>
 
             <div class="fm_ajax-loader"></div>
             <div id="fm_images"></div>
         </div>
 
-        <ul class="fs-footer-menu" style="position: relative; bottom: -1px;">
+        <ul class="fs-footer-menu" style="position: relative; bottom: 0;">
             <li>
                 <b>Size:&nbsp;</b>{{ type.image.size }}
                 <ul>
@@ -162,9 +164,6 @@
 
             <li class="fm_sel"><i class="icon-check" style="margin-right: 5px;"></i><span>Select all</span></li>
             <li class="fm_unsel"><i class="icon-undo" style="margin-right: 5px;"></i><span>Unselect all</span></li>
-
-            <li style="float: right; padding: 0 7px;" data-id="list" class="view"><i class="icon-list"></i></li>
-            <li style="float: right; padding: 0 7px;" data-id="icon" class="view"><i class="icon-th-large"></i></li>
         </ul>
     </div>
 
@@ -190,8 +189,7 @@
 
         <div class="structure k-block">
             <script type="text/x-kendo-template" id="videoTemplate">
-                # if(1) { #
-                <div title="#: name #" data-id="#: id #" class="dfile fm_file" style="text-align: center; cursor: pointer">
+                <div title="#: name #" data-id="#: id #" data-ext="#: ext #" class="dfile fm_file" style="text-align: center; cursor: pointer">
                     <div class="fm_unsellabel" id="#: name #">
                         <a class="fm_pre"><img class="file-img-preview" src="#: ico #" style="height: 80px;" alt="[FILE]" /></a>
                         <div class="fname">#: shortname #</div>
@@ -201,16 +199,13 @@
                         <input type="hidden" class="type" value="#: type #">
                     </div>
                 </div>
-                # } else { #
-
-                # } #
             </script>
 
             <div class="fm_ajax-loader"></div>
             <div id="fm_video"></div>
         </div>
 
-        <ul class="fs-footer-menu" style="position: relative; bottom: -1px;">
+        <ul class="fs-footer-menu" style="position: relative; bottom: 0;">
             <li>
                 <b>Size:&nbsp;</b>{{ type.video.size }}
                 <ul>
@@ -224,9 +219,6 @@
 
             <li class="fm_sel"><i class="icon-check" style="margin-right: 5px;"></i><span>Select all</span></li>
             <li class="fm_unsel"><i class="icon-undo" style="margin-right: 5px;"></i><span>Unselect all</span></li>
-
-            <li style="float: right; padding: 0 7px;" data-id="list" class="view"><i class="icon-list"></i></li>
-            <li style="float: right; padding: 0 7px;" data-id="icon" class="view"><i class="icon-th-large"></i></li>
         </ul>
     </div>
 
@@ -252,8 +244,7 @@
 
         <div class="structure k-block">
             <script type="text/x-kendo-template" id="musicTemplate">
-                # if(1) { #
-                <div title="#: name #" data-id="#: id #" class="dfile fm_file" style="text-align: center; cursor: pointer">
+                <div title="#: name #" data-id="#: id #" data-ext="#: ext #" class="dfile fm_file" style="text-align: center; cursor: pointer">
                     <div class="fm_unsellabel" id="#: name #">
                         <a class="fm_pre"><img class="file-img-preview" src="#: ico #" style="height: 80px;" alt="[FILE]" /></a>
                         <div class="fname">#: shortname #</div>
@@ -263,16 +254,13 @@
                         <input type="hidden" class="type" value="#: type #">
                     </div>
                 </div>
-                # } else { #
-
-                # } #
             </script>
 
             <div class="fm_ajax-loader"></div>
             <div id="fm_music"></div>
         </div>
 
-        <ul class="fs-footer-menu" style="position: relative; bottom: -1px;">
+        <ul class="fs-footer-menu" style="position: relative; bottom: 0;">
             <li>
                 <b>Size:&nbsp;</b>{{ type.music.size }}
                 <ul>
@@ -286,14 +274,9 @@
 
             <li class="fm_sel"><i class="icon-check" style="margin-right: 5px;"></i><span>Select all</span></li>
             <li class="fm_unsel"><i class="icon-undo" style="margin-right: 5px;"></i><span>Unselect all</span></li>
-
-            <li style="float: right; padding: 0 7px;" data-id="list" class="view"><i class="icon-list"></i></li>
-            <li style="float: right; padding: 0 7px;" data-id="icon" class="view"><i class="icon-th-large"></i></li>
         </ul>
     </div>
 
-    <input type="hidden" id="cur_id" value="{{ cur_id }}" />
-    <!--<input type="hidden" id="cur_dir" value="" />-->
 </div>
 
 

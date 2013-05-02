@@ -63,7 +63,7 @@ app.globals = {
     extension: [
         ['image', 'bmp', 'jpg', 'jpeg', 'gif', 'png'],
         ['audio', 'ogg', 'mp3'],
-        ['video', 'mp4'],
+        ['video', 'mp4', 'mov', 'wmv', 'flv', 'avi'],
         ['text', 'txt'],
         ['doc', 'doc', 'rtf', 'docx'],
         ['pdf', 'pdf', 'djvu'],
@@ -71,7 +71,7 @@ app.globals = {
         ['flv', 'flv'],
         ['exe', 'exe', 'com',' bat', 'sh'],
         ['xls', 'xls', 'xlsx'],
-        ['html', 'htm', 'html', 'shtml', 'xml'],
-        ['zip', 'zip', 'rar', 'tar', 'gz', '7z', 'bz2']
+        ['html', 'htm', 'html', 'shtml'],
+        ['zip', 'zip', 'rar', 'tar', 'gz', '7z']
     ]
 }
