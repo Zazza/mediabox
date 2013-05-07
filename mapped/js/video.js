@@ -1,106 +1,44 @@
-window.onload = function() {
-    // Video
-    var video = document.getElementById("video-player");
+(function( $ ){
+    /**
+     * Initialize
+     */
+    var videoPlayer;
 
-    // Buttons
-    var playButton = document.getElementById("play-pause");
-    var muteButton = document.getElementById("mute");
-    var fullScreenButton = document.getElementById("full-screen");
+    var methods = {
+        init: function( options ) {
+            $("#splitter").fadeOut();
+            $("#video-preview").delay(500).fadeIn();
 
-    // Sliders
-    var seekBar = document.getElementById("seek-bar");
-    var volumeBar = document.getElementById("volume-bar");
+            var video_element = $('#video-player');
+            $(video_element).attr("src", $("#storage").val() + "/get/?id=" + $(this).attr("data-id"));
+            $(video_element).attr("type", "video/" + $(this).attr("data-ext"));
 
-    playButton.addEventListener("click", function() {
-        if (video.paused == true) {
-            // Play the video
-            video.play();
+            videoPlayer = $(video_element).mediaelementplayer({
+                features: ['playpause','progress','current','duration','tracks','fullscreen'],
+            });
 
-            // Update the button text to 'Pause'
-            playButton.innerHTML = "Pause";
+            return this;
+        },
+        close: function() {
+            $("#video-preview").fadeOut();
+            $("#splitter").delay(500).fadeIn();
+
+            videoPlayer.pause();
+        }
+    };
+    $.fn.video = function( method ) {
+        if ( methods[method] ) {
+            return methods[ method ].apply( this, Array.prototype.slice.call( arguments, 1 ));
+        } else if ( typeof method === 'object' || ! method ) {
+            return methods.init.apply( this, arguments );
         } else {
-            // Pause the video
-            video.pause();
-
-            // Update the button text to 'Play'
-            playButton.innerHTML = "Play";
+            $.error( 'Method ' +  method + ' not found' );
         }
+    };
+
+    $("#video-preview").on("click", "#back", function(){
+        $(this).video("close");
+        $("div.current").removeClass("current");
     });
 
-    // Event listener for the mute button
-    muteButton.addEventListener("click", function() {
-        if (video.muted == false) {
-            // Mute the video
-            video.muted = true;
-
-            // Update the button text
-            muteButton.innerHTML = "Unmute";
-        } else {
-            // Unmute the video
-            video.muted = false;
-
-            // Update the button text
-            muteButton.innerHTML = "Mute";
-        }
-    });
-
-    fullScreenButton.addEventListener("click", function() {
-        if (video.requestFullscreen) {
-            video.requestFullscreen();
-        } else if (video.mozRequestFullScreen) {
-            video.mozRequestFullScreen(); // Firefox
-        } else if (video.webkitRequestFullscreen) {
-            video.webkitRequestFullscreen(); // Chrome and Safari
-        }
-    });
-
-
-    seekBar.addEventListener("change", function() {
-        // Calculate the new time
-        var time = video.duration * (seekBar.value / 100);
-
-        // Update the video time
-        video.currentTime = time;
-    });
-
-
-    video.addEventListener("timeupdate", function() {
-        // Calculate the slider value
-        var value = (100 / video.duration) * video.currentTime;
-
-        // Update the slider value
-        seekBar.value = value;
-    });
-
-    seekBar.addEventListener("mousedown", function() {
-        video.pause();
-    });
-
-// Play the video when the slider handle is dropped
-    seekBar.addEventListener("mouseup", function() {
-        video.play();
-    });
-
-
-    volumeBar.addEventListener("change", function() {
-        // Update the video volume
-        video.volume = volumeBar.value;
-    });
-
-/*
-    self.container.find('#video-controls').append('<video class="thumb" src="' + video.currentSrc + '"></video>');
-
-    var self = this;
-
-    $('#seek-bar').bind('mousemove', function(e) { alert('g');
-        self.cursorX = e.pageX;
-        self.seek(self);
-    });
-
-    this.scale = this.container.find('#seek-bar').width() / video.duration;
-
-    var seek = function (context) {
-        $('.thumb')[0].currentTime = (self.cursorX - self.container.find('#seek-bar').offset().left) / self.scale;
-    }
-*/
-}
+})( jQuery );

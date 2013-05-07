@@ -5,17 +5,17 @@
     <ignored path="mediabox.iws" />
     <ignored path=".idea/workspace.xml" />
     <file path="/data.js" changelist="60fdc4fa-f90f-441d-ad09-47ecfbe589c8" time="1366731629485" ignored="false" />
-    <file path="/index.d.html" changelist="60fdc4fa-f90f-441d-ad09-47ecfbe589c8" time="1367521841363" ignored="false" />
-    <file path="/fm.js" changelist="60fdc4fa-f90f-441d-ad09-47ecfbe589c8" time="1367505268679" ignored="false" />
-    <file path="/files.html" changelist="60fdc4fa-f90f-441d-ad09-47ecfbe589c8" time="1367508721046" ignored="false" />
+    <file path="/index.d.html" changelist="60fdc4fa-f90f-441d-ad09-47ecfbe589c8" time="1367941499836" ignored="false" />
+    <file path="/fm.js" changelist="60fdc4fa-f90f-441d-ad09-47ecfbe589c8" time="1367948624208" ignored="false" />
+    <file path="/files.html" changelist="60fdc4fa-f90f-441d-ad09-47ecfbe589c8" time="1367948568789" ignored="false" />
     <file path="X:/empire/public_html/bitrix/php_interface/init.php" changelist="60fdc4fa-f90f-441d-ad09-47ecfbe589c8" time="1366193933897" ignored="false" />
     <file path="X:/empire/public_html/bitrix/php_interface/doka/удалитьпотом_import_shit.php" changelist="60fdc4fa-f90f-441d-ad09-47ecfbe589c8" time="1366193933897" ignored="false" />
     <file path="X:/empire/public_html/content/news/index.php" changelist="60fdc4fa-f90f-441d-ad09-47ecfbe589c8" time="1366210955727" ignored="false" />
     <file path="X:/empire/public_html/urlrewrite.php" changelist="60fdc4fa-f90f-441d-ad09-47ecfbe589c8" time="1366210955727" ignored="false" />
-    <file path="X:/fm/web/index.php" changelist="60fdc4fa-f90f-441d-ad09-47ecfbe589c8" time="1366521106280" ignored="false" />
-    <file path="/index.php" changelist="60fdc4fa-f90f-441d-ad09-47ecfbe589c8" time="1366520746393" ignored="false" />
-    <file path="/image.js" changelist="60fdc4fa-f90f-441d-ad09-47ecfbe589c8" time="1367387696194" ignored="false" />
-    <file path="X:/fm/web/silex/src/Fm/Components/Save.php" changelist="60fdc4fa-f90f-441d-ad09-47ecfbe589c8" time="1366219207316" ignored="false" />
+    <file path="X:/fm/web/index.php" changelist="60fdc4fa-f90f-441d-ad09-47ecfbe589c8" time="1367942212633" ignored="false" />
+    <file path="/index.php" changelist="60fdc4fa-f90f-441d-ad09-47ecfbe589c8" time="1367941331519" ignored="false" />
+    <file path="/image.js" changelist="60fdc4fa-f90f-441d-ad09-47ecfbe589c8" time="1367941156903" ignored="false" />
+    <file path="X:/fm/web/silex/src/Fm/Components/Save.php" changelist="60fdc4fa-f90f-441d-ad09-47ecfbe589c8" time="1367942041466" ignored="false" />
     <file path="/Save.php" changelist="60fdc4fa-f90f-441d-ad09-47ecfbe589c8" time="1366219167668" ignored="false" />
     <file path="/Dummy.txt" changelist="60fdc4fa-f90f-441d-ad09-47ecfbe589c8" time="1366696121163" ignored="false" />
     <file path="X:/eastbooking/config/databases.yml" changelist="60fdc4fa-f90f-441d-ad09-47ecfbe589c8" time="1366281933726" ignored="false" />
@@ -33,10 +33,10 @@
     <file path="X:/fm/web/js/audio.js" changelist="60fdc4fa-f90f-441d-ad09-47ecfbe589c8" time="1366387987380" ignored="false" />
     <file path="X:/eastbooking/apps/frontend/templates/_analytics.php" changelist="60fdc4fa-f90f-441d-ad09-47ecfbe589c8" time="1366396944454" ignored="false" />
     <file path="/advanced.html" changelist="60fdc4fa-f90f-441d-ad09-47ecfbe589c8" time="1367519183440" ignored="false" />
-    <file path="/settings.js" changelist="60fdc4fa-f90f-441d-ad09-47ecfbe589c8" time="1367509857526" ignored="false" />
+    <file path="/settings.js" changelist="60fdc4fa-f90f-441d-ad09-47ecfbe589c8" time="1367941008894" ignored="false" />
     <file path="X:/fm/web/silex/src/Fm/Components/Files.php" changelist="60fdc4fa-f90f-441d-ad09-47ecfbe589c8" time="1366457954864" ignored="false" />
     <file path="/settings.html" changelist="60fdc4fa-f90f-441d-ad09-47ecfbe589c8" time="1366462108579" ignored="false" />
-    <file path="/style.css" changelist="60fdc4fa-f90f-441d-ad09-47ecfbe589c8" time="1367521858131" ignored="false" />
+    <file path="/style.css" changelist="60fdc4fa-f90f-441d-ad09-47ecfbe589c8" time="1367595350686" ignored="false" />
     <file path="/thumb.js" changelist="60fdc4fa-f90f-441d-ad09-47ecfbe589c8" time="1366731124416" ignored="false" />
     <file path="/routing.js" changelist="60fdc4fa-f90f-441d-ad09-47ecfbe589c8" time="1366731707000" ignored="false" />
     <file path="/default.js" changelist="60fdc4fa-f90f-441d-ad09-47ecfbe589c8" time="1366731768592" ignored="false" />
@@ -48,12 +48,44 @@
     <file path="/auth.js" changelist="60fdc4fa-f90f-441d-ad09-47ecfbe589c8" time="1366728613515" ignored="false" />
     <file path="/registration.d.html" changelist="60fdc4fa-f90f-441d-ad09-47ecfbe589c8" time="1366714423188" ignored="false" />
     <file path="/data-auth.js" changelist="60fdc4fa-f90f-441d-ad09-47ecfbe589c8" time="1366731037765" ignored="false" />
-    <file path="/app.js" changelist="60fdc4fa-f90f-441d-ad09-47ecfbe589c8" time="1366731827328" ignored="false" />
-    <file path="/data-fm.js" changelist="60fdc4fa-f90f-441d-ad09-47ecfbe589c8" time="1367396715255" ignored="false" />
+    <file path="/app.js" changelist="60fdc4fa-f90f-441d-ad09-47ecfbe589c8" time="1367591490190" ignored="false" />
+    <file path="/data-fm.js" changelist="60fdc4fa-f90f-441d-ad09-47ecfbe589c8" time="1367588522199" ignored="false" />
     <file path="/jquery.swipebox.js" changelist="60fdc4fa-f90f-441d-ad09-47ecfbe589c8" time="1366739048034" ignored="false" />
     <file path="X:/ebay-forum/public_html/protected/vendors/Doka/Http/Client.php" changelist="60fdc4fa-f90f-441d-ad09-47ecfbe589c8" time="1367260698238" ignored="false" />
     <file path="/audio-mediaelement.js" changelist="60fdc4fa-f90f-441d-ad09-47ecfbe589c8" time="1367415134415" ignored="false" />
     <file path="/player.js" changelist="60fdc4fa-f90f-441d-ad09-47ecfbe589c8" time="1367521874516" ignored="false" />
+    <file path="/left.html" changelist="60fdc4fa-f90f-441d-ad09-47ecfbe589c8" time="1367593320143" ignored="false" />
+    <file path="/video.js" changelist="60fdc4fa-f90f-441d-ad09-47ecfbe589c8" time="1367597666255" ignored="false" />
+    <file path="/video-preview.html" changelist="60fdc4fa-f90f-441d-ad09-47ecfbe589c8" time="1367597381767" ignored="false" />
+    <file path="/image-preview.html" changelist="60fdc4fa-f90f-441d-ad09-47ecfbe589c8" time="1367597843331" ignored="false" />
+    <file path="W:/Symfony/src/Superkassa/AdminBundle/Controller/CollectionSettingsController.php" changelist="60fdc4fa-f90f-441d-ad09-47ecfbe589c8" time="1367836283074" ignored="false" />
+    <file path="W:/Symfony/src/Superkassa/AdminBundle/Entity/CollectionFlight.php" changelist="60fdc4fa-f90f-441d-ad09-47ecfbe589c8" time="1367836241410" ignored="false" />
+    <file path="/CollectionFlight.php" changelist="60fdc4fa-f90f-441d-ad09-47ecfbe589c8" time="1367818719313" ignored="false" />
+    <file path="/CollectionSettingsController.php" changelist="60fdc4fa-f90f-441d-ad09-47ecfbe589c8" time="1367835817227" ignored="false" />
+    <file path="W:/Symfony/src/Superkassa/AdminBundle/Entity/CollectionRepository.php" changelist="60fdc4fa-f90f-441d-ad09-47ecfbe589c8" time="1367825608424" ignored="false" />
+    <file path="/CollectionRepository.php" changelist="60fdc4fa-f90f-441d-ad09-47ecfbe589c8" time="1367824945302" ignored="false" />
+    <file path="W:/Symfony/src/Superkassa/AdminBundle/Resources/views/CollectionSettings/flight.html.twig" changelist="60fdc4fa-f90f-441d-ad09-47ecfbe589c8" time="1367819867468" ignored="false" />
+    <file path="W:/Symfony/src/Superkassa/AdminBundle/Entity/AmadeusOptionRepository.php" changelist="60fdc4fa-f90f-441d-ad09-47ecfbe589c8" time="1367823132288" ignored="false" />
+    <file path="/AmadeusOptionRepository.php" changelist="60fdc4fa-f90f-441d-ad09-47ecfbe589c8" time="1367821885119" ignored="false" />
+    <file path="W:/Symfony/src/Superkassa/AdminBundle/Entity/Collection.php" changelist="60fdc4fa-f90f-441d-ad09-47ecfbe589c8" time="1367825656561" ignored="false" />
+    <file path="/Collection.php" changelist="60fdc4fa-f90f-441d-ad09-47ecfbe589c8" time="1367834649259" ignored="false" />
+    <file path="W:/Symfony/src/Superkassa/AdminBundle/Entity/CollectionDelivery.php" changelist="60fdc4fa-f90f-441d-ad09-47ecfbe589c8" time="1367836157319" ignored="false" />
+    <file path="W:/Symfony/src/Superkassa/AdminBundle/Entity/CollectionCoupons.php" changelist="60fdc4fa-f90f-441d-ad09-47ecfbe589c8" time="1367835636574" ignored="false" />
+    <file path="/CollectionDelivery.php" changelist="60fdc4fa-f90f-441d-ad09-47ecfbe589c8" time="1367834781087" ignored="false" />
+    <file path="/CollectionCoupons.php" changelist="60fdc4fa-f90f-441d-ad09-47ecfbe589c8" time="1367835636574" ignored="false" />
+    <file path="W:/logs/nginx.access.log" changelist="60fdc4fa-f90f-441d-ad09-47ecfbe589c8" time="1367830447498" ignored="false" />
+    <file path="W:/Symfony/app/cache/dev/appDevUrlGenerator.php.meta" changelist="60fdc4fa-f90f-441d-ad09-47ecfbe589c8" time="1367830395871" ignored="false" />
+    <file path="W:/Symfony/app/cache/dev/profiler/index.csv" changelist="60fdc4fa-f90f-441d-ad09-47ecfbe589c8" time="1367830447498" ignored="false" />
+    <file path="W:/Symfony/app/cache/dev/jms_diextra/controller_injectors/SuperkassaAdminBundleControllerCollectionSettingsController.php.meta" changelist="60fdc4fa-f90f-441d-ad09-47ecfbe589c8" time="1367830395872" ignored="false" />
+    <file path="W:/Symfony/app/cache/dev/appDevUrlMatcher.php.meta" changelist="60fdc4fa-f90f-441d-ad09-47ecfbe589c8" time="1367830395872" ignored="false" />
+    <file path="W:/Symfony/src/Superkassa/AdminBundle/Menu/Builder.php" changelist="60fdc4fa-f90f-441d-ad09-47ecfbe589c8" time="1367830431497" ignored="false" />
+    <file path="W:/Symfony/src/Superkassa/AdminBundle/Resources/views/CollectionSettings/delivery.html.twig" changelist="60fdc4fa-f90f-441d-ad09-47ecfbe589c8" time="1367836038780" ignored="false" />
+    <file path="/delivery.html.twig" changelist="60fdc4fa-f90f-441d-ad09-47ecfbe589c8" time="1367833907881" ignored="false" />
+    <file path="W:/Symfony/src/Superkassa/AdminBundle/Resources/views/CollectionSettings/coupons.html.twig" changelist="60fdc4fa-f90f-441d-ad09-47ecfbe589c8" time="1367837504079" ignored="false" />
+    <file path="W:/Symfony/src/Superkassa/AdminBundle/Enumerations/Collection.php" changelist="60fdc4fa-f90f-441d-ad09-47ecfbe589c8" time="1367834649259" ignored="false" />
+    <file path="/a.dummy" changelist="60fdc4fa-f90f-441d-ad09-47ecfbe589c8" time="1367834656176" ignored="false" />
+    <file path="W:/Symfony/src/Superkassa/AdminBundle/Enumerations/CollectionTypes.php" changelist="60fdc4fa-f90f-441d-ad09-47ecfbe589c8" time="1367836286000" ignored="false" />
+    <file path="/coupons.html.twig" changelist="60fdc4fa-f90f-441d-ad09-47ecfbe589c8" time="1367835714837" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -76,16 +108,7 @@
       <file leaf-file-name="settings.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/settings.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="65" column="50" selection-start="1828" selection-end="1828" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="style.css" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/mapped/css/style.css">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="52" column="105" selection-start="2052" selection-end="2052" vertical-scroll-proportion="0.7450524">
+            <state line="28" column="10" selection-start="625" selection-end="631" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -94,15 +117,8 @@
       <file leaf-file-name="index.d.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/mapped/index.d.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="104" column="47" selection-start="4756" selection-end="4756" vertical-scroll-proportion="-21.2">
+            <state line="9" column="51" selection-start="418" selection-end="418" vertical-scroll-proportion="32.64">
               <folding>
-                <element signature="n#style#0;n#audio#0;n#div#0;n#li#6;n#ul#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#div#0;n#li#6;n#ul#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#1;n#div#0;n#li#6;n#ul#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#i#0;n#div#3;n#div#0;n#li#6;n#ul#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#6;n#div#0;n#li#6;n#ul#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#input#0;n#div#6;n#div#0;n#li#6;n#ul#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#7;n#div#0;n#li#6;n#ul#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
               </folding>
             </state>
@@ -112,20 +128,78 @@
       <file leaf-file-name="files.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/fragments/files.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="245" column="68" selection-start="13074" selection-end="13074" vertical-scroll-proportion="-18.64">
+            <state line="184" column="68" selection-start="10213" selection-end="10213" vertical-scroll-proportion="-20.68">
               <folding>
+                <element signature="n#style#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#i#0;n#li#0;n#ul#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#i#0;n#li#1;n#ul#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#i#0;n#li#0;n#ul#1;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#i#0;n#li#1;n#ul#1;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#li#1;n#ul#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#i#0;n#li#2;n#ul#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#li#4;n#ul#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#li#5;n#ul#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#li#6;n#ul#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#span#0;n#li#6;n#ul#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#1;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#0;n#div#1;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#i#0;n#li#1;n#ul#0;n#div#0;n#div#1;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#li#3;n#ul#0;n#div#0;n#div#1;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#ul#1;n#div#0;n#div#1;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#i#0;n#li#0;n#ul#1;n#div#0;n#div#1;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#i#0;n#li#1;n#ul#1;n#div#0;n#div#1;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#li#1;n#ul#0;n#div#1;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#i#0;n#li#2;n#ul#0;n#div#1;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#li#4;n#ul#0;n#div#1;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#span#0;n#li#4;n#ul#0;n#div#1;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#i#0;n#li#1;n#ul#0;n#div#0;n#div#2;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#i#0;n#li#0;n#ul#1;n#div#0;n#div#2;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#i#0;n#li#1;n#ul#1;n#div#0;n#div#2;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#li#1;n#ul#0;n#div#2;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#i#0;n#li#2;n#ul#0;n#div#2;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#li#4;n#ul#0;n#div#2;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#span#0;n#li#4;n#ul#0;n#div#2;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#i#0;n#li#1;n#ul#0;n#div#0;n#div#3;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#i#0;n#li#0;n#ul#1;n#div#0;n#div#3;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#i#0;n#li#1;n#ul#1;n#div#0;n#div#3;n#div#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#div#0;n#script#0;n#div#1;n#div#3;n#div#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#img#0;n#a#0;n#div#0;n#div#0;n#script#0;n#div#1;n#div#3;n#div#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#div#1;n#div#0;n#div#0;n#script#0;n#div#1;n#div#3;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#li#1;n#ul#0;n#div#3;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#i#0;n#li#2;n#ul#0;n#div#3;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#li#4;n#ul#0;n#div#3;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#span#0;n#li#4;n#ul#0;n#div#3;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#1;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#1;n#div#1;n#!!top" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="advanced.html" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/fragments/advanced.html">
+      <file leaf-file-name="fm.js" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/libraries/resources/data/fm.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="39" column="0" selection-start="1332" selection-end="1332" vertical-scroll-proportion="-24.96">
+            <state line="27" column="20" selection-start="824" selection-end="824" vertical-scroll-proportion="-0.8812573">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="image.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/mapped/js/image.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="44" column="15" selection-start="1303" selection-end="1303" vertical-scroll-proportion="0.0">
+              <folding>
+                <marker date="1367941300299" expanded="true" signature="7868:7888" placeholder="..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="video.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/mapped/js/video.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="2" column="17" selection-start="41" selection-end="41" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -134,9 +208,9 @@
       <file leaf-file-name="player.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/mapped/js/player.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="36" column="66" selection-start="1293" selection-end="1293" vertical-scroll-proportion="-13.44">
+            <state line="93" column="61" selection-start="3568" selection-end="3568" vertical-scroll-proportion="0.0">
               <folding>
-                <marker date="1367523545095" expanded="true" signature="1375:1388" placeholder="..." />
+                <marker date="1367941336273" expanded="false" signature="1388:1401" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -145,7 +219,7 @@
       <file leaf-file-name="fm.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/mapped/js/fm.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="274" column="0" selection-start="9480" selection-end="9480" vertical-scroll-proportion="-20.72">
+            <state line="622" column="35" selection-start="20564" selection-end="20564" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -161,22 +235,22 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/fragments/left.html" />
-        <option value="$PROJECT_DIR$/default.js" />
-        <option value="$PROJECT_DIR$/fragments/preview.html" />
-        <option value="$PROJECT_DIR$/libraries/resources/data/fm.js" />
-        <option value="$PROJECT_DIR$/mapped/js/image.js" />
-        <option value="$PROJECT_DIR$/libraries/data-fm.js" />
-        <option value="$PROJECT_DIR$/mapped/js/audio-mediaelement.js" />
-        <option value="$PROJECT_DIR$/mapped/js/video.js" />
         <option value="$PROJECT_DIR$/mapped/js/audio.js" />
-        <option value="$PROJECT_DIR$/fragments/files.html" />
-        <option value="$PROJECT_DIR$/mapped/js/fm.js" />
-        <option value="$PROJECT_DIR$/settings.js" />
         <option value="$PROJECT_DIR$/fragments/advanced.html" />
-        <option value="$PROJECT_DIR$/mapped/index.d.html" />
-        <option value="$PROJECT_DIR$/mapped/js/player.js" />
+        <option value="$PROJECT_DIR$/libraries/data-fm.js" />
+        <option value="$PROJECT_DIR$/libraries/resources/data/app.js" />
+        <option value="$PROJECT_DIR$/fragments/left.html" />
         <option value="$PROJECT_DIR$/mapped/css/style.css" />
+        <option value="$PROJECT_DIR$/fragments/video-preview.html" />
+        <option value="$PROJECT_DIR$/fragments/image-preview.html" />
+        <option value="$PROJECT_DIR$/settings.js" />
+        <option value="$PROJECT_DIR$/mapped/js/image.js" />
+        <option value="$PROJECT_DIR$/mapped/js/video.js" />
+        <option value="$PROJECT_DIR$/mapped/js/player.js" />
+        <option value="$PROJECT_DIR$/mapped/js/fm.js" />
+        <option value="$PROJECT_DIR$/mapped/index.d.html" />
+        <option value="$PROJECT_DIR$/fragments/files.html" />
+        <option value="$PROJECT_DIR$/libraries/resources/data/fm.js" />
       </list>
     </option>
   </component>
@@ -213,7 +287,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -352,6 +425,7 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -417,7 +491,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -425,7 +499,7 @@
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Remote Host" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.35538954" sideWeight="0.6703786" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.36392742" sideWeight="0.6703786" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32962137" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
@@ -434,7 +508,7 @@
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32962137" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -501,118 +575,156 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/libraries/data-audio.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/libraries/data-image.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.54598373">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/libraries/data-auth.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="0" selection-start="56" selection-end="104" vertical-scroll-proportion="-0.7614679">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/fragments/preview.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="29" column="62" selection-start="1777" selection-end="1777" vertical-scroll-proportion="-0.07674144" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/libraries/resources/data/fm.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="72" column="38" selection-start="2529" selection-end="2537" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mapped/js/video.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="106" column="0" selection-start="3018" selection-end="3018" vertical-scroll-proportion="0.88990825">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/libraries/data-fm.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="79" column="86" selection-start="2318" selection-end="2318" vertical-scroll-proportion="0.0">
+        <state line="191" column="39" selection-start="5490" selection-end="5490" vertical-scroll-proportion="-11.6" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/libraries/resources/data/app.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="25" column="63" selection-start="770" selection-end="825" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/fragments/left.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="6" column="42" selection-start="281" selection-end="289" vertical-scroll-proportion="-3.84" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mapped/css/style.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="32" column="27" selection-start="1134" selection-end="1134" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/fragments/image-preview.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="15" selection-start="15" selection-end="15" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/fragments/video-preview.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="14" selection-start="9" selection-end="14" vertical-scroll-proportion="-0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/mapped/js/image.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="273" column="22" selection-start="9970" selection-end="9976" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mapped/js/fm.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="274" column="0" selection-start="9480" selection-end="9480" vertical-scroll-proportion="-20.72">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/fragments/advanced.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="39" column="0" selection-start="1332" selection-end="1332" vertical-scroll-proportion="-24.96">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/fragments/files.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="245" column="68" selection-start="13074" selection-end="13074" vertical-scroll-proportion="-18.64">
+        <state line="44" column="15" selection-start="1303" selection-end="1303" vertical-scroll-proportion="0.0">
           <folding>
-            <element signature="n#style#0;n#div#0;n#script#0;n#div#1;n#div#3;n#div#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#img#0;n#a#0;n#div#0;n#div#0;n#script#0;n#div#1;n#div#3;n#div#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#div#0;n#div#0;n#script#0;n#div#1;n#div#3;n#div#0;n#!!top" expanded="true" />
+            <marker date="1367941300299" expanded="true" signature="7868:7888" placeholder="..." />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mapped/index.d.html">
+    <entry file="file://$PROJECT_DIR$/mapped/js/player.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="104" column="47" selection-start="4756" selection-end="4756" vertical-scroll-proportion="-21.2">
+        <state line="93" column="61" selection-start="3568" selection-end="3568" vertical-scroll-proportion="0.0">
           <folding>
-            <element signature="n#style#0;n#audio#0;n#div#0;n#li#6;n#ul#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#li#6;n#ul#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#div#0;n#li#6;n#ul#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#i#0;n#div#3;n#div#0;n#li#6;n#ul#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#6;n#div#0;n#li#6;n#ul#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#input#0;n#div#6;n#div#0;n#li#6;n#ul#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#7;n#div#0;n#li#6;n#ul#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <marker date="1367941336273" expanded="false" signature="1388:1401" placeholder="..." />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/settings.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="65" column="50" selection-start="1828" selection-end="1828" vertical-scroll-proportion="0.0">
+        <state line="28" column="10" selection-start="625" selection-end="631" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mapped/js/player.js">
+    <entry file="file://$PROJECT_DIR$/mapped/js/video.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="36" column="66" selection-start="1293" selection-end="1293" vertical-scroll-proportion="-13.44">
+        <state line="2" column="17" selection-start="41" selection-end="41" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/fragments/advanced.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="33" column="21" selection-start="1217" selection-end="1217" vertical-scroll-proportion="0.6233766">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mapped/js/fm.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="622" column="35" selection-start="20564" selection-end="20564" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mapped/index.d.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="9" column="51" selection-start="418" selection-end="418" vertical-scroll-proportion="32.64">
           <folding>
-            <marker date="1367523545095" expanded="true" signature="1375:1388" placeholder="..." />
+            <element signature="n#style#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mapped/css/style.css">
+    <entry file="file://$PROJECT_DIR$/fragments/files.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="52" column="105" selection-start="2052" selection-end="2052" vertical-scroll-proportion="0.7450524">
+        <state line="184" column="68" selection-start="10213" selection-end="10213" vertical-scroll-proportion="-20.68">
+          <folding>
+            <element signature="n#style#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#i#0;n#li#0;n#ul#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#i#0;n#li#1;n#ul#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#i#0;n#li#0;n#ul#1;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#i#0;n#li#1;n#ul#1;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#li#1;n#ul#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#i#0;n#li#2;n#ul#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#li#4;n#ul#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#li#5;n#ul#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#li#6;n#ul#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#li#6;n#ul#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#1;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#1;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#i#0;n#li#1;n#ul#0;n#div#0;n#div#1;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#li#3;n#ul#0;n#div#0;n#div#1;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#ul#1;n#div#0;n#div#1;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#i#0;n#li#0;n#ul#1;n#div#0;n#div#1;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#i#0;n#li#1;n#ul#1;n#div#0;n#div#1;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#li#1;n#ul#0;n#div#1;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#i#0;n#li#2;n#ul#0;n#div#1;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#li#4;n#ul#0;n#div#1;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#li#4;n#ul#0;n#div#1;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#i#0;n#li#1;n#ul#0;n#div#0;n#div#2;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#i#0;n#li#0;n#ul#1;n#div#0;n#div#2;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#i#0;n#li#1;n#ul#1;n#div#0;n#div#2;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#li#1;n#ul#0;n#div#2;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#i#0;n#li#2;n#ul#0;n#div#2;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#li#4;n#ul#0;n#div#2;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#li#4;n#ul#0;n#div#2;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#i#0;n#li#1;n#ul#0;n#div#0;n#div#3;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#i#0;n#li#0;n#ul#1;n#div#0;n#div#3;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#i#0;n#li#1;n#ul#1;n#div#0;n#div#3;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#script#0;n#div#1;n#div#3;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#img#0;n#a#0;n#div#0;n#div#0;n#script#0;n#div#1;n#div#3;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#1;n#div#0;n#div#0;n#script#0;n#div#1;n#div#3;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#li#1;n#ul#0;n#div#3;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#i#0;n#li#2;n#ul#0;n#div#3;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#li#4;n#ul#0;n#div#3;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#li#4;n#ul#0;n#div#3;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#1;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#1;n#div#1;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/libraries/resources/data/auth.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="21" column="59" selection-start="659" selection-end="670" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/libraries/resources/data/fm.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="27" column="20" selection-start="824" selection-end="824" vertical-scroll-proportion="-0.8812573">
           <folding />
         </state>
       </provider>

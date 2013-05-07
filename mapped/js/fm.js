@@ -37,6 +37,18 @@ $(document).ready(function() {
         }
     });
 
+    $("#fs-menu-left").kendoTabStrip({
+        animation:	{
+            open: {
+                duration: 100,
+                effects: "fadeIn"
+            }
+        },
+        select: function(e) {
+            $.ajax({type:"GET",url:"app/fsMenuLeft/",data:"tab="+e.item.id});
+        }
+    });
+
     $("#files").kendoUpload({
         showFileList: false,
         select: function(e) {
@@ -49,7 +61,7 @@ $(document).ready(function() {
     });
 
     function sendFile(id, file) {
-        var uri = "http://fm/save/";
+        var uri = $("#storage").val() + "/save/";
         var xhr = new XMLHttpRequest();
 
         xhr.open("POST", uri, true);
@@ -151,7 +163,7 @@ $(document).ready(function() {
         $.ajax({ type: "GET", url: 'fm/remove/', dataType: "JSON", data: "file=" + encodeURIComponent(filename)})
             .done(function(res) {
                 $.each(res, function(key, value) {
-                    $.ajax({ type: "get", url: 'http://fm/remove/', data: "id=" + value, dataType: "JSONP" })
+                    $.ajax({ type: "get", url: $("#storage").val() + '/remove/', data: "id=" + value, dataType: "JSONP" })
                         .done(function(res) {
                             // Remove from FS Structure
                             $(".dfile[data-id='"+value+"']").fadeOut();
@@ -161,7 +173,10 @@ $(document).ready(function() {
     }
 
     function removeDir(dirname) {
-
+        $.ajax({ type: "GET", url: "fm/rmFolder/", data: "name=" + encodeURIComponent(dirname) })
+            .done(function(res) {
+                //!!! Remove folders from fs structure
+            });
     }
 
 
@@ -244,7 +259,7 @@ $(document).ready(function() {
                             var template = kendo.template(templateContent);
 
                             var data = [
-                                { name: value["name"], shortname: value["shortname"], id: value["id"], date: "0000-00-00", size: "0", pre_img: "0", ico: value["ico"], path: "http://fm/get/?id=" + value["id"], type: type, data: value["data"], ext: value["ext"] }
+                                { name: value["name"], shortname: value["shortname"], id: value["id"], date: "0000-00-00", size: "0", pre_img: "0", ico: value["ico"], path: $("#storage").val() + "/get/?id=" + value["id"], type: type, data: value["data"], ext: value["ext"] }
                             ];
 
                             var result = kendo.render(template, data);
@@ -330,16 +345,43 @@ $(document).ready(function() {
         expand: function(e) {
             var dataItem = this.dataItem(e.node);
             dataItem.loaded(false);
-        }
-    });
+        },
+        dataBound: function(){ treeviewScroll() }
+    })
 
-    $("#treeview").css("height", $(window).height() - 70);
+    $("#treeview").css("height", $(window).height() - 87);
     $(window).resize(function() {
-        $("#treeview").css("height", $(window).height() - 70);
+        $("#treeview").css("height", $(window).height() - 87);
     });
 
-    $("#newDirWin").click(function(){
+    $("#splitter").on("click", ".fm_sel", function() {
+        $(".fm_unsellabel").removeClass("fm_unsellabel").addClass("fm_sellabel").addClass("k-block").addClass("k-error-colored");
+    });
+
+    $("#splitter").on("click", ".fm_unsel", function() {
+        $(".fm_sellabel").removeClass("fm_sellabel").addClass("fm_unsellabel").removeClass("k-block").removeClass("k-error-colored");
+    });
+
+    $("#fs").on("click", ".fm_unsellabel", function(){
+        $(this).removeClass("fm_unsellabel").addClass("fm_sellabel").addClass("k-block").addClass("k-error-colored");
+    });
+
+    $("#fs").on("click", ".fm_sellabel", function(){
+        $(this).removeClass("fm_sellabel").addClass("fm_unsellabel").removeClass("k-block").removeClass("k-error-colored");
+    });
+
+    $(".newDirWin").click(function(){
         createDirDialog();
+    });
+
+    $("#rmDir").click(function(){
+        $("#rmDir-window").kendoWindow({
+            width: "300px",
+            height: "100px",
+            modal: true,
+            title: "Delete folder"
+        });
+        $("#rmDir-window").data("kendoWindow").center().open();
     });
 
     function createDirDialog() {
@@ -373,43 +415,41 @@ $(document).ready(function() {
         return true;
     }
 
-    $("#splitter").on("click", ".fm_sel", function() {
-        $(".fm_unsellabel").removeClass("fm_unsellabel").addClass("fm_sellabel").addClass("k-block").addClass("k-error-colored");
-    });
-
-    $("#splitter").on("click", ".fm_unsel", function() {
-        $(".fm_sellabel").removeClass("fm_sellabel").addClass("fm_unsellabel").removeClass("k-block").removeClass("k-error-colored");
-    });
-
-    $("#fs").on("click", ".fm_unsellabel", function(){
-        $(this).removeClass("fm_unsellabel").addClass("fm_sellabel").addClass("k-block").addClass("k-error-colored");
-    });
-
-    $("#fs").on("click", ".fm_sellabel", function(){
-        $(this).removeClass("fm_sellabel").addClass("fm_unsellabel").removeClass("k-block").removeClass("k-error-colored");
-    });
-
     $(".remove").click(function(){
-        var treeview = $("#treeview").data("kendoTreeView");
+        $("#rm-window").kendoWindow({
+            width: "300px",
+            height: "100px",
+            modal: true,
+            title: "Delete"
+        });
 
-        if (confirm("Remove?")) {
-            $(".ddir > div").each(function() {
-                if ($(this).hasClass("fm_sellabel")) {
-                    var fname = $(this).attr("id"); alert(fname);
-
-                    removeDir(fname);
-                }
-            });
-
-            $(".dfile > div").each(function() {
-                if ($(this).hasClass("fm_sellabel")) {
-                    var fname = $(this).attr("id");
-
-                    removeFile(fname);
-                }
-            });
-        }
+        $("#rm-window").data("kendoWindow").center().open();
     });
+
+    $("#rm-window-no").click(function(){
+        $("#rm-window").data("kendoWindow").close();
+    });
+
+    $("#rm-window-yes").click(function(){
+        $(".ddir > div").each(function() {
+            if ($(this).hasClass("fm_sellabel")) {
+                var fname = $(this).attr("id");
+
+                removeDir(fname);
+            }
+        });
+
+        $(".dfile > div").each(function() {
+            if ($(this).hasClass("fm_sellabel")) {
+                var fname = $(this).attr("id");
+
+                removeFile(fname);
+            }
+        });
+
+        $("#rm-window").data("kendoWindow").close();
+    });
+
 
     /*
     $(".advanced-panel-div").click(function(){
@@ -484,23 +524,9 @@ $(document).ready(function() {
         if (type == "image") {
             $(this).image("init").image("loadImg");
         } else if (type == "audio") {
-
             $(this).player("load").player("play");
-
         } else if (type == "video") {
-            $("#fs").fadeOut();
-            $("#video-preview").delay(500).fadeIn();
-
-            //var player = $('#video-player')[0];
-            //player.src = $("#cur_dir").val() + "/" + $(this).attr("title");
-            //player.play();
-
-            var video_element = $('#video-player');
-            $(video_element).attr("src", "http://fm/get/?id=" + $(this).attr("data-id"));
-            $(video_element).attr("type", "video/" + $(this).attr("data-ext"));
-
-            $(video_element).mediaelementplayer();
-            //new MediaElement('video-player');
+            $(this).video("init");
         }
     });
 });
@@ -517,6 +543,19 @@ $(window).resize(function() {
 
 $(".structure").mCustomScrollbar({ advanced:{ updateOnContentResize: true }, scrollInertia:150 });
 $(".adv-menu-div").mCustomScrollbar({ scrollInertia:150 });
+// Left
+function treeviewScroll() {
+    if (!$("#treeview").hasClass("mCustomScrollbar")) {
+        $("#treeview").mCustomScrollbar({
+            horizontalScroll:true,
+            scrollInertia:150,
+            advanced:{
+                updateOnContentResize: true,
+                autoExpandHorizontalScroll:true
+            }
+        });
+    }
+}
 
 var data = [
     { text: "Name", value: "name" },
@@ -567,15 +606,16 @@ $(".files-actions").on("click", ".past", function(){
 });
 
 function copyFiles() {
-    var selfiles = "";
+    var selfiles = Array(); var i = 0;
 
-    $(".dfile > div").each(function(value) {
-        if ($(this).hasClass("fm_sellabel")) {
-            selfiles += "&file[]=" + encodeURIComponent($(this).attr("id"));
+    $(".dfile").each(function(value) {
+        if ($("div", this).hasClass("fm_sellabel")) {
+            selfiles[i] = encodeURIComponent($(this).attr("data-id"));
+            i++;
         }
     });
 
-    $.ajax({ type: "POST", url: "copy", data: selfiles, dataType: "JSON" })
+    $.ajax({ type: "POST", url: "fm/copy/", data: selfiles.join("&"), dataType: "JSON" })
         .done(function(res) {
             $.each(res, function(key, value) {
                 if (key == "buffer")
@@ -586,8 +626,27 @@ function copyFiles() {
         })
 }
 
+$.ajax({ type: "GET", url: "fm/buffer/", dataType: "JSON" })
+    .done(function(res) {
+        var _id; var name;
+        $.each(res, function(i, part) {
+            $.each(part, function(key, value) {
+                if(key=="name") {
+                    name = value;
+                }
+                if(key=="_id") {
+                    _id = value;
+                }
+            });
+
+            $("#buffer").append("<div data-id='"+_id+"'>"+name+"</div>")
+        });
+
+
+    })
+
 function pastFiles() {
-    $.ajax({ type: "POST", url: "past", dataType: "JSON" })
+    $.ajax({ type: "GET", url: "fm/past/", dataType: "JSON" })
         .done(function(res) {
             $("#buffer").html("");
             $("#buffer_count").html("(0)");

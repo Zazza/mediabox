@@ -38,6 +38,13 @@ function addFolder(uid, name, parent) {
     collection.insert(BSON.to(doc))
 }
 
+function getFile(uid, id) {
+    var collection = db.getCollection('files')
+
+    var query = {_id: {$oid: id}, uid: uid}
+    return BSON.from(collection.findOne(BSON.to(query)));
+}
+
 function getFiles(uid, id) {
     var files = new Array();
 
@@ -183,4 +190,34 @@ function removeFile(uid, filename, parent_id) {
     BSON.from(collection.remove(BSON.to(query)));
 
     return '{"_id": "' + res._id + '"}'
+}
+
+function bufferExist(buffer, id) {
+    var bufferArray = JSON.parse(buffer)
+    for ( var key in bufferArray ) {
+        if  (bufferArray[key]._id == id) {
+            return true
+        }
+    }
+
+    return false
+}
+
+function bufferPast(uid, buffer, parent) {
+    var bufferArray = JSON.parse(buffer)
+
+    var collection = db.getCollection('files')
+
+    for ( var key in bufferArray ) {
+        var update = {$set: {parent: parent}}
+
+        collection.update(BSON.to({_id: {$oid: bufferArray[key]._id}}), BSON.to(update), false, false)
+    }
+}
+
+function rmFolder(uid, name, parent) {
+    var collection = db.getCollection('fs')
+
+    var query = {uid: uid, parent: parent, name: name}
+    return BSON.from(collection.remove(BSON.to(query)));
 }

@@ -30,13 +30,13 @@ a:hover {color: black;}
 #splitter {height: 100%; border: 0;}
 .actions {display: none;}
 #header {position: static; top:0; width: 100%;height:28px;}
-#treeview {overflow: auto;}
+#treeview {overflow: auto; padding: 10px 0;}
 #treeview .k-group {background-color: transparent; margin: 0;}
 
 #main-menu {padding-left: 10px;}
 
-#advanced-panel-right .advanced-panel-div {cursor:pointer;}
-#advanced-panel-left {position: fixed; top:28px; bottom: 0;}
+#advanced-panel-left .advanced-panel-div {cursor:pointer;}
+#advanced-panel-right {position: fixed; top:28px; bottom: 0;}
 .advanced-panel-div {height: 36px; width: 50px;}
 .advanced-panel-div > i {position: relative; left: 15px; top: 10px;}
 

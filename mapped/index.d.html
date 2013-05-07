@@ -4,8 +4,10 @@
     var auth = conversation.getCookie("auth")
     var current_directory = conversation.getCookie("current_directory")
     var theme = conversation.getCookie("theme")
-    var fsMenu = conversation.getCookie("fs_menu");
-    var volume = conversation.getCookie("volume");
+    var fsMenu = conversation.getCookie("fs_menu")
+    var fsMenuLeft = conversation.getCookie("fs_menu_left")
+    var volume = conversation.getCookie("volume")
+    var storage =  application.globals.get('config.storage')
 
     if (theme)
         var current_theme = theme.value
@@ -16,6 +18,11 @@
         var current_fs_menu = fsMenu.value
     else
         var current_fs_menu = "tab-all"
+
+    if (fsMenuLeft)
+        var current_fs_menu_left = fsMenuLeft.value
+    else
+        var current_fs_menu_left = "tab-left-fs"
 
     if (current_directory)
         var startdir = current_directory.value
@@ -28,27 +35,6 @@
         var volume_level = 50
 
 var view = "icon"
-
-
-
-
-//var collection = db.getCollection('files')
-
-//var query = {name: "11990-115009-0ac5874c05013a29085363a09c733e9e.jpg"}
-//var file = BSON.from(collection.findOne(BSON.to(query)));
-
-
-//importClass(org.bson.types.Binary)
-//importClass(org.apache.commons.codec.binary.Base64)
-//var binary = new Binary(file.data)
-
-//var magicBox = new Base64();
-//var data = magicBox.decodeBase64(file.data);
-
-//print(file.data);
-//print(file.data)
-
-
 
 
 if (!auth || !session_check(auth.value)) {
@@ -86,7 +72,6 @@ if (!auth || !session_check(auth.value)) {
         <li class="advanced-panel-show" id="settings"><i style="margin-right: 4px; font-size: 14px;" class="icon-settingstwo-gearalt"></i><span>Settings</span></li>
         <li id="logout"><i style="margin-right: 4px; font-size: 14px;" class="icon-exit"></i><span>Logout</span></li>
 
-        <!--<li id="logout" style="float: right; padding: 0 5px;"><i style="font-size: 16px;" class="icon-exit"></i><span>&nbsp;</span></li>-->
         <li class="advanced-panel-show" id="playlist" style="float: right; padding: 0 5px;"><i style="font-size: 12px; margin-right: 5px;" class="icon-list"></i><span>Playlist</span></li>
         <li style="float: right; margin-right: 5px;">
             <i style="font-size: 14px;" class="icon-volume-up" title="Volume" /></i>
@@ -132,38 +117,6 @@ if (!auth || !session_check(auth.value)) {
                 <!-- End files.html -->
             </div>
         </div>
-        <div id="video-preview" style="display: none; overflow: hidden; padding: 0 10px;">
-            <!--
-            <div style="overflow: hidden; margin-top: 10px;">
-                <ul class="nav nav-pills pull-left" style="margin-bottom: 0;">
-                    <li id="back"><i style="font-size: 12px;" class="icon-pageback"></i>&nbsp;<span>Back</span></li>
-                </ul>
-
-                <ul id="image-actions" class="nav nav-pills pull-right" style="margin-bottom: 0;">
-                    <li id="fullscreen"><i style="font-size: 12px;" class="icon-fullscreen"></i>&nbsp;<span>Fullscreen</span></li>
-                    <li id="prev"><i style="font-size: 12px;" class="icon-chevron-left"></i>&nbsp;<span>Previous</span></li>
-                    <li id="next"><i style="font-size: 12px;" class="icon-chevron-right"></i>&nbsp;<span>Next</span></li>
-                </ul>
-            </div>
-
-
-            <div class="k-widget" style="height: 1px; margin: 4px 0;">&nbsp;</div>
-
-            <div>
-                <video id="video-player" width="100%"></video>
-                <div id="video-controls">
-                    <button type="button" id="play-pause">Play</button>
-                    <input type="range" id="seek-bar" value="0">
-                    <button type="button" id="mute">Mute</button>
-                    <input type="range" id="volume-bar" min="0" max="1" step="0.1" value="1">
-                    <button type="button" id="full-screen">Full-Screen</button>
-                </div>
-            </div>
-             -->
-
-            <video id="video-player" width="640" height="360" src="" type="" controls="controls" preload="none"></video>
-        </div>
-
     </div>
 
     <div id="advanced-panel" class="k-header">
@@ -174,25 +127,24 @@ if (!auth || !session_check(auth.value)) {
             <!-- End advanced.html -->
 
         </div>
-        <!--
-        <div id="advanced-panel-right" style="float: right;">
-            <div class="advanced-panel-div" id="upload-show"><i style="font-size: 16px;" class="adv-menu-img icon-uploadalt" title="Upload"></i></div>
-            <div class="advanced-panel-div" id="buffer-show"><i style="font-size: 16px;" class="adv-menu-img icon-clipboard-paste" title="Buffer"></i></div>
-            <div class="advanced-panel-div" id="player-show"><i style="font-size: 16px;" class="adv-menu-img icon-music" title="Player"></i></div>
-            <div class="advanced-panel-div" id="settings-show"><i style="font-size: 16px;" class="adv-menu-img icon-settingstwo-gearalt" title="Settings"></i></div>
-        </div>
-        -->
     </div>
 
 </div>
 
-<!-- preview.html -->
-<%& '/preview/' %>
-<!-- End preview.html -->
+
+<!-- image-preview.html -->
+<%& '/image-preview/' %>
+<!-- End image-preview.html -->
+
+<!-- video-preview.html -->
+<%& '/video-preview/' %>
+<!-- End video-preview.html -->
+
 
 <div id="fileRes" style="display: none;"><input type="text" id="fullurl" onclick="$(this).select()" style="width: 400px;"></div>
 
 <input type="hidden" id="start_dir" value="<%= startdir %>" />
+<input type="hidden" id="storage" value="<%= storage %>" />
 <input type="hidden" id="volume-level" value="<%= volume_level %>" />
 <input type="hidden" id="buffer_count" value="" />
 <input type="hidden" id="viewMode" value="<%= view %>" />
@@ -213,7 +165,7 @@ if (!auth || !session_check(auth.value)) {
 <script src="<%= application.globals.get('config.baseUrl') %>js/jquery.swipebox.js"></script>
 <script src="<%= application.globals.get('config.baseUrl') %>js/image.js"></script>
 <script src="<%= application.globals.get('config.baseUrl') %>js/player.js"></script>
-<!--<script src="<%= application.globals.get('config.baseUrl') %>js/video.js"></script>-->
+<script src="<%= application.globals.get('config.baseUrl') %>js/video.js"></script>
 <script src="<%= application.globals.get('config.baseUrl') %>js/fm.js"></script>
 <script>
     $(document).ready(function() {
@@ -223,6 +175,7 @@ if (!auth || !session_check(auth.value)) {
         });
 
         $("#fs-menu").data("kendoTabStrip").select("#<%= current_fs_menu %>");
+        $("#fs-menu-left").data("kendoTabStrip").select("#<%= current_fs_menu_left %>");
     });
 </script>
 </body>

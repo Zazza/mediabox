@@ -22,12 +22,12 @@
     var methods = {
         init: function( options ) {
             $("#splitter").fadeOut();
-            $("#preview").delay(500).fadeIn();
+            $("#image-preview").delay(500).fadeIn();
 
             return this;
         },
         close: function() {
-            $("#preview").fadeOut();
+            $("#image-preview").fadeOut();
             $("#splitter").delay(500).fadeIn();
         },
         loadImg : function( options ) {
@@ -43,7 +43,7 @@
             /**
              * Get image parameters
              */
-            $.ajax({ type: "get", url: 'http://fm/getImageDesc/', data: "id=" + _id, dataType: "JSONP" })
+            $.ajax({ type: "get", url: $("#storage").val() + '/getImageDesc/', data: "id=" + _id, dataType: "JSONP" })
                 .done(function(res) {
                     $.each(res, function(key, value){
                         if (key == "y") {
@@ -57,7 +57,7 @@
                         }
                     });
 
-                    $("<img id='preview-img' width='" + current_width + "' height='" + current_height + "' src='http://fm/get/?id=" + _id + "' />").load(function(){
+                    $("<img id='preview-img' width='" + current_width + "' height='" + current_height + "' src='"+$("#storage").val()+"/get/?id=" + _id + "' />").load(function(){
                         $("#preview-div-img").html(this);
 
                         /**
@@ -270,12 +270,12 @@
             .done(function(res) { $("#image-comments").append($("#image-comment-editor").val()); })
     });
 
-    $("#preview").on("click", "#back", function(){
+    $("#image-preview").on("click", "#back", function(){
         $(this).image("close");
         $("div.current").removeClass("current");
     });
 
-    $("#preview").on("click", "#next", function(){
+    $("#image-preview").on("click", "#next", function(){
         var cur_id = 0; var next = "";
         var imgs = $("div.dfile");
 
@@ -297,7 +297,7 @@
         $("div.current").removeClass("current");
         $(next).addClass("current");
     });
-    $("#preview").on("click", "#prev", function(){
+    $("#image-preview").on("click", "#prev", function(){
         var cur_id = 0; var prev = "";
         var imgs = $("div.dfile");
 
@@ -319,13 +319,13 @@
         $("div.current").removeClass("current");
         $(prev).addClass("current");
     });
-    $("#preview").on("click", "#fullscreen", function(){
+    $("#image-preview").on("click", "#fullscreen", function(){
 
     });
-    $("#preview").on("click", "#zoomIn", function(){
+    $("#image-preview").on("click", "#zoomIn", function(){
 
     });
-   $("#preview").on("click", "#zoomOut", function(){
+   $("#image-preview").on("click", "#zoomOut", function(){
 
     });
 

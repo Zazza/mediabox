@@ -15,7 +15,7 @@
         init: function( options ) {
             var track = this;
 
-            $("#" + mediaElement).attr("src", 'http://fm/get/?id=' + $(track).attr('data-id'));
+            $("#" + mediaElement).attr("src", $("#storage").val() + '/get/?id=' + $(track).attr('data-id'));
             $("#" + mediaElement).attr("type", 'audio/' + $(track).attr('data-ext'));
 
             player = new MediaElement(mediaElement, {
@@ -91,7 +91,7 @@
                 $(track).player("init");
             } else {
                 player.pause();
-                player.setSrc([{ src: 'http://fm/get/?id=' + $(track).attr('data-id'), type: 'audio/' + $(track).attr('data-ext') }]);
+                player.setSrc([{ src: $("#storage").val() + '/get/?id=' + $(track).attr('data-id'), type: 'audio/' + $(track).attr('data-ext') }]);
                 //player.load();
             }
 
