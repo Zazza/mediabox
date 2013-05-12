@@ -325,8 +325,7 @@
     $("#image-preview").on("click", "#zoomIn", function(){
 
     });
-   $("#image-preview").on("click", "#zoomOut", function(){
+    $("#image-preview").on("click", "#zoomOut", function(){
 
     });
-
 })( jQuery );

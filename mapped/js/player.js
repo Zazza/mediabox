@@ -62,12 +62,18 @@
                         $("#current-track-time").text(currentTime);
                     };
                     var onEnd = function() {
-                        var currenttrack = $(".current");
+                        var currenttrack = $(".playlist-track-current");
 
-                        $(".track").removeClass("current");
-                        $(currenttrack).next().addClass("current");
+                        if ($(".fs-track-current").width() > 0) {
+                            $(".fs-track-current").removeClass("icon-pause").addClass("icon-play").removeClass("fs-track-current");
+                        }
 
-                        $(".current").player("load").player("play");
+                        $(".track").removeClass("playlist-track-current");
+                        $(currenttrack).next().addClass("playlist-track-current");
+
+                        if (!$(".playlist-track-current").last()) {
+                            $(".playlist-track-current").player("load").player("play");
+                        }
                     };
 
                     player.addEventListener('progress', onStart);
@@ -100,8 +106,12 @@
         play: function() {
             player.play();
 
+            if ($(".fs-track-current").width() > 0) {
+                $(".fs-track-current").removeClass("icon-play").addClass("icon-pause");
+            }
+
             // Unset bold at playlist tracks
-            $(".track").removeClass("current");
+            $(".track").removeClass("playlist-track-current");
 
             var current = $(".track-play");
             $("i", current).removeClass("icon-play").addClass("icon-pause");
@@ -112,6 +122,10 @@
         pause: function() {
             player.pause();
 
+            if ($(".fs-track-current").width() > 0) {
+                $(".fs-track-current").removeClass("icon-pause").addClass("icon-play");
+            }
+
             var current = $(".track-pause");
             $("i", current).removeClass("icon-pause").addClass("icon-play");
             $(current).removeClass("track-pause").addClass("track-play");
@@ -120,6 +134,10 @@
         stop: function() {
             player.setCurrentTime(0);
             player.pause();
+
+            if ($(".fs-track-current").width() > 0) {
+                $(".fs-track-current").removeClass("icon-pause").addClass("icon-play");
+            }
 
             var current = $(".track-pause");
             $("i", current).removeClass("icon-pause").addClass("icon-play");
@@ -144,7 +162,11 @@ $(document).ready(function() {
     $("#pl-audio").on("dblclick", ".track", function() {
         $(this).player("load").player("play");
 
-        $(this).addClass("current");
+        $(this).addClass("playlist-track-current");
+
+        if ($(".fs-track-current").width() > 0) {
+            $(".fs-track-current").removeClass("fs-track-current").removeClass("icon-pause").addClass("icon-play");
+        }
     });
 
     $("#player-controls").on("click", ".track-play", function(){
@@ -160,26 +182,28 @@ $(document).ready(function() {
     });
 
     $("#player-controls").on("click", "#track-prev", function(){
-        var currenttrack = $(".current");
+        var currenttrack = $(".playlist-track-current");
 
-        $(".track").removeClass("current");
-        $(currenttrack).prev(".track").addClass("current");
+        $(".track").removeClass("playlist-track-current");
+        $(currenttrack).prev(".track").addClass("playlist-track-current");
 
-        $(".current").player("load").player("play");
+        $(".playlist-track-current").player("load").player("play");
     });
 
     $("#player-controls").on("click", "#track-next", function(){
-        var currenttrack = $(".current");
+        var currenttrack = $(".playlist-track-current");
 
-        $(".track").removeClass("current");
-        $(currenttrack).next().addClass("current");
+        $(".track").removeClass("playlist-track-current");
+        $(currenttrack).next().addClass("playlist-track-current");
 
-        $(".current").player("load").player("play");
+        $(".playlist-track-current").player("load").player("play");
     });
 
     $(".droptarget").kendoDropTarget({
         drop: function(e) {
             $("#pl-audio").append("<div class='track' data-ext='"+e.draggable.currentTarget.attr("data-ext")+"' data-id='" + e.draggable.currentTarget.attr("data-id") + "' title='"+e.draggable.currentTarget.attr("title")+"'><div class='track-title'>" + e.draggable.currentTarget.attr("title") + "</div><div class='track-duration'></div></div>");
+
+            $(".droptarget .track:odd").addClass("k-alt");
         }
     });
 

@@ -46,6 +46,18 @@ $(document).ready(function() {
         },
         select: function(e) {
             $.ajax({type:"GET",url:"app/fsMenuLeft/",data:"tab="+e.item.id});
+
+            $(".fs-container-div").hide();
+
+            if (e.item.id == "tab-left-images") {
+                $("#fs_img").show();
+
+                loadImgFs();
+            } else if (e.item.id == "tab-left-fs") {
+                $("#fs").show();
+
+                chdir($("#start_dir").val());
+            }
         }
     });
 
@@ -296,6 +308,8 @@ $(document).ready(function() {
                     }
                 })
 
+                $(".fm_file_li:odd").addClass("k-alt");
+
                 $(".dfile").kendoDraggable({
                     hint: function(e) {
                         return e.clone();
@@ -308,9 +322,72 @@ $(document).ready(function() {
         })
     }
 
-    var splitter = $("#splitter").data("kendoSplitter");
-    //splitter.ajaxRequest("#fs", "fm/chdir/", { id: $("#start_dir").val() });
-    chdir($("#start_dir").val());
+    /**
+     * Image FS
+     */
+    function loadImgFs() {
+        var fs;
+
+        $("#fm_images_structure").html("");
+        $.ajax({ type: "GET", url: 'image/getFsImg/', dataType: "JSON" })
+            .done(function(res) {
+                $.each(res, function(key, value) {
+                    var templateContent = $("#imageTemplate").html();
+                    var template = kendo.template(templateContent);
+
+                    var data = [
+                        { name: value["name"], shortname: value["shortname"], id: value["id"], date: "0000-00-00", size: "0", pre_img: "0", ico: value["ico"], path: $("#storage").val() + "/get/?id=" + value["id"], type: value["type"], data: value["data"], ext: value["ext"] }
+                    ];
+
+                    var result = kendo.render(template, data);
+
+                    $("#fm_images_structure").append(result);
+
+                })
+
+                $(".fm_ajax-loader").hide();
+                $(".swipebox").swipebox();
+            })
+    }
+
+    getTagsAndCrops();
+    function getTagsAndCrops() {
+        $("#imageview #allTags").html("");
+        $.ajax({ type: "GET", url: 'image/getAllTags/', dataType: "JSON" })
+            .done(function(res) {
+                $.each(res, function(key, value) {
+                    $("#imageview #allTags").append("<span class='tagAll k-content'>" + value.tag + "</span> ");
+                });
+
+                $("#imageview #allCrops").html("");
+                $.ajax({ type: "GET", url: 'image/getAllCrops/', dataType: "JSON" })
+                    .done(function(res) {
+                        $.each(res, function(key, value) {
+                            $("#imageview #allCrops").append("<span class='cropAll k-content'>" + value.description + "</span> ");
+                        });
+
+                        $("#imageview").mCustomScrollbar({scrollInertia:150});
+                    })
+            });
+    }
+
+    $("#allTags").on("click", ".tagAll", function(){
+        $.ajax({ type: "GET", url: 'image/selTag/', data: "tag=" + encodeURIComponent($(this).text()) })
+            .done(function(res) {
+                getTagsAndCrops();
+                loadImgFs();
+            })
+    });
+
+    $("#allCrops").on("click", ".cropAll", function(){
+        $.ajax({ type: "GET", url: 'image/selCrop/', data: "crop=" + encodeURIComponent($(this).text()) })
+            .done(function(res) {
+                getTagsAndCrops();
+                loadImgFs();
+            })
+    });
+    // End Image Fs
+
 
     var fs = new kendo.data.HierarchicalDataSource({
         transport: {
@@ -524,6 +601,9 @@ $(document).ready(function() {
         if (type == "image") {
             $(this).image("init").image("loadImg");
         } else if (type == "audio") {
+            $(".fs-track-current").removeClass("fs-track-current").removeClass("icon-pause").addClass("icon-play");
+            $(".icon-play", this).addClass("fs-track-current");
+
             $(this).player("load").player("play");
         } else if (type == "video") {
             $(this).video("init");
@@ -536,12 +616,17 @@ $(document).ready(function() {
  */
 $(".fs-type").css("height", $(window).height() - 65);
 $(".structure").css("height", $(".fs-type").height() - 60);
+$(".structure-img-fs").css("height", $(".fs-type").height() - 30);
+$("#imageview").css("height", $(window).height() - 95);
 $(window).resize(function() {
     $(".fs-type").css("height", $(window).height() - 65);
     $(".structure").css("height", $(".fs-type").height() - 60);
+    $(".structure-img-fs").css("height", $(".fs-type").height() - 30);
+    $("#imageview").css("height", $(window).height() - 95);
 });
 
 $(".structure").mCustomScrollbar({ advanced:{ updateOnContentResize: true }, scrollInertia:150 });
+$(".structure-img-fs").mCustomScrollbar({ advanced:{ updateOnContentResize: true }, scrollInertia:150 });
 $(".adv-menu-div").mCustomScrollbar({ scrollInertia:150 });
 // Left
 function treeviewScroll() {

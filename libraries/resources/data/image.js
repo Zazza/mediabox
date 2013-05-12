@@ -22,6 +22,15 @@ ImageResource = Sincerity.Classes.define(function() {
 
         var action = conversation.locals.get('action')
 
+        var selected_tags = conversation.getCookie("selected_tags")
+        if (!selected_tags) {
+            selected_tags = conversation.createCookie("selected_tags")
+        }
+        var selected_crops = conversation.getCookie("selected_crops")
+        if (!selected_crops) {
+            selected_crops = conversation.createCookie("selected_crops")
+        }
+
         if (action == "setCrop") {
             return setCrop(
                 conversation.query.get("_id"),
@@ -48,6 +57,96 @@ ImageResource = Sincerity.Classes.define(function() {
             );
         } else if (action == "getComments") {
             return getComments(conversation.query.get("id"));
+        } else if (action == "getAllTags") {
+            var allTags = getAllTags(selected_crops, selected_tags)
+
+            var res = Array()
+            var flag
+
+            var selected_tagsArray = JSON.parse(selected_tags.value)
+            for ( var tag in allTags ) {
+                flag = false
+                for ( var key in selected_tagsArray ) {
+                    if (allTags[tag] == decodeURIComponent(selected_tagsArray[key].tag)) {
+                        flag = true
+                    }
+                }
+
+                if (flag) {
+                    res[res.length] = '{"tag": "<b>'+allTags[tag]+'</b>"}'
+                } else {
+                    res[res.length] = '{"tag": "'+allTags[tag]+'"}'
+                }
+            }
+
+            return "[" + res.join(",") + "]"
+        } else if (action == "getAllCrops") {
+            var allCrops = getAllCrops(selected_crops, selected_tags)
+
+            var res = Array()
+            var flag
+
+            var selected_cropsArray = JSON.parse(selected_crops.value)
+            for ( var crop in allCrops ) {
+                flag = false
+                for ( var key in selected_cropsArray ) {
+                    if (allCrops[crop] == decodeURIComponent(selected_cropsArray[key].crop)) {
+                        flag = true
+                    }
+                }
+
+                if (flag) {
+                    res[res.length] = '{"description": "<b>'+allCrops[crop]+'</b>"}'
+                } else {
+                    res[res.length] = '{"description": "'+allCrops[crop]+'"}'
+                }
+            }
+
+            return "[" + res.join(",") + "]"
+        } else if (action == "selTag") {
+            var res = Array()
+            var flag = false
+
+            var selected_tagsArray = JSON.parse(selected_tags.value)
+            for ( var key in selected_tagsArray ) {
+                if (conversation.query.get("tag") == decodeURIComponent(selected_tagsArray[key].tag))
+                    flag = true
+                else
+                    res[res.length] = '{"tag": "'+selected_tagsArray[key].tag+'"}'
+            }
+
+            if (!flag)
+                res[res.length] = '{"tag": "'+encodeURIComponent(conversation.query.get("tag"))+'"}'
+
+            selected_tags.value = "[" + res.join(",") + "]"
+            selected_tags.maxAge = -1
+            selected_tags.path = "/"
+            selected_tags.save()
+
+            return selected_tags.value
+
+        } else if (action == "selCrop") {
+            var res = Array()
+            var flag = false
+
+            var selected_cropsArray = JSON.parse(selected_crops.value)
+            for ( var key in selected_cropsArray ) {
+                if (conversation.query.get("crop") == decodeURIComponent(selected_cropsArray[key].crop))
+                    flag = true
+                else
+                    res[res.length] = '{"crop": "'+selected_cropsArray[key].crop+'"}'
+            }
+            if (!flag)
+                res[res.length] = '{"crop": "'+encodeURIComponent(conversation.query.get("crop"))+'"}'
+
+            selected_crops.value = "[" + res.join(",") + "]"
+            selected_crops.maxAge = -1
+            selected_crops.path = "/"
+            selected_crops.save()
+
+            return selected_crops.value
+        } else if (action == "getFsImg") {
+            return getFsImg(uid_get(), selected_crops, selected_tags)
         }
     }
 

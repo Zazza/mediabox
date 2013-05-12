@@ -111,10 +111,15 @@ if (!auth || !session_check(auth.value)) {
 
     <div id="vertical">
         <div id="fs-container">
-            <div id="fs">
+            <div id="fs" class="fs-container-div" style="display: none;">
                 <!-- files.html -->
                 <%& '/files/' %>
                 <!-- End files.html -->
+            </div>
+            <div id="fs_img" class="fs-container-div" style="display: none;">
+                <!-- images-fs.html -->
+                <%& '/images-fs/' %>
+                <!-- End images-fs.html -->
             </div>
         </div>
     </div>

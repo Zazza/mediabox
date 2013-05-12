@@ -15,6 +15,13 @@
 
             videoPlayer = $(video_element).mediaelementplayer({
                 features: ['playpause','progress','current','duration','tracks','fullscreen'],
+                defaultVideoWidth: 480,
+                // default if the <video height> is not specified
+                defaultVideoHeight: 270,
+                // overrides <video width>
+                pluginWidth: -1,
+                // overrides <video height>
+                pluginHeight: -1
             });
 
             return this;
@@ -42,3 +49,8 @@
     });
 
 })( jQuery );
+
+$(document).ready(function() {
+    $("#video-player").attr("height", $(window).height() - 65);
+    $("#video-player").attr("width", $(window).width() - 15);
+});

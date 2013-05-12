@@ -27,7 +27,7 @@ app.settings = {
 
 app.globals = {
     config: {
-        theme: 'default',
+        theme: 'black',
         baseUrl: '/mediabox/',
         session_limit: 3600,
         session_long_limit: 2592000,
