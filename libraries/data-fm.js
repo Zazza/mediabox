@@ -86,7 +86,11 @@ function getFiles(uid, id) {
 
         var extension = nodes[i]["name"].substring(nodes[i]["name"].lastIndexOf(".")+1)
 
-        files[num_file + i] = '{"id": "'+nodes[i]["_id"]+'", "name": "' + nodes[i]["name"] + '", "shortname": "'+shortname+'", "obj": "file", "type": "'+nodes[i]["type"]+'", "size": "'+nodes[i]["size"]+'", "type": "'+nodes[i]["type"]+'", "ico": "'+ico+'", "data": "'+ico+'", "ext": "'+extension+'"}';
+        if (nodes[i]["type"] == "image") {
+            files[num_file + i] = '{"id": "'+nodes[i]["_id"]+'", "name": "' + nodes[i]["name"] + '", "shortname": "'+shortname+'", "obj": "file", "type": "'+nodes[i]["type"]+'", "size": "'+nodes[i]["size"]+'", "type": "'+nodes[i]["type"]+'", "ico": "'+ico+'", "data": "fm/getThumb/?name='+nodes[i]["_id"]+'", "ext": "'+extension+'"}';
+        } else {
+            files[num_file + i] = '{"id": "'+nodes[i]["_id"]+'", "name": "' + nodes[i]["name"] + '", "shortname": "'+shortname+'", "obj": "file", "type": "'+nodes[i]["type"]+'", "size": "'+nodes[i]["size"]+'", "type": "'+nodes[i]["type"]+'", "ico": "'+ico+'", "data": "'+ico+'", "ext": "'+extension+'"}';
+        }
     }
 
     if (files.length > 0) {
@@ -133,7 +137,8 @@ function uploadFile(uid, filename, size, extension, id) {
 function uploadThumb(id, data) {
     var collection = db.getCollection('files')
 
-    var update = {$push: {data: data}}
+    //var update = {$push: {data: data}}
+    var update = {$push: {data: { $binary: data }}}
 
     collection.update(BSON.to({_id: {$oid: id}}), BSON.to(update), false, false)
 
@@ -146,7 +151,8 @@ function getThumb(uid, filename) {
     var query = {uid: uid, _id: {$oid: filename}}
     var file = BSON.from(collection.findOne(BSON.to(query)));
 
-    return file.data.toString()
+    var b = org.bson.types.Binary(file.data[0]);
+    return b.data
 }
 
 function getType(uid, id) {

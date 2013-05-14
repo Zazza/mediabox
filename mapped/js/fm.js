@@ -117,8 +117,8 @@ $(document).ready(function() {
         window.loadImage(
             file.rawFile,
             function (img) {
-/*
-                if (img.toBlob) {
+
+/*                if (img.toBlob) {
                     img.toBlob(
                         function (blob) {
                             var uri = 'thumb/' + id + '/';
@@ -130,7 +130,7 @@ $(document).ready(function() {
                     );
                 }
 */
-               $.ajax({ type: "POST", url: 'thumb/' + id + '/', data: img.toDataURL() })
+               $.ajax({ type: "POST", url: 'thumb/' + id + '/', data: img.toDataURL().replace(/data:image\/png;base64,/, '') })
             },
             {
                 maxHeight: 80,
@@ -271,7 +271,7 @@ $(document).ready(function() {
                             var template = kendo.template(templateContent);
 
                             var data = [
-                                { name: value["name"], shortname: value["shortname"], id: value["id"], date: "0000-00-00", size: "0", pre_img: "0", ico: value["ico"], path: $("#storage").val() + "/get/?id=" + value["id"], type: type, data: value["data"], ext: value["ext"] }
+                                { name: value["name"], shortname: value["shortname"], id: value["id"], date: "0000-00-00", size: "0", pre_img: "0", ico: value["ico"], path: $("#storage").val() + "/get/?id=" + value["id"], type: type, ext: value["ext"] }
                             ];
 
                             var result = kendo.render(template, data);

@@ -108,6 +108,7 @@ FmResource = Sincerity.Classes.define(function() {
         } else if (action == "remove") {
             return removeFile(uid_get(), conversation.query.get("file"), current_directory.value);
         } else if (action == "getThumb") {
+            conversation.mediaTypeName = "image/png"
             return getThumb(uid_get(), conversation.query.get("name"));
         } else if (action == "buffer") {
             if (buffer)
