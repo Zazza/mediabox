@@ -83,3 +83,5 @@ a:hover {color: black;}
 #image-comment-form {overflow: hidden; margin: 10px 0;}
 #image-comment-editor {width:740px; height:200px}
 #image-comment-save {margin: 5px 0;}
+
+#preview-div-img {margin-top: 10px; text-align: center;}

@@ -72,6 +72,31 @@ $(document).ready(function() {
         }
     });
 
+    window.onload = function() {
+        var dropzone = document.getElementById("adv-menu-upload");
+        dropzone.ondragover = dropzone.ondragenter = function(event) {
+            event.stopPropagation();
+            event.preventDefault();
+        }
+
+        dropzone.ondrop = function(event) {
+            event.stopPropagation();
+            event.preventDefault();
+
+            var filesArray = event.dataTransfer.files;
+            for (var i=0; i<filesArray.length; i++) {
+                var file = {
+                    "name": filesArray[i]["name"],
+                    "size": filesArray[i]["size"],
+                    "extension": filesArray[i]["name"].substr(filesArray[i]["name"].lastIndexOf('.')),
+                    "rawFile": filesArray[i]
+                };
+
+                upload(file);
+            }
+        }
+    }
+
     function sendFile(id, file) {
         var uri = $("#storage").val() + "/save/";
         var xhr = new XMLHttpRequest();
@@ -117,20 +142,7 @@ $(document).ready(function() {
         window.loadImage(
             file.rawFile,
             function (img) {
-
-/*                if (img.toBlob) {
-                    img.toBlob(
-                        function (blob) {
-                            var uri = 'thumb/' + id + '/';
-                            var xhr = new XMLHttpRequest();
-                            xhr.open("POST", uri, true)
-                            xhr.send(blob);
-                        },
-                        'image/jpeg'
-                    );
-                }
-*/
-               $.ajax({ type: "POST", url: 'thumb/' + id + '/', data: img.toDataURL().replace(/data:image\/png;base64,/, '') })
+                $.ajax({ type: "POST", url: 'thumb/' + id + '/', data: img.toDataURL().replace(/data:image\/png;base64,/, '') });
             },
             {
                 maxHeight: 80,
@@ -144,23 +156,23 @@ $(document).ready(function() {
         var _id;
         var file;
 
-            $.ajax({ type: "GET", url: 'fm/upload/', dataType: "JSON", data: "file=" + file.name + "&size=" + file.size + "&extension=" + file.extension.substr(1)})
-                .done(function(res) {
-                    $.each(res, function(key, value) {
-                        if (key == "type") {
-                            type = value;
-                        }
-                        if (key == "_id") {
-                            _id = value;
-                        }
-                    });
-
-                    if (sendFile(_id, file.rawFile)) {
-                        if (type == "image") {
-                            addThumb(file, _id);
-                        }
+        $.ajax({ type: "GET", url: 'fm/upload/', dataType: "JSON", data: "file=" + file.name + "&size=" + file.size + "&extension=" + file.extension.substr(1)})
+            .done(function(res) {
+                $.each(res, function(key, value) {
+                    if (key == "type") {
+                        type = value;
                     }
-                })
+                    if (key == "_id") {
+                        _id = value;
+                    }
+                });
+
+                if (sendFile(_id, file.rawFile)) {
+                    if (type == "image") {
+                        addThumb(file, _id);
+                    }
+                }
+            })
     }
 
     function remove(e) {
@@ -189,32 +201,6 @@ $(document).ready(function() {
             .done(function(res) {
                 //!!! Remove folders from fs structure
             });
-    }
-
-
-    window.onload = function() {
-        var dropzone = document.getElementById("adv-menu-upload");
-        dropzone.ondragover = dropzone.ondragenter = function(event) {
-            event.stopPropagation();
-            event.preventDefault();
-        }
-
-        dropzone.ondrop = function(event) {
-            event.stopPropagation();
-            event.preventDefault();
-
-            var filesArray = event.dataTransfer.files;
-            for (var i=0; i<filesArray.length; i++) {
-                var file = {
-                    "name": filesArray[i]["name"],
-                    "size": filesArray[i]["size"],
-                    "extension": filesArray[i]["name"].substr(filesArray[i]["name"].lastIndexOf('.')),
-                    "rawFile": filesArray[i]
-                };
-
-                upload(file);
-            }
-        }
     }
 
     $("#splitter").kendoSplitter({

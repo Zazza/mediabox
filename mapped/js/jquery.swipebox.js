@@ -55,6 +55,13 @@
                 ui.init(index);
             });
 
+            $("#fullscreen").click(function(e){
+                e.preventDefault();
+                e.stopPropagation();
+                index = $(".current").index(".dfile");
+                ui.init(index);
+            });
+
 		}
 
 		var ui = {

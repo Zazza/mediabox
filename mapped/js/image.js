@@ -43,13 +43,13 @@
             /**
              * Get image parameters
              */
-            $.ajax({ type: "get", url: $("#storage").val() + '/getImageDesc/', data: "id=" + _id, dataType: "JSONP" })
+            $.ajax({ type: 'get', url: $('#storage').val() + '/getImageDesc/', data: 'id=' + _id, dataType: 'JSONP' })
                 .done(function(res) {
                     $.each(res, function(key, value){
                         if (key == "y") {
                             original_height = value;
-                            per = original_height / ($(window).height() - 170);
-                            current_height = $(window).height() - 170;
+                            per = original_height / ($(window).height() - 140);
+                            current_height = $(window).height() - 140;
                         }
                         if (key == "x") {
                             original_width = value;
@@ -57,7 +57,14 @@
                         }
                     });
 
-                    $("<img id='preview-img' width='" + current_width + "' height='" + current_height + "' src='"+$("#storage").val()+"/get/?id=" + _id + "' />").load(function(){
+                    $("#preview-div-img").width(current_width);
+                    $("#preview-div-img").height(current_height);
+                    $("#preview-div-img").addClass("k-widget");
+                    var margintop = current_height/2 - 32;
+                    $("#preview-div-img").html("<img src='img/ajax-loader-image.png' style='margin-top: "+margintop+"px;' />");
+
+                    var loadImage = "<img id='preview-img' width='" + current_width + "' height='" + current_height + "' src='"+$("#storage").val()+"/get/?id=" + _id +"' />";
+                    $(loadImage).load(function(){
                         $("#preview-div-img").html(this);
 
                         /**
@@ -117,7 +124,10 @@
                                 })
                             })
                     });
-                });
+                })
+                //.error(function(res) { alert('gf');
+                //    $("#preview-div-img").html('<div class="fm_sellabel k-block k-error-colored">Error load image</div>');
+                //});
         },
         preview : function( options ) {
             var xmlhttp;
