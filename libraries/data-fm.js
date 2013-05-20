@@ -34,7 +34,7 @@ function hasChildren(id) {
 function addFolder(uid, name, parent) {
     var collection = db.getCollection('fs')
 
-    var doc = {uid: uid, name: name, parent: parent}
+    var doc = {uid: uid, name: name, parent: parent, timestamp: new Date()}
     collection.insert(BSON.to(doc))
 }
 
@@ -45,25 +45,29 @@ function getFile(uid, id) {
     return BSON.from(collection.findOne(BSON.to(query)));
 }
 
-function getFiles(uid, id) {
+function getFiles(uid, id, type) {
     var files = new Array();
 
-    // Get Dirs
-    var collection = db.getCollection('fs')
+    if (type == "all") {
+        // Get Dirs
+        var collection = db.getCollection('fs')
 
-    var query = {uid: uid, parent: id.toString()}
-    var nodes = BSON.from(collection.find(BSON.to(query)).toArray());
+        var query = {uid: uid, parent: id.toString()}
+        var nodes = BSON.from(collection.find(BSON.to(query)).toArray());
 
-    var num_file = nodes.length;
-
-    for (var i = 0; i < nodes.length; i++) {
-        files[i] = '{"name": "' + nodes[i]["name"] + '", "id": "'+nodes[i]["_id"]+'", "obj": "folder"}';
+        for (var i = 0; i < nodes.length; i++) {
+            files[files.length] = '{"obj": "folder", "name": "' + nodes[i]["name"] + '", "id": "'+nodes[i]["_id"]+'", "date": "'+nodes[i]["timestamp"]+'"}';
+        }
     }
 
     // Get Files
     var collection = db.getCollection('files')
 
-    var query = {uid: uid, parent: id.toString()}
+    if (type == "all") {
+        var query = {uid: uid, parent: id.toString()}
+    } else {
+        var query = {uid: uid, parent: id.toString(), type: type}
+    }
     var nodes = BSON.from(collection.find(BSON.to(query)).toArray());
 
     var ico
@@ -87,16 +91,16 @@ function getFiles(uid, id) {
         var extension = nodes[i]["name"].substring(nodes[i]["name"].lastIndexOf(".")+1)
 
         if (nodes[i]["type"] == "image") {
-            files[num_file + i] = '{"id": "'+nodes[i]["_id"]+'", "name": "' + nodes[i]["name"] + '", "shortname": "'+shortname+'", "obj": "file", "type": "'+nodes[i]["type"]+'", "size": "'+nodes[i]["size"]+'", "type": "'+nodes[i]["type"]+'", "ico": "'+ico+'", "data": "fm/getThumb/?name='+nodes[i]["_id"]+'", "ext": "'+extension+'"}';
+            files[files.length] = '{"id": "'+nodes[i]["_id"]+'", "name": "' + nodes[i]["name"] + '", "shortname": "'+shortname+'", "obj": "file", "type": "'+nodes[i]["type"]+'", "size": "'+nodes[i]["size"]+'", "date": "' + nodes[i]["timestamp"] + '", "ico": "'+ico+'", "src": "fm/getThumb/?name='+nodes[i]["_id"]+'", "ext": "'+extension+'"}';
         } else {
-            files[num_file + i] = '{"id": "'+nodes[i]["_id"]+'", "name": "' + nodes[i]["name"] + '", "shortname": "'+shortname+'", "obj": "file", "type": "'+nodes[i]["type"]+'", "size": "'+nodes[i]["size"]+'", "type": "'+nodes[i]["type"]+'", "ico": "'+ico+'", "data": "'+ico+'", "ext": "'+extension+'"}';
+            files[files.length] = '{"id": "'+nodes[i]["_id"]+'", "name": "' + nodes[i]["name"] + '", "shortname": "'+shortname+'", "obj": "file", "type": "'+nodes[i]["type"]+'", "size": "'+nodes[i]["size"]+'", "date": "' + nodes[i]["timestamp"] + '", "ico": "'+ico+'", "src": "'+ico+'", "ext": "'+extension+'"}';
         }
     }
 
     if (files.length > 0) {
-        return "[" + files.join(",") + "," + getType(uid, id) + "]";
+        return "[" + files.join(",") + "]";
     } else {
-        return "[" + getType(uid, id) + "]";
+        return "[]";
     }
 }
 
@@ -128,10 +132,27 @@ function uploadFile(uid, filename, size, extension, id) {
     var collection = db.getCollection('files')
 
     var type = get_type(extension)
-    var doc = BSON.to({uid: uid, parent: id, name: filename, size: size, type: type})
+    var doc = BSON.to({uid: uid, parent: id, name: filename, size: size, type: type, timestamp: new Date()})
     collection.insert(doc)
 
-    return '{"_id": "' + doc.get('_id') + '", "type": "'+type+'"}'
+    // return json
+    if (application.globals.get('mediaTypes.' + type)) {
+        ico = application.globals.get('mediaTypes.' + type)
+    } else {
+        ico = application.globals.get('mediaTypes.any')
+    }
+
+    if (filename.length > 20) {
+        shortname = filename.substring(0, 10) + ".." + filename.substring(filename.lastIndexOf(".")-1)
+    } else {
+        shortname = filename
+    }
+
+    if (type == "image") {
+        return '{"id": "'+doc.get('_id')+'", "name": "' + filename + '", "shortname": "'+shortname+'", "obj": "file", "type": "'+type+'", "size": "'+size+'", "date": "' + new Date() + '", "ico": "'+ico+'", "src": "fm/getThumb/?name='+doc.get('_id')+'", "ext": "'+extension+'"}';
+    } else {
+        return '{"id": "'+doc.get('_id')+'", "name": "' + filename + '", "shortname": "'+shortname+'", "obj": "file", "type": "'+type+'", "size": "'+size+'", "date": "' + new Date() + '", "ico": "'+ico+'", "src": "'+ico+'", "ext": "'+extension+'"}';
+    }
 }
 
 function uploadThumb(id, data) {
@@ -166,7 +187,7 @@ function getType(uid, id) {
     type["all"] = 0
     type["image"] = 0
     type["video"] = 0
-    type["music"] = 0
+    type["audio"] = 0
 
     for (var i = 0; i < files.length; i++) {
         if (typeof(files[i]["type"]) == "string") {
@@ -177,14 +198,14 @@ function getType(uid, id) {
                 type["video"]++
             }
             if (files[i]["type"] == "audio") {
-                type["music"]++
+                type["audio"]++
             }
 
             type["all"]++;
         }
     }
 
-    return '{"obj": "type", "all": "'+type["all"]+'", "image": "'+type["image"]+'", "video": "'+type["video"]+'", "music": "'+type["music"]+'"}';
+    return '{"all": "'+type["all"]+'", "image": "'+type["image"]+'", "video": "'+type["video"]+'", "audio": "'+type["audio"]+'"}';
 }
 
 function removeFile(uid, filename, parent_id) {

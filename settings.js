@@ -31,8 +31,8 @@ app.globals = {
         baseUrl: '/mediabox/',
         session_limit: 3600,
         session_long_limit: 2592000,
-        //storage: 'http://fm'
-        storage: 'http://tushkan.com/fm'
+        storage: 'http://fm'
+        //storage: 'http://tushkan.com/fm'
     },
     mediaTypes: {
         image: 'img/ftypes/image.png',

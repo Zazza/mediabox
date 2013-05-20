@@ -1,105 +1,16 @@
+<!-- header.html -->
+<%& '/page/header/' %>
+<!-- END header.html -->
+
 <%
-    document.execute('/data-auth/')
-
-    var auth = conversation.getCookie("auth")
-    var current_directory = conversation.getCookie("current_directory")
-    var theme = conversation.getCookie("theme")
-    var fsMenu = conversation.getCookie("fs_menu")
-    var fsMenuLeft = conversation.getCookie("fs_menu_left")
-    var volume = conversation.getCookie("volume")
-    var storage =  application.globals.get('config.storage')
-
-    if (theme)
-        var current_theme = theme.value
-    else
-        var current_theme = application.globals.get('config.theme')
-
-    if (fsMenu)
-        var current_fs_menu = fsMenu.value
-    else
-        var current_fs_menu = "tab-all"
-
-    if (fsMenuLeft)
-        var current_fs_menu_left = fsMenuLeft.value
-    else
-        var current_fs_menu_left = "tab-left-fs"
-
-    if (current_directory)
-        var startdir = current_directory.value
-    else
-        var startdir = 0
-
-    if (volume)
-        var volume_level = volume.value
-    else
-        var volume_level = 50
-
-var view = "icon"
-
-
 if (!auth || !session_check(auth.value)) {
+    print('<meta http-equiv="refresh" content="0;URL='+application.globals.get('config.baseUrl')+'login/" />')
+} else {
 %>
-<!-- login.html -->
-<%& '/login/' %>
-<!-- END login.html -->
-<% } else { %>
 
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/html">
-<head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Multimedia Filemanager</title>
-    <link href="<%= application.globals.get('config.baseUrl') %>kendo/styles/kendo.common.min.css" rel="stylesheet" type="text/css" />
-    <link href="<%= application.globals.get('config.baseUrl') %>kendo/styles/kendo.<%= current_theme %>.min.css" rel="stylesheet" type="text/css" />
-    <link href="<%= application.globals.get('config.baseUrl') %>css/bootstrap.min.css" rel="stylesheet" media="screen" />
-    <link href="<%= application.globals.get('config.baseUrl') %>css/bootstrap-wysihtml5.css" rel="stylesheet" type="text/css" />
-    <link href="<%= application.globals.get('config.baseUrl') %>css/jquery.fileupload-ui.css" rel="stylesheet" media="screen" />
-    <link href="<%= application.globals.get('config.baseUrl') %>css/jquery.mCustomScrollbar.css" rel="stylesheet" type="text/css" />
-    <link href="<%= application.globals.get('config.baseUrl') %>css/swipebox.css" rel="stylesheet" type="text/css" />
-    <link href="<%= application.globals.get('config.baseUrl') %>css/whhg.css" rel="stylesheet" type="text/css" />
-    <link href="<%= application.globals.get('config.baseUrl') %>css/style.css" rel="stylesheet" media="screen">
-    <link href="<%= application.globals.get('config.baseUrl') %>css/jquery.Jcrop.min.css" rel="stylesheet" media="screen" />
-    <script src="<%= application.globals.get('config.baseUrl') %>kendo/jquery.min.js"></script>
-
-    <script src="<%= application.globals.get('config.baseUrl') %>js/mediaelement-and-player.min.js"></script>
-    <link href="<%= application.globals.get('config.baseUrl') %>css/mediaelement/mediaelementplayer.css" rel="stylesheet" type="text/css" />
-</head>
-<body class="k-content">
-<div id="header">
-    <ul id="main-menu">
-        <li id="home"><i style="margin-right: 4px; font-size: 14px;" class="icon-legacyfilemanager"></i><span>File Manager</span></li>
-        <li id="profile"><i style="margin-right: 4px; font-size: 14px;" class="icon-user"></i><span>Profile</span></li>
-        <li class="advanced-panel-show" id="settings"><i style="margin-right: 4px; font-size: 14px;" class="icon-settingstwo-gearalt"></i><span>Settings</span></li>
-        <li id="logout"><i style="margin-right: 4px; font-size: 14px;" class="icon-exit"></i><span>Logout</span></li>
-
-        <li class="advanced-panel-show" id="playlist" style="float: right; padding: 0 5px;"><i style="font-size: 12px; margin-right: 5px;" class="icon-list"></i><span>Playlist</span></li>
-        <li style="float: right; margin-right: 5px;">
-            <i style="font-size: 14px;" class="icon-volume-up" title="Volume" /></i>
-
-            <ul>
-                <li>
-                    <input id="volume" style="width: 10px; margin: 10px 0 10px 7px; padding: 0;" />
-                </li>
-            </ul>
-        </li>
-        <li style="float: right; margin-right: 10px;">
-            <div style="overflow: hidden;" id="player-controls">
-                <audio id="mediaElement" src="" type="" style="display: none;"></audio>
-
-                <div id="current-track" class="k-block" style="float: left;">&nbsp;</div>
-                <div id="current-track-duration" class="k-block" style="float: left;">&nbsp;</div>
-
-                <div style="float: left;" id="track-prev"><i class="icon-step-backward" style="margin-right: 10px;"></i></div>
-                <div style="float: left;" class="track-play"><i class="icon-play" style="margin-right: 10px;"></i></div>
-                <div style="float: left;" id="track-stop"><i class="icon-stop" style="margin-right: 10px;"></i></div>
-                <div style="float: left;" id="track-next"><i class="icon-step-forward" style="margin-right: 10px;"></i></div>
-
-                <div id="track-slider" style="float: left; height: 26px; margin-right: 10px;"><input class="slider" style="width: 174px;" /></div>
-                <div id="current-track-time" style="float: left; margin-right: 10px;">0:00</div>
-            </div>
-        </li>
-    </ul>
-</div>
+<!-- top-menu.html -->
+<%& '/page/top-menu/' %>
+<!-- END top-menu.html -->
 
 <div id="splitter">
 
@@ -145,44 +56,10 @@ if (!auth || !session_check(auth.value)) {
 <%& '/video-preview/' %>
 <!-- End video-preview.html -->
 
+<!-- footer.html -->
+<%& '/page/footer/' %>
+<!-- END footer.html -->
 
-<div id="fileRes" style="display: none;"><input type="text" id="fullurl" onclick="$(this).select()" style="width: 400px;"></div>
-
-<input type="hidden" id="start_dir" value="<%= startdir %>" />
-<input type="hidden" id="storage" value="<%= storage %>" />
-<input type="hidden" id="volume-level" value="<%= volume_level %>" />
-<input type="hidden" id="buffer_count" value="" />
-<input type="hidden" id="viewMode" value="<%= view %>" />
-<input type="hidden" id="x1" />
-<input type="hidden" id="x2" />
-<input type="hidden" id="y1" />
-<input type="hidden" id="y2" />
-
-<script src="<%= application.globals.get('config.baseUrl') %>kendo/kendo.web.min.js"></script>
-<script src="<%= application.globals.get('config.baseUrl') %>js/load-image.min.js"></script>
-<script src="<%= application.globals.get('config.baseUrl') %>js/jquery.Jcrop.min.js"></script>
-<script src="<%= application.globals.get('config.baseUrl') %>js/bootstrap.min.js"></script>
-<script src="<%= application.globals.get('config.baseUrl') %>js/wysihtml5-0.3.0.min.js"></script>
-<script src="<%= application.globals.get('config.baseUrl') %>js/bootstrap-wysihtml5.js"></script>
-<script src="<%= application.globals.get('config.baseUrl') %>js/jquery.mCustomScrollbar.concat.min.js"></script>
-<script src="<%= application.globals.get('config.baseUrl') %>js/jquery.Jcrop.min.js"></script>
-<script src="<%= application.globals.get('config.baseUrl') %>js/jquery.mousewheel-3.0.6.pack.js"></script>
-<script src="<%= application.globals.get('config.baseUrl') %>js/jquery.swipebox.js"></script>
-<script src="<%= application.globals.get('config.baseUrl') %>js/image.js"></script>
-<script src="<%= application.globals.get('config.baseUrl') %>js/player.js"></script>
-<script src="<%= application.globals.get('config.baseUrl') %>js/video.js"></script>
-<script src="<%= application.globals.get('config.baseUrl') %>js/fm.js"></script>
-<script>
-    $(document).ready(function() {
-        var ths = $("#theme-selector").data("kendoDropDownList");
-        ths.select(function(dataItem) {
-            return dataItem.value === "<%= current_theme %>";
-        });
-
-        $("#fs-menu").data("kendoTabStrip").select("#<%= current_fs_menu %>");
-        $("#fs-menu-left").data("kendoTabStrip").select("#<%= current_fs_menu_left %>");
-    });
-</script>
-</body>
-</html>
-<% } %>
+<%
+}
+%>

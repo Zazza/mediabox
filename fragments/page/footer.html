@@ -1,0 +1,37 @@
+<div id="fileRes" style="display: none;"><input type="text" id="fullurl" onclick="$(this).select()" style="width: 400px;"></div>
+
+<input type="hidden" id="start_dir" value="<%= startdir %>" />
+<input type="hidden" id="storage" value="<%= storage %>" />
+<input type="hidden" id="volume-level" value="<%= volume_level %>" />
+<input type="hidden" id="buffer_count" value="" />
+<input type="hidden" id="fsMenu" value="<%= current_fs %>" />
+<input type="hidden" id="x1" />
+<input type="hidden" id="x2" />
+<input type="hidden" id="y1" />
+<input type="hidden" id="y2" />
+
+<script src="<%= application.globals.get('config.baseUrl') %>js/jquery-ui-1.10.3.custom.min.js"></script>
+<script src="<%= application.globals.get('config.baseUrl') %>kendo/kendo.web.min.js"></script>
+<script src="<%= application.globals.get('config.baseUrl') %>js/load-image.min.js"></script>
+<script src="<%= application.globals.get('config.baseUrl') %>js/jquery.Jcrop.min.js"></script>
+<script src="<%= application.globals.get('config.baseUrl') %>js/bootstrap.min.js"></script>
+<script src="<%= application.globals.get('config.baseUrl') %>js/jquery.mCustomScrollbar.concat.min.js"></script>
+<script src="<%= application.globals.get('config.baseUrl') %>js/jquery.Jcrop.min.js"></script>
+<script src="<%= application.globals.get('config.baseUrl') %>js/jquery.mousewheel-3.0.6.pack.js"></script>
+<script src="<%= application.globals.get('config.baseUrl') %>js/jquery.swipebox.js"></script>
+<script>var baseUrl = "<%= application.globals.get('config.baseUrl') %>";</script>
+<script src="<%= application.globals.get('config.baseUrl') %>js/mediabox-fm.js"></script>
+<script src="<%= application.globals.get('config.baseUrl') %>js/mediabox-image.js"></script>
+<script src="<%= application.globals.get('config.baseUrl') %>js/mediabox-player.js"></script>
+<script src="<%= application.globals.get('config.baseUrl') %>js/mediabox-video.js"></script>
+<script src="<%= application.globals.get('config.baseUrl') %>js/mediabox-kendo.js"></script>
+<script src="<%= application.globals.get('config.baseUrl') %>js/mediabox-image-fs.js"></script>
+<script src="<%= application.globals.get('config.baseUrl') %>js/mediabox-uploader.js"></script>
+<script>
+    $(document).ready(function() {
+        $("#fs-menu").data("kendoTabStrip").select("#tab-<%= current_fs %>");
+        $("#fs-menu-left").data("kendoTabStrip").select("#<%= current_fs_menu_left %>");
+    });
+</script>
+</body>
+</html>

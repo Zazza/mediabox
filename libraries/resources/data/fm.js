@@ -82,6 +82,16 @@ FmResource = Sincerity.Classes.define(function() {
          }
          */
         var current_directory = conversation.getCookie("current_directory");
+        if (!current_directory) {
+            current_directory = conversation.createCookie("current_directory")
+        }
+
+        if (conversation.query.get("id")) {
+            current_directory.value = conversation.query.get("id")
+            current_directory.maxAge = -1
+            current_directory.path = "/"
+            current_directory.save()
+        }
 
         if (action == "fs") {
             var id = conversation.query.get("id")
@@ -90,17 +100,10 @@ FmResource = Sincerity.Classes.define(function() {
             }
 
             return fs(uid_get(), id);
+        } else if (action == "getTypesNum") {
+            return getType(uid_get(), conversation.query.get("id"));
         } else if (action == "chdir") {
-            if (!current_directory) {
-                current_directory = conversation.createCookie("current_directory")
-            }
-
-            current_directory.value = conversation.query.get("id")
-            current_directory.maxAge = -1
-            current_directory.path = "/"
-            current_directory.save()
-
-            return getFiles(uid_get(), conversation.query.get("id"));
+            return getFiles(uid_get(), conversation.query.get("id"), conversation.query.get("type"));
         } else if (action == "upload") {
             return uploadFile(uid_get(), conversation.query.get("file"), conversation.query.get("size"), conversation.query.get("extension"), current_directory.value);
         } else if (action == "create") {

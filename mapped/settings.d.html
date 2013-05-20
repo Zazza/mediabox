@@ -1,0 +1,121 @@
+<!-- header.html -->
+<%& '/page/header/' %>
+<!-- END header.html -->
+
+<%
+if (!auth || !session_check(auth.value)) {
+print('<meta http-equiv="refresh" content="0;URL='+application.globals.get('config.baseUrl')+'login/" />')
+} else {
+%>
+
+<!-- top-menu.html -->
+<%& '/page/top-menu/' %>
+<!-- END top-menu.html -->
+
+<div class="fm-body">
+
+    <form class="form-horizontal">
+        <div class="control-group">
+            <label class="control-label">Theme</label>
+            <div class="controls">
+                <div id="theme-selector"></div>
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">JS Effects</label>
+            <div class="controls">
+                <div id="js-effects-selector"></div>
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">Rate Limit</label>
+            <div class="controls">
+                <div id="rate-selector"></div>
+            </div>
+        </div>
+    </form>
+
+    <div id="advanced-panel" class="k-header">
+        <div id="advanced-panel-left" class="k-content" style="float: left; width: 0;">
+
+            <!-- advanced.html -->
+            <%& '/advanced/' %>
+            <!-- End advanced.html -->
+
+        </div>
+    </div>
+
+</div>
+
+<script>
+    $(document).ready(function() {
+        var themes_data = [
+            { text: "Black", value: "black" },
+            { text: "Blueopal", value: "blueopal" },
+            { text: "Bootstrap", value: "bootstrap" },
+            { text: "Default", value: "default" },
+            { text: "Highcontrast", value: "highcontrast" },
+            { text: "Metroblack", value: "metroblack" },
+            { text: "Metro", value: "metro" },
+            { text: "Moonlight", value: "moonlight" },
+            { text: "Silver", value: "silver" },
+            { text: "Uniform", value: "uniform" }
+        ];
+
+        var boolean_data = [
+            { text: "Yes", value: "true" },
+            { text: "No", value: "false" }
+        ]
+
+        var rate_data = [
+            { text: "512kbit/s", value: "512" },
+            { text: "1Mbit/s", value: "1024" }
+        ]
+
+        var themes = $("#theme-selector").kendoDropDownList({
+            dataTextField: "text",
+            dataValueField: "value",
+            dataSource: themes_data,
+            index: 0,
+            change: function(e) {
+                $.ajax({ type: "GET", url: baseUrl + "app/theme/", data: "theme=" + themes.data("kendoDropDownList").value() })
+                        .done(function(res) {
+                            location.reload();
+                        })
+            }
+        });
+
+        var boolean = $("#js-effects-selector").kendoDropDownList({
+            dataTextField: "text",
+            dataValueField: "value",
+            dataSource: boolean_data,
+            index: 0,
+            change: function(e) {
+                //Save changes
+            }
+        });
+
+        var rate = $("#rate-selector").kendoDropDownList({
+            dataTextField: "text",
+            dataValueField: "value",
+            dataSource: rate_data,
+            index: 0,
+            change: function(e) {
+                //Save changes
+            }
+        });
+
+        var ths = $("#theme-selector").data("kendoDropDownList");
+        ths.select(function(dataItem) {
+            return dataItem.value === "<%= current_theme %>";
+        });
+    });
+</script>
+
+<!-- footer.html -->
+<%& '/page/footer/' %>
+<!-- END footer.html -->
+
+<%
+}
+%>

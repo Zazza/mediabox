@@ -1,5 +1,6 @@
 html, body {font-family: Verdana, sans-serif; font-size: 11px; font-style: normal; line-height: normal; font-weight: normal; font-variant: normal; height:100%; margin:0; padding:0; overflow:hidden; min-width: 1000px;}
 
+.fm-body{margin: 20px;}
 /*
 a {color: white;}
 a:hover {color: black;}
@@ -66,7 +67,6 @@ a:hover {color: black;}
 .track:hover{background-color: #777;}
 .track-title {max-width: 140px; height: 18px; float: left;}
 .track-duration {float: right;}
-.current{font-weight: bold;}
 
 #pl-audio {bottom: 10px; position: fixed; top: 45px; width: 180px;}
 
@@ -78,10 +78,10 @@ a:hover {color: black;}
 
 .image-crop, .image-tag, .tagAll, .cropAll {margin: 2px 4px; font-size: 10px;}
 .image-crop, .tagAll, .cropAll {cursor: pointer;}
-#image-cloud {padding: 14px 10px;}
 
 #image-comment-form {overflow: hidden; margin: 10px 0;}
 #image-comment-editor {width:740px; height:200px}
 #image-comment-save {margin: 5px 0;}
 
 #preview-div-img {margin-top: 10px; text-align: center;}
+#image-meta > div {margin-left: 10px;margin-bottom: 10px;}

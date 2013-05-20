@@ -48,7 +48,7 @@
 				ui.init(index);
 			});
 			*/
-            $("#slideshow").click(function(e){
+            $(".slideshow").click(function(e){
                 e.preventDefault();
                 e.stopPropagation();
                 index = $elem.index(0);
@@ -56,10 +56,7 @@
             });
 
             $("#fullscreen").click(function(e){
-                e.preventDefault();
-                e.stopPropagation();
-                index = $(".current").index(".dfile");
-                ui.init(index);
+                ui.fullscreen();
             });
 
 		}
@@ -118,7 +115,8 @@
 
 				$this.setDim();
 				$this.actions();
-				$this.keyboard();
+				//$this.keyboard();
+                bindSwipebox($this);
 				$this.gesture();
 				$this.animBars();
 
@@ -283,7 +281,7 @@
 				});
 			},
 
-			keyboard : function(){
+			/*keyboard : function(){
 				var $this = this;
 				$(window).bind('keyup', function(e){
 					e.preventDefault();
@@ -298,7 +296,7 @@
 						$this.closeSlide();
 					}
 				});
-			},
+			},*/
 
 			actions : function(){
 				var $this = this;
@@ -426,6 +424,10 @@
 				}
 			},
 
+            fullscreen : function (){
+                index = $(".current").index(".dfile");
+                ui.init(index);
+            },
 
 			closeSlide : function (){
 				var $this = this;
@@ -435,6 +437,8 @@
 					$('#swipebox-overlay').removeClass('visible');
 					$this.destroy();	
 				}, 1000);
+
+                unbindSwipebox();
 
 			},
 
@@ -460,5 +464,25 @@
 			this.data('_swipebox', swipebox);
 		}
 	}
+
+    function bindSwipebox(module) {
+        $(window).bind('keyup', function(e){
+            e.preventDefault();
+            e.stopPropagation();
+            if (e.keyCode == 37){
+                module.getPrev();
+            }
+            else if (e.keyCode==39){
+                module.getNext();
+            }
+            else if (e.keyCode == 27) {
+                module.closeSlide();
+            }
+        });
+    }
+
+    function unbindSwipebox(module) {
+        $(window).unbind('keyup');
+    }
 
 }(window, document, jQuery));

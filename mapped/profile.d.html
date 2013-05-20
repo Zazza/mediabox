@@ -1,0 +1,61 @@
+<!-- header.html -->
+<%& '/page/header/' %>
+<!-- END header.html -->
+
+<%
+if (!auth || !session_check(auth.value)) {
+print('<meta http-equiv="refresh" content="0;URL='+application.globals.get('config.baseUrl')+'login/" />')
+} else {
+%>
+
+<!-- top-menu.html -->
+<%& '/page/top-menu/' %>
+<!-- END top-menu.html -->
+
+<div class="fm-body">
+
+    <form class="form-horizontal">
+        <div class="control-group">
+            <label class="control-label" for="inputEmail">Email</label>
+            <div class="controls">
+                <input type="text" id="inputEmail" placeholder="Email">
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="inputPassword">Password</label>
+            <div class="controls">
+                <input type="password" id="inputPassword" placeholder="Password">
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="inputPassword">Nickname</label>
+            <div class="controls">
+                <input type="password" id="inputPassword" placeholder="Nickname">
+            </div>
+        </div>
+        <div class="control-group">
+            <div class="controls">
+                <button type="submit" class="btn">Save</button>
+            </div>
+        </div>
+    </form>
+
+    <div id="advanced-panel" class="k-header">
+        <div id="advanced-panel-left" class="k-content" style="float: left; width: 0;">
+
+            <!-- advanced.html -->
+            <%& '/advanced/' %>
+            <!-- End advanced.html -->
+
+        </div>
+    </div>
+
+</div>
+
+<!-- footer.html -->
+<%& '/page/footer/' %>
+<!-- END footer.html -->
+
+<%
+}
+%>
