@@ -24,7 +24,7 @@ a:hover {color: black;}
 
 .fm_file, .fm_dirs, .fm_dirs_up {float: left; width: 130px; height: 115px; padding: 5px;}
 
-.fm_file_li, .fm_dirs_li, .fm_dirs_up_li {text-align: left; height: 20px; padding: 2px; overflow: hidden;}
+.fm_file_li {text-align: left; height: 20px; padding: 2px; overflow: hidden;}
 
 .fm_unsellabel, .fm_sellabel {overflow: hidden;}
 
@@ -85,3 +85,14 @@ a:hover {color: black;}
 
 #preview-div-img {margin-top: 10px; text-align: center;}
 #image-meta > div {margin-left: 10px;margin-bottom: 10px;}
+
+#ss {
+    left: -3000%;
+    transition: left 0.4s ease 0s;
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    white-space: nowrap;
+    width: 100%;
+}

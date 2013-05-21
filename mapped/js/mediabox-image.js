@@ -56,11 +56,11 @@
             var margintop = ($(window).height() - 140)/2 - 32;
 
             $("#preview-div-img")
-                .hide("slide", { direction: "left" }, 800, function(){
+                .fadeOut(200, function(){
                     $("#preview-div-img").html("<img src='img/ajax-loader-image.png' style='margin-top: "+margintop+"px;' />");
                     $(image).image("loadImg");
                 })
-                .show("slide", { direction: "right" }, 800, function(){
+                .fadeIn(300, function(){
                     // Callback
                 });
         },
@@ -73,12 +73,11 @@
             var margintop = ($(window).height() - 140)/2 - 32;
 
             $("#preview-div-img")
-                .hide("slide", { direction: "right" }, 800, function(){
+                .fadeOut(200, function(){
                     $("#preview-div-img").html("<img src='img/ajax-loader-image.png' style='margin-top: "+margintop+"px;' />");
                     $(image).image("loadImg");
                 })
-
-                .show("slide", { direction: "left" }, 800, function(){
+                .fadeIn(300, function(){
                     // Callback
                 });
         },
@@ -116,6 +115,7 @@
                      * SET meta information
                      */
                     $("#image-meta > .name").html($(src).attr("title"));
+                    $("#image-meta > .order").html("[" + (parseInt($(".current").index())+parseInt(1)) + "/" + $(".swipebox").length + "]");
                     $("#image-meta > .resolution").html(image.width + "x" + image.height);
                     $("#image-meta > .size").html($(".current .file_icon_size").text());
                     $("#image-meta > .download").attr("href", $("#storage").val()+"/get/?id=" + _id);

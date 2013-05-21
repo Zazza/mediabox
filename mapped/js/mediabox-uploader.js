@@ -6,9 +6,7 @@ $(document).ready(function() {
             var files = e.files;
 
             $.each(files, function(key, file) {
-                res = upload(file);
-
-                addFileToFS(res.type, res);
+                upload(file);
             });
         }
     });
@@ -33,9 +31,7 @@ $(document).ready(function() {
                     "rawFile": filesArray[i]
                 };
 
-                res = upload(file);
-
-                addFileToFS(res.type, res);
+                upload(file);
             }
         }
     }
@@ -81,11 +77,12 @@ $(document).ready(function() {
         return true;
     }
 
-    function addThumb(file, id) {
+    function addThumb(file, res) {
         window.loadImage(
             file.rawFile,
             function (img) {
-                $.ajax({ type: "POST", url: 'thumb/' + id + '/', data: img.toDataURL().replace(/data:image\/png;base64,/, '') });
+                $.ajax({ type: "POST", url: 'thumb/' + res.id + '/', data: img.toDataURL().replace(/data:image\/png;base64,/, '') })
+                    .done(function(){ addFileToFS(res.type, res); })
             },
             {
                 maxHeight: 80,
@@ -95,22 +92,22 @@ $(document).ready(function() {
     }
 
     function upload(file) {
-        var result;
         var type;
         var file;
 
         $.ajax({ type: "GET", url: 'fm/upload/', dataType: "JSON", data: "file=" + file.name + "&size=" + file.size + "&extension=" + file.extension.substr(1)})
             .done(function(res) {
-                result = res;
                 if (res.type == "image")
-                    addThumb(file, res.id);
+                    addThumb(file, res);
 
-                sendFile(res.id, file.rawFile);
-                //if (!sendFile(res.id, file.rawFile)) {
+                //sendFile(res.id, file.rawFile);
+                if (!sendFile(res.id, file.rawFile)) {
                     //removeFile(file.name);
-                //}
+                } else {
+                    if (res.type != "image") {
+                        addFileToFS(res.type, res);
+                    }
+                }
             });
-
-        return result;
     }
 })

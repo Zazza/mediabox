@@ -133,14 +133,14 @@
 
         var result = kendo.render(template, data);
 
-        if (type == "all") {
-            $("#fm_files").append(result);
-        } else if (type == "image") {
+        if (type == "image") {
             $("#fm_images").append(result);
         } else if (type == "video") {
             $("#fm_video").append(result);
         } else if (type == "audio") {
             $("#fm_audio").append(result);
+        } else {
+            $("#fm_files").append(result);
         }
     }
 
