@@ -50,18 +50,6 @@ AuthResource = Sincerity.Classes.define(function() {
 
             return '<meta http-equiv="refresh" content="1;URL='+application.globals.get('config.baseUrl')+'" />';
 
-        } else if (action == "logout") {
-            if (auth) {
-                session_delete(auth.value)
-
-                auth.maxAge = 0
-                auth.path = "/"
-                auth.save()
-
-                return true;
-            } else {
-                return false
-            }
         } else if (action == "registration") {
             var input = conversation.entity.text.split("&")
 
@@ -81,6 +69,26 @@ AuthResource = Sincerity.Classes.define(function() {
                 auth.path = "/"
                 auth.save()
 
+                return '<meta http-equiv="refresh" content="1;URL='+application.globals.get('config.baseUrl')+'" />';
+            }
+        }
+    }
+
+    Public.handleGet = function(conversation) {
+        var action = conversation.locals.get('action')
+
+        var auth = conversation.getCookie("auth");
+
+        if (action == "logout") {
+            if (auth) {
+                session_delete(auth.value)
+
+                auth.maxAge = 0
+                auth.path = "/"
+                auth.save()
+
+                return '<meta http-equiv="refresh" content="1;URL='+application.globals.get('config.baseUrl')+'" />';
+            } else {
                 return '<meta http-equiv="refresh" content="1;URL='+application.globals.get('config.baseUrl')+'" />';
             }
         }

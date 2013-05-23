@@ -256,7 +256,7 @@ $(document).ready(function() {
         }
     });
 
-    $("#fs").on("dblclick", ".ddir", function(){
+    $("#fs").on("click", ".ddir", function(){
         chdir($(this).attr("id"), $("#fsMenu").val());
     });
 
@@ -340,12 +340,3 @@ $("#fm-sort").on("click", ".sort", function(){
     $.ajax({ type: "POST", url: baseUrl + "fm/sort/", data: "type=" + $(this).attr("data-id"), dataType: "JSON" })
         .done(function() { location.reload(); })
 });
-
-// Logout
-$("#logout").click(function(){
-    $.ajax({ type: "POST", url: baseUrl + "auth/logout/" })
-        .done(function(res) {
-            location.reload();
-        })
-})
-

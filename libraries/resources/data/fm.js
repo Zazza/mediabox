@@ -63,36 +63,6 @@ FmResource = Sincerity.Classes.define(function() {
         var action = conversation.locals.get('action')
         var buffer = conversation.getCookie("buffer")
 
-        /*
-         switch (action) {
-         case fs:
-         return fs();
-         break;
-         case "chdir":
-
-         break;
-         case "upload":
-
-         break;
-         case "create":
-         break;
-         default:
-         return
-         break;
-         }
-         */
-        var current_directory = conversation.getCookie("current_directory");
-        if (!current_directory) {
-            current_directory = conversation.createCookie("current_directory")
-        }
-
-        if (conversation.query.get("id")) {
-            current_directory.value = conversation.query.get("id")
-            current_directory.maxAge = -1
-            current_directory.path = "/"
-            current_directory.save()
-        }
-
         if (action == "fs") {
             var id = conversation.query.get("id")
             if (!id) {
