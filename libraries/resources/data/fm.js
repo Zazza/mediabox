@@ -35,7 +35,7 @@ FmResource = Sincerity.Classes.define(function() {
                 arr = entity.split("&")
 
                 var buffer = getBuffer(uid_get())
-                if (buffer.length > 0) {
+                if (buffer) {
                     bufferArray = JSON.parse(buffer)
 
                     for ( var key in bufferArray ) {

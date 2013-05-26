@@ -324,7 +324,7 @@ function rmFolder(uid, id) {
 }
 
 function bufferExist(buffer, id) {
-    if (buffer.length > 0) {
+    if (buffer) {
         var bufferArray = JSON.parse(buffer)
         for ( var key in bufferArray ) {
             if  (bufferArray[key].id == id) {

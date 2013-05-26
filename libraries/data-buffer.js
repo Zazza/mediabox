@@ -10,7 +10,8 @@ function getBuffer(uid) {
     var query = {uid: uid}
     var data = BSON.from(collection.findOne(BSON.to(query)));
 
-    return data.data
+    if (data)
+        return data.data
 }
 
 function setBuffer(uid, data) {
