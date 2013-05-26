@@ -240,7 +240,7 @@ $(document).ready(function() {
         drop: function(e) {
             $("#pl-audio").append("<div class='track' data-ext='"+e.draggable.currentTarget.attr("data-ext")+"' data-id='" + e.draggable.currentTarget.attr("data-id") + "' title='"+e.draggable.currentTarget.attr("title")+"'><div class='track-title'>" + e.draggable.currentTarget.attr("title") + "</div><div class='track-duration'></div></div>");
 
-            $(".droptarget .track:odd").addClass("k-alt");
+            //$("#pl-audio .track:odd").addClass("k-alt");
         }
     });
 

@@ -303,6 +303,7 @@ $(".files-actions").on("click", ".toPlaylist", function(){
     $(".dfile").each(function() {
         $("#pl-audio").append("<div class='track' data-ext='"+$(this).attr("data-ext")+"' data-id='" + $(this).attr("data-id") + "' title='"+$(this).attr("title")+"'><div class='track-title'>" + $(this).attr("title") + "</div><div class='track-duration'></div></div>");
     });
+    //$("#pl-audio .track:odd").addClass("k-alt");
 });
 
 $(".fs-footer-menu").kendoMenu({direction: "top right"});
@@ -321,6 +322,8 @@ $(".fs-footer-menu").on("click",".sort_by_date",function(){
     $.ajax({ type: "GET", url: baseUrl + "fm/sort/", data: "type=date" })
         .done(function() { chdir($("#start_dir").val()); })
 });
+
+$("#player-footer").kendoMenu({direction: "top right"});
 
 /*
  var data = [

@@ -10,7 +10,7 @@
 
 <div class="adv-menu-div" id="adv-menu-buffer" style="display: none;">
     <button class="k-button" id="clearBuffer"><i class="icon-trashempty"></i> Clear buffer</button>
-    <div class="advanced-height" style="overflow-y: auto; overflow-x: hidden; bottom: 10px; position: fixed; top: 60px; width: 220px;">
+    <div class="advanced-height k-block" style="overflow-y: auto; overflow-x: hidden; bottom: 10px; position: fixed; top: 63px; width: 220px;">
         <div id="buffer"></div>
     </div>
 </div>
@@ -42,9 +42,19 @@
         </div>
     </div>
 
-    <div class="advanced-height droptarget" style="overflow-y: auto; overflow-x: hidden; bottom: 10px; position: fixed; top: 140px; width: 220px;">
+    <div class="advanced-height droptarget k-block" style="overflow-y: auto; overflow-x: hidden; bottom: 28px; position: fixed; top: 144px; width: 220px;">
         <div id="pl-audio"></div>
     </div>
+
+    <ul id="player-footer">
+        <li>
+            Playlists
+            <ul>
+                <li>empty</li>
+            </ul>
+        </li>
+        <li style="float: right;">Save playlist</li>
+    </ul>
 </div>
 
 <script type="text/x-kendo-template" id="fileUploadTemplate">
