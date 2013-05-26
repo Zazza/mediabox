@@ -38,7 +38,7 @@ AppResource = Sincerity.Classes.define(function() {
             return true;
         } else if (action == "fsMenu") {
             if (!fsMenu) {
-                fsMenu = conversation.createCookie("fs_menu")
+                var fsMenu = conversation.createCookie("fs_menu")
             }
 
             fsMenu.value = conversation.query.get("tab")
@@ -48,17 +48,17 @@ AppResource = Sincerity.Classes.define(function() {
 
             return true;
         } else if (action == "fsMenuLeft") {
-                if (!fsMenuLeft) {
-                    fsMenuLeft = conversation.createCookie("fs_menu_left")
-                }
-
-                fsMenuLeft.value = conversation.query.get("tab")
-                fsMenuLeft.maxAge = -1
-                fsMenuLeft.path = "/"
-                fsMenuLeft.save()
-
-                return true;
+            if (!fsMenuLeft) {
+                fsMenuLeft = conversation.createCookie("fs_menu_left")
             }
+
+            fsMenuLeft.value = conversation.query.get("tab")
+            fsMenuLeft.maxAge = -1
+            fsMenuLeft.path = "/"
+            fsMenuLeft.save()
+
+            return true;
+        }
     }
 
     return Public

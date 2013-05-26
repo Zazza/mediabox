@@ -46,7 +46,8 @@ app.globals = {
         html: 'img/ftypes/html.png',
         zip: 'img/ftypes/compress.png',
         video: 'img/ftypes/flash.png',
-        any: 'img/ftypes/unknown.png'
+        any: 'img/ftypes/unknown.png',
+        folder: 'img/ftypes/folder.png'
     },
     extension: [
         ['image', 'bmp', 'jpg', 'jpeg', 'gif', 'png'],

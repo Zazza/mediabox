@@ -11,6 +11,42 @@
         max: 0
     }).data("kendoSlider");
 
+    $("#volume").kendoSlider({
+        orientation: "vertical",
+        min: 0,
+        max: 100,
+        value: $("#volume-level").val(),
+        smallStep: 1,
+        largeStep: 20,
+        showButtons: false,
+        slide: function(e) {
+            if (player)
+                player.volume = e.value/100;
+        },
+        change: function(e) {
+            $.ajax({type:"GET",url:baseUrl + "audio/volume/",data:"level="+e.value});
+            $("#volume-level").val(e.value);
+            if (player)
+                player.volume = e.value/100;
+        }
+    });
+
+    $("#volumeButton").click(function(){
+        var volume = $("#volume").data("kendoSlider");
+
+        if (volume.value() > 0) {
+            $("i", this).removeClass("icon-volume-up").addClass("icon-volume-off");
+           volume.value(0);
+            if (player)
+                player.volume = 0;
+        } else {
+            $("i", this).removeClass("icon-volume-off").addClass("icon-volume-up");
+            volume.value($("#volume-level").val());
+            if (player)
+                player.setVolume($("#volume-level").val()/100);
+        }
+    })
+
     var methods = {
         init: function( options ) {
             var track = this;
@@ -36,7 +72,7 @@
 
                         $("#current-track-duration").text(duration);
 
-                        $("#track-slider").html('<input class="slider" style="width: 174px;" />');
+                        $("#track-slider").html('<input class="slider" style="width: 215px;" />');
 
                         slider = $(".slider").kendoSlider({
                             showButtons: false,
@@ -76,7 +112,8 @@
                         }
                     };
 
-                    player.addEventListener('progress', onStart);
+                    //player.addEventListener('progress', onStart);
+                    player.addEventListener('canplay', onStart);
                     player.addEventListener('timeupdate', onTimeupdate);
                     player.addEventListener('ended', onEnd);
 
@@ -220,36 +257,4 @@ $(document).ready(function() {
 
         $(".track[data-id='"+audio.src+"'] > .track-duration").html(d);
     }
-
-    $("#pl-audio").on("mouseover", ".track", function(){
-        if ($(".track-title", this).width() + "px" == $(".track-title").css("max-width")) {
-
-            track = $(this);
-            text = $(".track-title", track).text();
-            func();
-        }
-    });
-    $("#pl-audio").on("mouseout", ".track", function(){
-        clearTimeout(id);
-
-        text = "";
-        position = 0;
-    });
 });
-
-var id;
-var track;
-var text;
-var position = 0;
-function func() {
-    var k;
-    var msg = text;
-    k=(200/msg.length)+1;
-    for (i = 0; i <= k; i++)
-    {
-        msg+=" "+msg;
-        $(".track-title", track).text(msg.substring(position,position+75));
-    }
-    if (position++==msg.length){ position=0;}
-    id = setTimeout("func()",100);
-}

@@ -20,8 +20,8 @@ ThumbResource = Sincerity.Classes.define(function() {
             return
         }
 
-        var action = conversation.locals.get('action')
-        var current_directory = conversation.getCookie("current_directory")
+        //var action = conversation.locals.get('action')
+        //var current_directory = conversation.getCookie("current_directory")
 
         var query = conversation.entity.text
         return uploadThumb(conversation.locals.get('_id'), query)

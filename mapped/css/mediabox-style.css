@@ -6,6 +6,8 @@ a {color: white;}
 a:hover {color: black;}
 */
 
+#pageLoading {width: 100%; height: 100%; z-index: 1000; margin: 0 auto; text-align: center; padding-top: 50px;}
+
 .bar {height: 18px; background: green;}
 
 #treeview .k-sprite {background-image: url("../img/coloricons-sprite.png");}
@@ -24,7 +26,8 @@ a:hover {color: black;}
 
 .fm_file, .fm_dirs, .fm_dirs_up {float: left; width: 130px; height: 115px; padding: 5px;}
 
-.fm_file_li {text-align: left; height: 20px; padding: 2px; overflow: hidden;}
+.fm_file_li {text-align: left; height: 24px; overflow: hidden;}
+.fm_file_li > div {padding-top: 4px;}
 
 .fm_unsellabel, .fm_sellabel {overflow: hidden;}
 
@@ -49,10 +52,9 @@ a:hover {color: black;}
 #fs-menu a, #fs-menu a:hover {text-decoration: none;}
 .adv-menu-img {position: relative; left: 5px; padding-right: 5px;}
 
-#player-controls {background-color: transparent;}
+#player-controls {padding: 4px;}
 #track-main-info {padding: 2px 6px;}
-#current-track {width: 300px; height: 22px; margin: 2px 10px 0 0; line-height: 20px; padding: 0 10px;}
-#current-track-duration {width: 46px; height: 22px; margin: 2px 10px 0 0; line-height: 20px; padding: 0 8px;}
+#current-track {width: 210px; max-height: 42px; margin: 2px 10px 5px 0; line-height: 20px; padding: 0 10px; overflow: hidden;}
 
 .sort > span {font-size: 10px; cursor: pointer; padding: 1px 10px;}
 
@@ -63,12 +65,10 @@ a:hover {color: black;}
 .fs-type {overflow: hidden;}
 .fs-footer-menu {font-size: 11px; border-bottom: 0 none; border-left: 0 none; border-right: 0 none;}
 
-.track{overflow: hidden; cursor: pointer;}
+.track{margin: 5px 0; overflow: hidden; cursor: pointer;}
 .track:hover{background-color: #777;}
-.track-title {max-width: 140px; height: 18px; float: left;}
+.track-title {float: left;}
 .track-duration {float: right;}
-
-#pl-audio {bottom: 10px; position: fixed; top: 45px; width: 180px;}
 
 .file_icon_size {color: #777;}
 .dname_li, .file_list_date {float: right; color: #AAA; text-align: right; width: 140px;}
@@ -86,13 +86,21 @@ a:hover {color: black;}
 #preview-div-img {margin-top: 10px; text-align: center;}
 #image-meta > div {margin-left: 10px;margin-bottom: 10px;}
 
-#ss {
-    left: -3000%;
-    transition: left 0.4s ease 0s;
-    height: 100%;
-    left: 0;
-    position: absolute;
-    top: 0;
-    white-space: nowrap;
-    width: 100%;
+.bufferFile {margin: 5px 0; overflow: hidden;}
+
+#playerButtons div {cursor: pointer;}
+
+.bufferFile .ico {float: left; height: 15px; padding: 3px 4px 0 0;}
+.bufferFile .left {float: left; padding-top: 3px; width: 105px; overflow: hidden;}
+.bufferFile .right {float: right; overflow: hidden;}
+
+.k-filename {width: 150px;}
+
+/* word-wrap */
+.name, .track-title, #current-track, .bufferFile .left, .uploader-long-name {
+    white-space: pre-wrap;     /* css-3 */
+    white-space: -moz-pre-wrap;  /* Mozilla, начиная с 1999 года */
+    white-space: -pre-wrap;   /* Opera 4-6 */
+    white-space: -o-pre-wrap;       /* Opera 7 */
+    word-wrap: break-word;     /* Internet Explorer 5.5+ */
 }

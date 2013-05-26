@@ -22,7 +22,7 @@
     var methods = {
         init: function( options ) {
             $("#splitter").fadeOut();
-            $("#image-preview").delay(500).fadeIn();
+            $("#image-preview").fadeIn();
 
             $(this).addClass("current");
 
@@ -35,7 +35,9 @@
             unbindActive();
 
             $("#image-preview").fadeOut();
-            $("#splitter").delay(500).fadeIn();
+            $("#splitter").fadeIn();
+
+            $("#splitter").data("kendoSplitter").trigger("resize");
         },
 
         one: function() {
@@ -51,7 +53,7 @@
         next: function() {
             var image = this;
 
-            $("#preview-div-img").height($(window).height() - 140);
+            //$("#preview-div-img").height($(window).height() - 140);
 
             var margintop = ($(window).height() - 140)/2 - 32;
 
@@ -68,7 +70,7 @@
         prev: function() {
             var image = this;
 
-            $("#preview-div-img").height($(window).height() - 140);
+            //$("#preview-div-img").height($(window).height() - 140);
 
             var margintop = ($(window).height() - 140)/2 - 32;
 
@@ -94,8 +96,16 @@
                 })
                 .done(function(image) {
                     per = image.height / ($(window).height() - 140);
-                    current_height = $(window).height() - 140;
-                    current_width = image.width / per;
+                    if (image.height > $(window).height()) {
+                        current_height = $(window).height() - 140;
+                    } else {
+                        current_height = image.height;
+                    }
+                    if (image.height > $(window).height()) {
+                        current_width = image.width / per;
+                    } else {
+                        current_width = image.width;
+                    }
 
                     $("#preview-div-img").width(current_width);
                     $("#preview-div-img").height(current_height);
@@ -417,10 +427,10 @@
             else if (e.keyCode==39){
                 imgNext();
             }
-            else if (e.keyCode == 27) {
-                $(this).image("close");
-                $("div.current").removeClass("current");
-            }
+//            else if (e.keyCode == 27) {
+//                $(this).image("close");
+//                $("div.current").removeClass("current");
+//            }
             else if (e.keyCode == 70) {
                 //Fullscreen
                 $(this).swipebox();
@@ -440,10 +450,12 @@
         imgPrev();
     });
 
+    /*
     $("#image-preview").on("click", "#zoomIn", function(){
 
     });
     $("#image-preview").on("click", "#zoomOut", function(){
 
     });
+    */
 })( jQuery );

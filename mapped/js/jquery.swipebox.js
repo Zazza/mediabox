@@ -12,6 +12,10 @@
 	
 	$.swipebox = function(elem, options) {
 
+        var timer = $.timer(function() {
+            ui.getNext();
+        });
+
 		var defaults = {
 			useCSS : true,
 			hideBarsDelay : 3000
@@ -53,12 +57,13 @@
                 e.stopPropagation();
                 index = $elem.index(0);
                 ui.init(index);
+
+                timer.set({ time : 5000, autostart : true });
             });
 
             $("#fullscreen").click(function(e){
                 ui.fullscreen();
             });
-
 		}
 
 		var ui = {
@@ -450,6 +455,7 @@
 				$('#swipebox-slider').unbind();
 				$('#swipebox-overlay').remove();
 				$elem.removeData('_swipebox');
+                timer.stop();
 			}
 
 		}

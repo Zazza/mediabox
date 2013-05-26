@@ -38,25 +38,91 @@ function addFolder(uid, name, parent) {
     collection.insert(BSON.to(doc))
 }
 
+function getFolder(uid, id) {
+    var collection = db.getCollection('fs')
+
+    var query = {_id: {$oid: id}, uid: uid}
+    var data = BSON.from(collection.findOne(BSON.to(query)));
+
+    if (data.name.length > 20) {
+        var shortname = data.name.substring(0, 10) + ".." + data.name.substring(data.name.lastIndexOf(".")-1)
+    } else {
+        var shortname = data.name
+    }
+
+    return '{' +
+        '"id": "'+data._id+'",' +
+        '"name": "'+encodeURIComponent(data.name)+'",' +
+        '"shortname": "'+encodeURIComponent(shortname)+'",' +
+        '"obj": "folder",' +
+        '"date": "' + data.timestamp + '",' +
+        '"size": "",' +
+        '"ico": "'+application.globals.get('mediaTypes.folder')+'' +
+        '"}';
+}
+
 function getFile(uid, id) {
     var collection = db.getCollection('files')
 
     var query = {_id: {$oid: id}, uid: uid}
-    return BSON.from(collection.findOne(BSON.to(query)));
+    var data = BSON.from(collection.findOne(BSON.to(query)));
+
+    if (data.name.length > 20) {
+        var shortname = data.name.substring(0, 10) + ".." + data.name.substring(data.name.lastIndexOf(".")-1)
+    } else {
+        var shortname = data.name
+    }
+
+    if (application.globals.get('mediaTypes.' + data.type)) {
+        var ico = application.globals.get('mediaTypes.' + data.type)
+    } else {
+        var ico = application.globals.get('mediaTypes.any')
+    }
+
+    var extension = data.name.substring(data.name.lastIndexOf(".")+1).toLowerCase()
+
+    if ( (data.type != "image") && (data.type != "audio") && (data.type != "video") ) {
+        var type = "all"
+    } else {
+        var type = data.type
+    }
+
+    return '{' +
+        '"id": "'+data._id+'",' +
+        '"name": "' +encodeURIComponent(data.name)+'",' +
+        '"shortname": "'+encodeURIComponent(shortname)+'",' +
+        '"obj": "file",' +
+        '"type": "'+type+'",' +
+        '"size": "'+data.size+'",' +
+        '"date": "' + data.timestamp + '",' +
+        '"ico": "'+ico + '",' +
+        '"src": "fm/getThumb/?name='+data._id+'",' +
+        '"ext": "'+extension+'' +
+        '"}'
 }
 
-function getFiles(uid, id, type) {
+function getFiles(uid, id, type, sort) {
     var files = new Array();
+
+    if (sort == "date") {
+        sort = "timestamp"
+    }
 
     if (type == "all") {
         // Get Dirs
         var collection = db.getCollection('fs')
 
         var query = {uid: uid, parent: id.toString()}
-        var nodes = BSON.from(collection.find(BSON.to(query)).toArray());
+        var sort = { sort : 1 }
+        var nodes = BSON.from(collection.find(BSON.to(query)).sort(BSON.to(sort)).toArray())
 
         for (var i = 0; i < nodes.length; i++) {
-            files[files.length] = '{"obj": "folder", "name": "' + nodes[i]["name"] + '", "id": "'+nodes[i]["_id"]+'", "date": "'+nodes[i]["timestamp"]+'"}';
+            files[files.length] = '{' +
+                '"obj": "folder",' +
+                '"name": "' + nodes[i]["name"] + '",' +
+                '"id": "'+nodes[i]["_id"]+'",' +
+                '"date": "'+nodes[i]["timestamp"]+
+                '"}'
         }
     }
 
@@ -68,7 +134,8 @@ function getFiles(uid, id, type) {
     } else {
         var query = {uid: uid, parent: id.toString(), type: type}
     }
-    var nodes = BSON.from(collection.find(BSON.to(query)).toArray());
+    var sort = { sort : 1 }
+    var nodes = BSON.from(collection.find(BSON.to(query)).sort(BSON.to(sort)).toArray());
 
     var ico
     var type
@@ -88,12 +155,31 @@ function getFiles(uid, id, type) {
             shortname = nodes[i]["name"]
         }
 
-        var extension = nodes[i]["name"].substring(nodes[i]["name"].lastIndexOf(".")+1)
+        var extension = nodes[i]["name"].substring(nodes[i]["name"].lastIndexOf(".")+1).toLowerCase()
 
         if (nodes[i]["type"] == "image") {
-            files[files.length] = '{"id": "'+nodes[i]["_id"]+'", "name": "' + nodes[i]["name"] + '", "shortname": "'+shortname+'", "obj": "file", "type": "'+nodes[i]["type"]+'", "size": "'+nodes[i]["size"]+'", "date": "' + nodes[i]["timestamp"] + '", "ico": "'+ico+'", "src": "fm/getThumb/?name='+nodes[i]["_id"]+'", "ext": "'+extension+'"}';
+            files[files.length] = '{' +
+                '"id": "'+nodes[i]["_id"]+'",' +
+                '"name": "' + nodes[i]["name"] + '",' +
+                '"shortname": "'+shortname+'",' +
+                '"obj": "file", "type": "'+type+'",' +
+                '"size": "'+nodes[i]["size"]+'",' +
+                '"date": "' + nodes[i]["timestamp"] + '",' +
+                '"ico": "'+ico+'",' +
+                '"src": "fm/getThumb/?name='+nodes[i]["_id"]+'",' +
+                '"ext": "'+extension+'' +
+                '"}';
         } else {
-            files[files.length] = '{"id": "'+nodes[i]["_id"]+'", "name": "' + nodes[i]["name"] + '", "shortname": "'+shortname+'", "obj": "file", "type": "'+nodes[i]["type"]+'", "size": "'+nodes[i]["size"]+'", "date": "' + nodes[i]["timestamp"] + '", "ico": "'+ico+'", "src": "'+ico+'", "ext": "'+extension+'"}';
+            files[files.length] = '{"id": "'+nodes[i]["_id"]+'",' +
+                '"name": "' + nodes[i]["name"] + '",' +
+                '"shortname": "'+shortname+'",' +
+                '"obj": "file",' +
+                '"type": "'+type+'",' +
+                '"size": "'+nodes[i]["size"]+'",' +
+                '"date": "' + nodes[i]["timestamp"] + '",' +
+                '"ico": "'+ico+'",' +
+                '"src": "'+ico+'",' +
+                '"ext": "'+extension+'"}';
         }
     }
 
@@ -131,7 +217,7 @@ function get_type(extension) {
 function uploadFile(uid, filename, size, extension, id) {
     var collection = db.getCollection('files')
 
-    var type = get_type(extension)
+    var type = get_type(extension.toLowerCase())
     var doc = BSON.to({uid: uid, parent: id, name: filename, size: size, type: type, timestamp: new Date()})
     collection.insert(doc)
 
@@ -149,16 +235,15 @@ function uploadFile(uid, filename, size, extension, id) {
     }
 
     if (type == "image") {
-        return '{"id": "'+doc.get('_id')+'", "name": "' + filename + '", "shortname": "'+shortname+'", "obj": "file", "type": "'+type+'", "size": "'+size+'", "date": "' + new Date() + '", "ico": "'+ico+'", "src": "fm/getThumb/?name='+doc.get('_id')+'", "ext": "'+extension+'"}';
+        return '{"id": "'+doc.get('_id')+'", "name": "' + filename + '", "shortname": "'+shortname+'", "obj": "file", "type": "'+type+'", "size": "'+size+'", "date": "' + new Date() + '", "ico": "'+ico+'", "src": "fm/getThumb/?name='+doc.get('_id')+'", "ext": "'+extension.toLowerCase()+'"}';
     } else {
-        return '{"id": "'+doc.get('_id')+'", "name": "' + filename + '", "shortname": "'+shortname+'", "obj": "file", "type": "'+type+'", "size": "'+size+'", "date": "' + new Date() + '", "ico": "'+ico+'", "src": "'+ico+'", "ext": "'+extension+'"}';
+        return '{"id": "'+doc.get('_id')+'", "name": "' + filename + '", "shortname": "'+shortname+'", "obj": "file", "type": "'+type+'", "size": "'+size+'", "date": "' + new Date() + '", "ico": "'+ico+'", "src": "'+ico+'", "ext": "'+extension.toLowerCase()+'"}';
     }
 }
 
 function uploadThumb(id, data) {
     var collection = db.getCollection('files')
 
-    //var update = {$push: {data: data}}
     var update = {$push: {data: { $binary: data }}}
 
     collection.update(BSON.to({_id: {$oid: id}}), BSON.to(update), false, false)
@@ -208,7 +293,17 @@ function getType(uid, id) {
     return '{"all": "'+type["all"]+'", "image": "'+type["image"]+'", "video": "'+type["video"]+'", "audio": "'+type["audio"]+'"}';
 }
 
-function removeFile(uid, filename, parent_id) {
+function removeFile(uid, id) {
+    var collection = db.getCollection('files')
+
+    var query = {uid: uid, _id: {$oid: id}}
+
+    BSON.from(collection.remove(BSON.to(query)));
+
+    return true
+}
+
+function removeFileByName(uid, filename, parent_id) {
     var collection = db.getCollection('files')
 
     var query = {uid: uid, parent: parent_id.toString(), name: filename}
@@ -216,14 +311,25 @@ function removeFile(uid, filename, parent_id) {
     var res = BSON.from(collection.findOne(BSON.to(query)))
     BSON.from(collection.remove(BSON.to(query)));
 
-    return '{"_id": "' + res._id + '"}'
+    return res._id
+}
+
+function rmFolder(uid, id) {
+    var collection = db.getCollection('fs')
+
+    var query = {uid: uid, _id: {$oid: id}}
+    BSON.from(collection.remove(BSON.to(query)));
+
+    return true
 }
 
 function bufferExist(buffer, id) {
-    var bufferArray = JSON.parse(buffer)
-    for ( var key in bufferArray ) {
-        if  (bufferArray[key]._id == id) {
-            return true
+    if (buffer.length > 0) {
+        var bufferArray = JSON.parse(buffer)
+        for ( var key in bufferArray ) {
+            if  (bufferArray[key].id == id) {
+                return true
+            }
         }
     }
 
@@ -233,18 +339,16 @@ function bufferExist(buffer, id) {
 function bufferPast(uid, buffer, parent) {
     var bufferArray = JSON.parse(buffer)
 
-    var collection = db.getCollection('files')
+    var collection_files = db.getCollection('files')
+    var collection_folders = db.getCollection('fs')
 
     for ( var key in bufferArray ) {
-        var update = {$set: {parent: parent}}
-
-        collection.update(BSON.to({_id: {$oid: bufferArray[key]._id}}), BSON.to(update), false, false)
+        if (bufferArray[key].obj == "file") {
+            var update = {$set: {parent: parent}}
+            collection_files.update(BSON.to({_id: {$oid: bufferArray[key].id}}), BSON.to(update), false, false)
+        } else if (bufferArray[key].obj == "folder") {
+            var update = {$set: {parent: parent}}
+            collection_folders.update(BSON.to({_id: {$oid: bufferArray[key].id}}), BSON.to(update), false, false)
+        }
     }
-}
-
-function rmFolder(uid, name, parent) {
-    var collection = db.getCollection('fs')
-
-    var query = {uid: uid, parent: parent, name: name}
-    return BSON.from(collection.remove(BSON.to(query)));
 }

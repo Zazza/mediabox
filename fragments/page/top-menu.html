@@ -5,31 +5,16 @@
         <li id="settings"><a href="<%= application.globals.get('config.baseUrl') %>settings/"><i style="margin-right: 4px; font-size: 14px;" class="icon-settingstwo-gearalt"></i><span>Settings</span></a></li>
         <li id="logout"><a href="<%= application.globals.get('config.baseUrl') %>auth/logout/"><i style="margin-right: 4px; font-size: 14px;" class="icon-exit"></i><span>Logout</span></a></li>
 
-        <li class="advanced-panel-show" id="playlist" style="float: right; padding: 0 5px;"><i style="font-size: 12px; margin-right: 5px;" class="icon-list"></i><span>Playlist</span></li>
-        <li style="float: right; margin-right: 5px;">
+        <li id="closeAdvanced" title="close panel" style="float: right; padding: 0 5px;"><i class="icon-arrow-right"></i></li>
+        <li class="advanced-panel-show" id="playlist" style="float: right; padding: 0 5px;"><i style="font-size: 12px; margin-right: 5px;" class="icon-list"></i><span>Player/Playlist</span></li>
+        <li id="volumeButton" style="float: right; margin-right: 5px;">
             <i style="font-size: 14px;" class="icon-volume-up" title="Volume" /></i>
 
             <ul>
                 <li>
-                    <input id="volume" style="width: 10px; margin: 10px 0 10px 7px; padding: 0;" />
+                    <input id="volume" style="width: 30px; margin: 10px 5px; padding: 0;" />
                 </li>
             </ul>
-        </li>
-        <li style="float: right; margin-right: 10px;">
-            <div style="overflow: hidden;" id="player-controls">
-                <audio id="mediaElement" src="" type="" style="display: none;"></audio>
-
-                <div id="current-track" class="k-block" style="float: left;">&nbsp;</div>
-                <div id="current-track-duration" class="k-block" style="float: left;">&nbsp;</div>
-
-                <div style="float: left;" id="track-prev"><i class="icon-step-backward" style="margin-right: 10px;"></i></div>
-                <div style="float: left;" class="track-play"><i class="icon-play" style="margin-right: 10px;"></i></div>
-                <div style="float: left;" id="track-stop"><i class="icon-stop" style="margin-right: 10px;"></i></div>
-                <div style="float: left;" id="track-next"><i class="icon-step-forward" style="margin-right: 10px;"></i></div>
-
-                <div id="track-slider" style="float: left; height: 26px; margin-right: 10px;"><input class="slider" style="width: 174px;" /></div>
-                <div id="current-track-time" style="float: left; margin-right: 10px;">0:00</div>
-            </div>
         </li>
     </ul>
 </div>

@@ -22,12 +22,15 @@ $(window).resize(function() {
  */
 $(".structure").mCustomScrollbar({ advanced:{ updateOnContentResize: true }, scrollInertia:150 });
 $(".structure-img-fs").mCustomScrollbar({ advanced:{ updateOnContentResize: true }, scrollInertia:150 });
-$(".adv-menu-div").mCustomScrollbar({ scrollInertia:150 });
+$("#pl-audio").parent().mCustomScrollbar({ advanced:{ updateOnContentResize: true }, scrollInertia:150 });
+$("#buffer").parent().mCustomScrollbar({ advanced:{ updateOnContentResize: true }, scrollInertia:150 });
+$("#perc").parent().mCustomScrollbar({ advanced:{ updateOnContentResize: true }, scrollInertia:150 });
 
 /**
  * App: kendo structure
  */
 $(document).ready(function() {
+    $("#pageLoading").hide();
 
     $("#menu").kendoMenu();
 
@@ -35,23 +38,6 @@ $(document).ready(function() {
 
     $("#main-menu").kendoMenu({
         closeOnClick: false
-    });
-
-    $("#volume").kendoSlider({
-        orientation: "vertical",
-        min: 0,
-        max: 100,
-        value: $("#volume-level").val(),
-        smallStep: 1,
-        largeStep: 20,
-        showButtons: false,
-        slide: function(e) {
-            var player = document.getElementById("audio-player");
-            player.volume = e.value/100;
-        },
-        change: function(e) {
-            $.ajax({type:"GET",url:baseUrl + "audio/volume/",data:"level="+e.value});
-        }
     });
 
     $("#fs-menu").kendoTabStrip({
@@ -63,8 +49,13 @@ $(document).ready(function() {
         },
         select: function(e) {
             var type = e.item.id.substring(4);
-            $.ajax({type:"GET",url:baseUrl + "app/fsMenu/",data:"tab="+type});
-            chdir($("#start_dir").val(), type);
+            $.ajax({type:"GET",url:baseUrl + "app/fsMenu/",data:"tab="+type})
+                .done(function(){
+                    chdir($("#start_dir").val());
+                });
+            if (type=="audio") {
+                showAdvanced($("#playlist"));
+            }
         }
     });
 
@@ -86,8 +77,6 @@ $(document).ready(function() {
                 loadImgFs();
             } else if (e.item.id == "tab-left-fs") {
                 $("#fs").show();
-
-                //chdir($("#start_dir").val(), $("#fsMenu").val());
             }
         }
     });
@@ -117,7 +106,7 @@ $(document).ready(function() {
         select: function(e) {
             var data = $('#treeview').data('kendoTreeView').dataItem(e.node);
 
-            chdir(data.id, $("#fsMenu").val());
+            chdir(data.id);
         },
         animation: {
             expand: {
@@ -216,7 +205,7 @@ $(document).ready(function() {
     $("#rm-window-yes").click(function(){
         $(".ddir > div").each(function() {
             if ($(this).hasClass("fm_sellabel")) {
-                var fname = $(this).attr("id");
+                var fname = $(this).parent().attr("data-id");
 
                 removeDir(fname);
             }
@@ -224,7 +213,7 @@ $(document).ready(function() {
 
         $(".dfile > div").each(function() {
             if ($(this).hasClass("fm_sellabel")) {
-                var fname = $(this).attr("id");
+                var fname = $(this).parent().attr("data-id");
 
                 removeFile(fname);
             }
@@ -233,31 +222,36 @@ $(document).ready(function() {
         $("#rm-window").data("kendoWindow").close();
     });
 
+    $("#closeAdvanced").click(function(){
+        var splitter = $("#splitter").data("kendoSplitter");
+        splitter.size("#advanced-panel", "0");
+        $("#advanced-panel-left").width("0");
 
-    $("body").on("click", ".advanced-panel-show", function(){
-        if ($("#advanced-panel-left").width() == "190") {
-            var splitter = $("#splitter").data("kendoSplitter");
-            splitter.size("#advanced-panel", "0px");
-            $("#advanced-panel-left").width("0px");
-
-            $(".adv-menu-div").hide();
-        } else {
-            var splitter = $("#splitter").data("kendoSplitter");
-            splitter.size("#advanced-panel", "190px");
-            $("#advanced-panel-left").width("190px");
-
-            if ($(this).hasClass("upload")) {
-                $("#adv-menu-upload").show();
-            } else if ($(this).hasClass("buffer")) {
-                $("#adv-menu-buffer").show();
-            } else if ($(this).attr("id") == "playlist") {
-                $("#adv-menu-audio").show();
-            }
-        }
+        $(".adv-menu-div").hide();
     });
 
-    $("#fs").on("click", ".ddir", function(){
-        chdir($(this).attr("id"), $("#fsMenu").val());
+    $("body").on("click", ".advanced-panel-show", function(){
+        showAdvanced(this);
+    });
+
+    function showAdvanced(obj) {
+        $(".adv-menu-div").hide();
+
+        var splitter = $("#splitter").data("kendoSplitter");
+        splitter.size("#advanced-panel", "230px");
+        $("#advanced-panel-left").width("230px");
+
+        if ($(obj).hasClass("upload")) {
+            $("#adv-menu-upload").show();
+        } else if ($(obj).hasClass("buffer")) {
+            $("#adv-menu-buffer").show();
+        } else if ($(obj).attr("id") == "playlist") {
+            $("#adv-menu-audio").show();
+        }
+    }
+
+    $("#fs").on("dblclick", ".ddir", function(){
+        chdir($(this).attr("data-id"));
     });
 
     $(".fs-container-div").on("dblclick", ".dfile", function(e){
@@ -297,27 +291,6 @@ function treeviewScroll() {
     }
 }
 
-var data = [
-    { text: "Name", value: "name" },
-    { text: "Date", value: "date" },
-    { text: "Size", value: "size" }
-];
-
-var sort = $(".files-adv-sort").kendoDropDownList({
-    dataTextField: "text",
-    dataValueField: "value",
-    dataSource: data,
-    index: 0,
-    change: function(e) {
-        $.ajax({ type: "POST", url: baseUrl + "fm/view/", data: "type=" + sort.data("kendoDropDownList").value() })
-            .done(function(res) {
-//???
-                var splitter = $("#splitter").data("kendoSplitter");
-                splitter.ajaxRequest("#fs", "chdir", { id: $("#start_dir").val() });
-            })
-    }
-});
-
 $(".files-actions").on("click", ".copy", function(){
     copyFiles();
 });
@@ -325,6 +298,51 @@ $(".files-actions").on("click", ".copy", function(){
 $(".files-actions").on("click", ".past", function(){
     pastFiles();
 });
+
+$(".files-actions").on("click", ".toPlaylist", function(){
+    $(".dfile").each(function() {
+        $("#pl-audio").append("<div class='track' data-ext='"+$(this).attr("data-ext")+"' data-id='" + $(this).attr("data-id") + "' title='"+$(this).attr("title")+"'><div class='track-title'>" + $(this).attr("title") + "</div><div class='track-duration'></div></div>");
+    });
+});
+
+$(".fs-footer-menu").kendoMenu({direction: "top right"});
+
+$(".fs-footer-menu").on("click",".sort_by_name",function(){
+    $.ajax({ type: "GET", url: baseUrl + "fm/sort/", data: "type=name" })
+        .done(function() { chdir($("#start_dir").val()); })
+});
+
+$(".fs-footer-menu").on("click",".sort_by_size",function(){
+    $.ajax({ type: "GET", url: baseUrl + "fm/sort/", data: "type=size" })
+        .done(function() { chdir($("#start_dir").val()); })
+});
+
+$(".fs-footer-menu").on("click",".sort_by_date",function(){
+    $.ajax({ type: "GET", url: baseUrl + "fm/sort/", data: "type=date" })
+        .done(function() { chdir($("#start_dir").val()); })
+});
+
+/*
+ var data = [
+ { text: "Name", value: "name" },
+ { text: "Date", value: "date" },
+ { text: "Size", value: "size" }
+ ];
+
+ var sort = $(".files-adv-sort").kendoDropDownList({
+ dataTextField: "text",
+ dataValueField: "value",
+ dataSource: data,
+ index: 0,
+ change: function(e) {
+ $.ajax({ type: "POST", url: baseUrl + "fm/view/", data: "type=" + sort.data("kendoDropDownList").value() })
+ .done(function(res) {
+ //???
+ var splitter = $("#splitter").data("kendoSplitter");
+ splitter.ajaxRequest("#fs", "chdir", { id: $("#start_dir").val() });
+ })
+ }
+ });
 
 $(".fs-footer-menu").on("click",".view",function(){
     $.ajax({ type: "POST", url: "view", data: "type=" + $(this).attr("data-id") })
@@ -334,9 +352,9 @@ $(".fs-footer-menu").on("click",".view",function(){
         })
 });
 
-$(".fs-footer-menu").kendoMenu({direction: "top right"});
 
 $("#fm-sort").on("click", ".sort", function(){
     $.ajax({ type: "POST", url: baseUrl + "fm/sort/", data: "type=" + $(this).attr("data-id"), dataType: "JSON" })
         .done(function() { location.reload(); })
 });
+ */

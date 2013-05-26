@@ -22,6 +22,12 @@ print('<meta http-equiv="refresh" content="0;URL='+application.globals.get('conf
             </div>
         </div>
         <div class="control-group">
+            <label class="control-label">Slideshow pause</label>
+            <div class="controls">
+                <div id="slideshow-pause"></div>
+            </div>
+        </div>
+        <div class="control-group">
             <label class="control-label">JS Effects</label>
             <div class="controls">
                 <div id="js-effects-selector"></div>
@@ -72,6 +78,17 @@ print('<meta http-equiv="refresh" content="0;URL='+application.globals.get('conf
             { text: "1Mbit/s", value: "1024" }
         ]
 
+        var slideshow_data = [
+            { text: "1 second", value: "1" },
+            { text: "2 second", value: "2" },
+            { text: "3 second", value: "3" },
+            { text: "5 second", value: "5" },
+            { text: "10 second", value: "10" },
+            { text: "20 second", value: "20" },
+            { text: "30 second", value: "30" },
+            { text: "1 minutes", value: "60" }
+        ]
+
         var themes = $("#theme-selector").kendoDropDownList({
             dataTextField: "text",
             dataValueField: "value",
@@ -99,6 +116,16 @@ print('<meta http-equiv="refresh" content="0;URL='+application.globals.get('conf
             dataTextField: "text",
             dataValueField: "value",
             dataSource: rate_data,
+            index: 0,
+            change: function(e) {
+                //Save changes
+            }
+        });
+
+        var slideshow = $("#slideshow-pause").kendoDropDownList({
+            dataTextField: "text",
+            dataValueField: "value",
+            dataSource: slideshow_data,
             index: 0,
             change: function(e) {
                 //Save changes

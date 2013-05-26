@@ -82,7 +82,7 @@ $(document).ready(function() {
             file.rawFile,
             function (img) {
                 $.ajax({ type: "POST", url: 'thumb/' + res.id + '/', data: img.toDataURL().replace(/data:image\/png;base64,/, '') })
-                    .done(function(){ addFileToFS(res.type, res); })
+                    .done(function(){ addFileToFS(res); })
             },
             {
                 maxHeight: 80,
@@ -105,9 +105,13 @@ $(document).ready(function() {
                     //removeFile(file.name);
                 } else {
                     if (res.type != "image") {
-                        addFileToFS(res.type, res);
+                        addFileToFS(res);
                     }
                 }
             });
     }
+
+    $("#perc").on("click", ".uploaderRemove", function(){
+        removeFileByName($(this).attr("data-name"));
+    })
 })
