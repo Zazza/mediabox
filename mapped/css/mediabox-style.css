@@ -27,7 +27,7 @@ a:hover {color: black;}
 .fm_file, .fm_dirs, .fm_dirs_up {float: left; width: 130px; height: 115px; padding: 5px;}
 
 .fm_file_li {text-align: left; height: 24px; overflow: hidden;}
-.fm_file_li > div {padding-top: 4px;}
+.fm_file_li > div {padding: 4px 4px 0 4px;}
 
 .fm_unsellabel, .fm_sellabel {overflow: hidden;}
 
@@ -97,6 +97,7 @@ a:hover {color: black;}
 .k-filename {width: 150px;}
 
 #player-footer {position: fixed; bottom: 0; width: 218px;}
+/*#left-footer {position: fixed; bottom: 0; width: 100%;}*/
 
 /* word-wrap */
 .name, .track-title, #current-track, .bufferFile .left, .uploader-long-name {

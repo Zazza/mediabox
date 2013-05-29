@@ -1,12 +1,16 @@
-<!-- header.html -->
-<%& '/page/header/' %>
-<!-- END header.html -->
-
 <%
+document.execute('/data-auth/')
+
+var auth = conversation.getCookie("auth")
+
 if (!auth || !session_check(auth.value)) {
 print('<meta http-equiv="refresh" content="0;URL='+application.globals.get('config.baseUrl')+'login/" />')
 } else {
 %>
+
+<!-- header.html -->
+<%& '/page/header/' %>
+<!-- END header.html -->
 
 <!-- top-menu.html -->
 <%& '/page/top-menu/' %>

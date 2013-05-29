@@ -8,18 +8,20 @@
     <link href="<%= application.globals.get('config.baseUrl') %>css/bootstrap.min.css" rel="stylesheet" media="screen" />
     <link href="<%= application.globals.get('config.baseUrl') %>css/jquery.mCustomScrollbar.css" rel="stylesheet" type="text/css" />
     <link href="<%= application.globals.get('config.baseUrl') %>css/mediabox-style.css" rel="stylesheet" media="screen">
-    <script src="<%= application.globals.get('config.baseUrl') %>kendo/jquery.min.js" type="text/javascript"></script>
+    <script src="<%= application.globals.get('config.baseUrl') %>js/jquery.min.js" type="text/javascript"></script>
 </head>
-<body>
+<body class="k-content">
 
+<!--
 <div id="header">
     <ul id="login-menu">
         <li id="login">Login</li>
         <li id="registration">Registration</li>
     </ul>
 </div>
+-->
 
-<div style="width: 500px; margin: 50px auto 0;">
+<div style="width: 500px; margin: 50px auto 0; padding: 10px;" class="k-block">
     <form class="form-horizontal" method="post" action="<%= application.globals.get('config.baseUrl') %>auth/registration/">
         <div class="control-group">
             <label class="control-label" for="email">Email</label>
@@ -42,8 +44,11 @@
 </div>
 
 <script src="<%= application.globals.get('config.baseUrl') %>kendo/kendo.web.min.js" type="text/javascript"></script>
+<!--
 <script src="<%= application.globals.get('config.baseUrl') %>js/bootstrap.min.js" type="text/javascript"></script>
 <script src="<%= application.globals.get('config.baseUrl') %>js/jquery.mCustomScrollbar.concat.min.js"></script>
+-->
+<!--
 <script>
     $("#login-menu").kendoMenu();
     $("#login").click(function(){
@@ -53,5 +58,6 @@
         location.href = "<%= application.globals.get('config.baseUrl') %>registration/";
     })
 </script>
+-->
 </body>
 </html>

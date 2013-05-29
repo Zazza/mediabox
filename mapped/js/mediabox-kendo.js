@@ -325,6 +325,8 @@ $(".fs-footer-menu").on("click",".sort_by_date",function(){
 
 $("#player-footer").kendoMenu({direction: "top right"});
 
+$("#left-footer").kendoMenu({direction: "top right"});
+
 /*
  var data = [
  { text: "Name", value: "name" },

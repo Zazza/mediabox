@@ -1,7 +1,4 @@
 <%
-document.execute('/data-auth/')
-
-var auth = conversation.getCookie("auth")
 var current_directory = conversation.getCookie("current_directory")
 var theme = conversation.getCookie("theme")
 var fsMenu = conversation.getCookie("fs_menu")
@@ -48,10 +45,10 @@ var volume_level = 50
     <link href="<%= application.globals.get('config.baseUrl') %>css/whhg.css" rel="stylesheet" type="text/css" />
     <link href="<%= application.globals.get('config.baseUrl') %>css/mediabox-style.css" rel="stylesheet" media="screen">
     <link href="<%= application.globals.get('config.baseUrl') %>css/jquery.Jcrop.min.css" rel="stylesheet" media="screen" />
-    <script src="<%= application.globals.get('config.baseUrl') %>kendo/jquery.min.js"></script>
-
-    <script src="<%= application.globals.get('config.baseUrl') %>js/mediaelement-and-player.min.js"></script>
     <link href="<%= application.globals.get('config.baseUrl') %>css/mediaelement/mediaelementplayer.css" rel="stylesheet" type="text/css" />
+
+    <script src="<%= application.globals.get('config.baseUrl') %>js/jquery.min.js"></script>
+    <script src="<%= application.globals.get('config.baseUrl') %>js/mediaelement-and-player.min.js"></script>
 </head>
 <body class="k-content">
 <div id="pageLoading" class="k-block">

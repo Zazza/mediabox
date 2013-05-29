@@ -6,8 +6,21 @@
         </ul>
     </div>
 
-    <div id="preview-scroll" style="overflow: hidden;">
-        <video id="video-player" width="" height="" src="" type="" controls="controls" preload="none"></video>
+    <div id="preview-scroll" style="overflow: hidden; width: 100%;">
+
+        <div class="k-widget" style="float: left; width: 160px; margin: 10px 10px 10px 5px; padding: 10px;">
+            <div id="video-meta">
+                <div style="font-weight: bold; margin: 10px 0;">INFO</div>
+                <b>File name:</b> <div class="name"></div>
+                <b>Order:</b> <div class="order"></div>
+                <b>Size:</b> <div class="size"></div>
+                <a class="download" hef="#">Download</a>
+            </div>
+        </div>
+
+        <div style="float: left;">
+            <video id="video-player" width="640" height="480" src="" type="" controls="controls" preload="none"></video>
+        </div>
     </div>
 
 </div>
