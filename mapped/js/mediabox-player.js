@@ -2,8 +2,8 @@
     /**
      * Initialize
      */
-    var mediaElement = "mediaElement";
     var player;
+    var mediaElement = "mediaElement";
     var slider = $(".slider").kendoSlider({
         showButtons: false,
         tickPlacement: "none",
@@ -24,7 +24,7 @@
                 player.volume = e.value/100;
         },
         change: function(e) {
-            $.ajax({type:"GET",url:baseUrl + "audio/volume/",data:"level="+e.value});
+            $.ajax({type:"GET",url:baseUrl + "app/volume/",data:"level="+e.value});
             $("#volume-level").val(e.value);
             if (player)
                 player.volume = e.value/100;
@@ -55,7 +55,8 @@
             $("#" + mediaElement).attr("type", 'audio/' + $(track).attr('data-ext'));
 
             player = new MediaElement(mediaElement, {
-                success: function(player, domObject){
+                plugins: ['flash'],
+                success: function(player){
 
                     player.volume = $("#volume").val()/100;
 

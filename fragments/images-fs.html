@@ -15,45 +15,11 @@
     </div>
 
     <div class="structure-img-fs k-block">
-        <script type="text/x-kendo-template" id="imageTemplate">
-            <div title="#: name #" data-id="#: id #" data-ext="#: ext #" class="dfile fm_file" style="text-align: center; cursor: pointer">
-                <div class="fm_unsellabel" id="#: name #">
-                    <div class="fm_pre swipebox" href="#: path #"><img class="file-img-preview" data-id="#: id #" src="#: data #" style="height: 80px;" alt="[FILE]" /></div>
-                    <div class="fname">#: shortname #</div>
-                    <div class="fullname" style="display: none">#: name #</div>
-
-                    <div class="file_icon_size">#: size #</div>
-                    <input type="hidden" class="type" value="#: type #">
-                </div>
-            </div>
-
-            <script>
-                var img = $("img[data-id='#: id #']");
-                $(img).image("preview");
-            </script>
-        </script>
 
         <div class="fm_ajax-loader"></div>
         <div id="fm_images_structure"></div>
     </div>
 
-    <ul class="fs-footer-menu" style="position: relative; bottom: 0;">
-        <li>
-            <b>Size:&nbsp;</b>{{ type.image.size }}
-            <ul>
-                <li style="padding: 10px 4px;">
-                    <p>Size:&nbsp;</b><span class="fm_total"></span></p>
-                    <p>Quota: 358Mb From {{ limit }}</p>
-                </li>
-            </ul>
-        </li>
-        <li style="padding: 0 5px;">Selected: 0 ({{ type.image.count }}) files</li>
+    <%& '/fs/fs-bottom/' %>
 
-        <li class="fm_sel"><i class="icon-check" style="margin-right: 5px;"></i><span>Select all</span></li>
-        <li class="fm_unsel"><i class="icon-undo" style="margin-right: 5px;"></i><span>Unselect all</span></li>
-        <li style="float: right;">
-            <span style="position: relative; top: 2px;">Sort:</span>
-            <div class="files-adv-sort"></div>
-        </li>
-    </ul>
 </div>

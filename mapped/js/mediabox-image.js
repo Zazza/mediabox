@@ -9,15 +9,14 @@
     var original_height;
     var current_width;
     var current_height;
-    //$("#image-comment-editor").wysihtml5();
-    //$("#image-comment-editor").kendoEditor();
 
     $("#preview-scroll").css("height", $(window).height() - 67);
     $(window).resize(function() {
         $("#preview-scroll").css("height", $(window).height() - 67);
     });
 
-    $("#preview-scroll").mCustomScrollbar({ scrollInertia:150, advanced:{ updateOnContentResize: true } });
+    //scrollbar
+    //$("#preview-scroll").mCustomScrollbar({ scrollInertia:150, advanced:{ updateOnContentResize: true } });
 
     var methods = {
         init: function( options ) {
@@ -53,6 +52,9 @@
         next: function() {
             var image = this;
 
+            // flush comment div
+            $("#image-comments").html("");
+
             //$("#preview-div-img").height($(window).height() - 140);
 
             var margintop = ($(window).height() - 140)/2 - 32;
@@ -69,6 +71,9 @@
 
         prev: function() {
             var image = this;
+
+            // flush comment div
+            $("#image-comments").html("");
 
             //$("#preview-div-img").height($(window).height() - 140);
 
@@ -106,6 +111,10 @@
                     } else {
                         current_width = image.width;
                     }
+
+                    //IE Bug with image width
+                    $(image).width(current_width);
+                    $(image).height(current_height);
 
                     $("#preview-div-img").width(current_width);
                     $("#preview-div-img").height(current_height);
@@ -171,7 +180,8 @@
                                 var timestamp = new Date(value.timestamp);
                                 var monthNames = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ];
                                 var time = timestamp.getHours() + ":" + timestamp.getMinutes() + ", " + timestamp.getDate() + "-" + monthNames[timestamp.getMonth()] + "-" + timestamp.getFullYear();
-                                $("#image-comments").append(time + ": " + decodeURIComponent(value.text));
+
+                                comment(time, value.text);
                             })
                         })
                 });
@@ -362,9 +372,30 @@
         $("#y2").val('');
     };
 
+    function comment(time, text) {
+        var templateContent = $("#imageCommentsTemplate").html();
+        var template = kendo.template(templateContent);
+
+        var data = [
+            {
+                time:   time,
+                text:   decodeURIComponent(text)
+            }
+        ];
+
+        var result = kendo.render(template, data);
+        $("#image-comments").append(result);
+    }
+
     $("#image-comment-save").click(function(){
         $.ajax({ type: "GET", url: 'image/addComment/', dataType: "JSON", data: "id=" + _id + "&text=" + encodeURIComponent($("#image-comment-editor").val()) })
-            .done(function(res) { $("#image-comments").append($("#image-comment-editor").val()); })
+            .done(function(res) {
+                var timestamp = new Date();
+                var monthNames = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ];
+                var time = timestamp.getHours() + ":" + timestamp.getMinutes() + ", " + timestamp.getDate() + "-" + monthNames[timestamp.getMonth()] + "-" + timestamp.getFullYear();
+
+                comment(time, $("#image-comment-editor").val());
+            })
     });
 
     $("#image-preview").on("click", "#back", function(){
@@ -374,7 +405,7 @@
 
     function imgNext() {
         var cur_id = 0; var next = "";
-        var imgs = $(".dfile");
+        var imgs = $(".dfile[data-type='image']");
 
         $.each(imgs, function(key, value) {
             if ($(value).attr("data-id") == $(".current").attr("data-id")) {
@@ -396,7 +427,7 @@
     }
     function imgPrev() {
         var cur_id = 0; var prev = "";
-        var imgs = $(".dfile");
+        var imgs = $(".dfile[data-type='image']");
 
         $.each(imgs, function(key, value) {
             if ($(value).attr("title") == $(".current").attr("title")) {

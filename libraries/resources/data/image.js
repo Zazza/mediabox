@@ -33,6 +33,7 @@ ImageResource = Sincerity.Classes.define(function() {
 
         if (action == "setCrop") {
             return setCrop(
+                uid_get(),
                 conversation.query.get("_id"),
                 conversation.query.get("desc"),
                 conversation.query.get("ws"),
@@ -43,6 +44,7 @@ ImageResource = Sincerity.Classes.define(function() {
             );
         } else if (action == "addTag") {
             return addTag(
+                uid_get(),
                 conversation.query.get("_id"),
                 conversation.query.get("tag")
             );
@@ -58,7 +60,7 @@ ImageResource = Sincerity.Classes.define(function() {
         } else if (action == "getComments") {
             return getComments(conversation.query.get("id"));
         } else if (action == "getAllTags") {
-            var allTags = getAllTags(selected_crops, selected_tags)
+            var allTags = getAllTags(uid_get(), selected_crops, selected_tags)
 
             var res = Array()
             var flag
@@ -81,7 +83,7 @@ ImageResource = Sincerity.Classes.define(function() {
 
             return "[" + res.join(",") + "]"
         } else if (action == "getAllCrops") {
-            var allCrops = getAllCrops(selected_crops, selected_tags)
+            var allCrops = getAllCrops(uid_get(), selected_crops, selected_tags)
 
             var res = Array()
             var flag

@@ -20,11 +20,11 @@ $(window).resize(function() {
 /**
  * Scrollbars
  */
-$(".structure").mCustomScrollbar({ advanced:{ updateOnContentResize: true }, scrollInertia:150 });
-$(".structure-img-fs").mCustomScrollbar({ advanced:{ updateOnContentResize: true }, scrollInertia:150 });
-$("#pl-audio").parent().mCustomScrollbar({ advanced:{ updateOnContentResize: true }, scrollInertia:150 });
-$("#buffer").parent().mCustomScrollbar({ advanced:{ updateOnContentResize: true }, scrollInertia:150 });
-$("#perc").parent().mCustomScrollbar({ advanced:{ updateOnContentResize: true }, scrollInertia:150 });
+//$(".structure").mCustomScrollbar({ advanced:{ updateOnContentResize: true }, scrollInertia:150 });
+//$(".structure-img-fs").mCustomScrollbar({ advanced:{ updateOnContentResize: true }, scrollInertia:150 });
+//$("#pl-audio").parent().mCustomScrollbar({ advanced:{ updateOnContentResize: true }, scrollInertia:150 });
+//$("#buffer").parent().mCustomScrollbar({ advanced:{ updateOnContentResize: true }, scrollInertia:150 });
+//$("#perc").parent().mCustomScrollbar({ advanced:{ updateOnContentResize: true }, scrollInertia:150 });
 
 /**
  * App: kendo structure
@@ -49,12 +49,14 @@ $(document).ready(function() {
         },
         select: function(e) {
             var type = e.item.id.substring(4);
-            $.ajax({type:"GET",url:baseUrl + "app/fsMenu/",data:"tab="+type})
+            $.ajax({type:"GET",url:baseUrl + "app/fsMenu/",data:"tab="+type,cache: false})
                 .done(function(){
                     chdir($("#start_dir").val());
                 });
             if (type=="audio") {
-                showAdvanced($("#playlist"));
+                if ($('#adv-menu-audio').is(':hidden')) {
+                    openAdvanced($("#playlist"));
+                }
             }
         }
     });
@@ -67,7 +69,7 @@ $(document).ready(function() {
             }
         },
         select: function(e) {
-            $.ajax({type:"GET",url:baseUrl + "app/fsMenuLeft/",data:"tab="+e.item.id});
+            $.ajax({type:"GET",url:baseUrl + "app/fsMenuLeft/",data:"tab="+e.item.id,cache: false});
 
             $(".fs-container-div").hide();
 
@@ -85,16 +87,16 @@ $(document).ready(function() {
         orientation: "horizontal",
         panes: [
             { size: "200px", resizable: true, scrollable: true, min: "130px", max: "300px" },
-            { resizable: true, scrollable: false },
+            { resizable: true, scrollable: false }
             //{ size: "200px", resizable: false, scrollable: true, min: "130px", max: "300px" }
-            { size: "0px", resizable: false, scrollable: false }
+            //{ size: "0px", resizable: false, scrollable: false }
         ]
     });
 
     var fs = new kendo.data.HierarchicalDataSource({
         transport: {
             read: {
-                url: baseUrl + "fm/fs/",
+                url: baseUrl + "fm/fs/" + "?noCache=" + (new Date().getTime()) + Math.random(),
                 dataType: "json"
             }
         },
@@ -122,8 +124,8 @@ $(document).ready(function() {
         expand: function(e) {
             var dataItem = this.dataItem(e.node);
             dataItem.loaded(false);
-        },
-        dataBound: function(){ treeviewScroll() }
+        }
+        //dataBound: function(){ treeviewScroll() }
     })
 
     $("#splitter").on("click", ".fm_sel", function() {
@@ -222,66 +224,107 @@ $(document).ready(function() {
         $("#rm-window").data("kendoWindow").close();
     });
 
-    $("#closeAdvanced").click(function(){
-        var splitter = $("#splitter").data("kendoSplitter");
-        splitter.size("#advanced-panel", "0");
-        $("#advanced-panel-left").width("0");
 
-        $(".adv-menu-div").hide();
-    });
-
+    /**
+     * Advanced
+     */
     $("body").on("click", ".advanced-panel-show", function(){
-        showAdvanced(this);
+       openAdvanced(this);
     });
 
-    function showAdvanced(obj) {
-        $(".adv-menu-div").hide();
+    $("#closeAdvanced").click(function(){
+        closeAdvanced();
+    });
 
-        var splitter = $("#splitter").data("kendoSplitter");
-        splitter.size("#advanced-panel", "230px");
-        $("#advanced-panel-left").width("230px");
+    function openAdvanced (obj) {
+        if ($('.adv-menu-div').is(':hidden')) {
+            //var splitter = $("#splitter").data("kendoSplitter");
+            //splitter.size("#advanced-panel", "230px");
+            $("#splitter").width($(window).width()-230);
+            $("#vertical").width($(window).width()-230-$("#left-vertical").width());
+            $("#advanced-panel-left").width("230px");
+        }
 
+        toggleAdvanced(obj);
+    }
+
+    function toggleAdvanced(obj) {
         if ($(obj).hasClass("upload")) {
-            $("#adv-menu-upload").show();
+            if ($('#adv-menu-upload').is(':hidden')) {
+                $(".adv-menu-div").hide();
+            }
+            $('#adv-menu-upload').toggle();
+
+            if ($('#adv-menu-upload').is(':hidden')) {
+                closeAdvanced();
+            }
         } else if ($(obj).hasClass("buffer")) {
-            $("#adv-menu-buffer").show();
+            if ($('#adv-menu-buffer').is(':hidden')) {
+                $(".adv-menu-div").hide();
+            }
+            $('#adv-menu-buffer').toggle();
+
+            if ($('#adv-menu-buffer').is(':hidden')) {
+                closeAdvanced();
+            }
         } else if ($(obj).attr("id") == "playlist") {
-            $("#adv-menu-audio").show();
+            if ($('#adv-menu-audio').is(':hidden')) {
+                $(".adv-menu-div").hide();
+            }
+            $('#adv-menu-audio').toggle();
+
+            if ($('#adv-menu-audio').is(':hidden')) {
+                closeAdvanced();
+            }
         }
     }
+
+    function closeAdvanced() {
+        //var splitter = $("#splitter").data("kendoSplitter");
+        //splitter.size("#advanced-panel", "0");
+        $("#splitter").width($(window).width());
+        $("#vertical").width($(window).width()-$("#left-vertical").width());
+        $("#advanced-panel-left").width(0);
+
+        $(".adv-menu-div").hide();
+    }
+    /**
+     * END Advanced
+     */
 
     $("#fs").on("dblclick", ".ddir", function(){
         chdir($(this).attr("data-id"));
     });
 
     $(".fs-container-div").on("dblclick", ".dfile", function(e){
-        var type = $(this).attr("data-type");
+        openFile(this);
+    });
 
-        var ext = $(this).attr("title");
-        ext = ext.substring(ext.lastIndexOf('.')+1);
-
-        if (type == "image") {
-            $(this).image("init").image("one").image("loadImg");
-        } else if (type == "audio") {
-            $(".fs-track-current").removeClass("fs-track-current").removeClass("icon-pause").addClass("icon-play");
-            $(".icon-play", this).addClass("fs-track-current");
-
-            $(this).player("load").player("play");
-        } else if (type == "video") {
-            $(this).video("init");
-        } else if (type == "all") {
-            //stop the browser from following
-            e.preventDefault();
-            window.location.href = $("#storage").val()+"/get/?id=" + $(this).attr("data-id");
+    /**
+     * Context Menu
+     */
+    $.contextMenu( {
+        selector: ".dfile",
+        className: 'k-content',
+        items: {
+            open: {name: "Open", callback: function(key, opt){
+                openFile(this);
+            }}, //className: 'icon-cursor',
+            download: {name: "Download", callback: function(key, opt){
+                window.location.href = $("#storage").val()+"/get/?id=" + $(this).attr("data-id");
+            }} //className: 'icon-download-alt',
         }
     });
+
 });
 
 // Left
+
+/*
 function treeviewScroll() {
     if (!$("#treeview").hasClass("mCustomScrollbar")) {
         $("#treeview").mCustomScrollbar({
-            horizontalScroll:true,
+            //horizontalScroll:true,
             scrollInertia:150,
             advanced:{
                 updateOnContentResize: true,
@@ -290,6 +333,7 @@ function treeviewScroll() {
         });
     }
 }
+*/
 
 $(".files-actions").on("click", ".copy", function(){
     copyFiles();
@@ -326,40 +370,3 @@ $(".fs-footer-menu").on("click",".sort_by_date",function(){
 $("#player-footer").kendoMenu({direction: "top right"});
 
 $("#left-footer").kendoMenu({direction: "top right"});
-
-/*
- var data = [
- { text: "Name", value: "name" },
- { text: "Date", value: "date" },
- { text: "Size", value: "size" }
- ];
-
- var sort = $(".files-adv-sort").kendoDropDownList({
- dataTextField: "text",
- dataValueField: "value",
- dataSource: data,
- index: 0,
- change: function(e) {
- $.ajax({ type: "POST", url: baseUrl + "fm/view/", data: "type=" + sort.data("kendoDropDownList").value() })
- .done(function(res) {
- //???
- var splitter = $("#splitter").data("kendoSplitter");
- splitter.ajaxRequest("#fs", "chdir", { id: $("#start_dir").val() });
- })
- }
- });
-
-$(".fs-footer-menu").on("click",".view",function(){
-    $.ajax({ type: "POST", url: "view", data: "type=" + $(this).attr("data-id") })
-        .done(function(res) {
-            var splitter = $("#splitter").data("kendoSplitter");
-            splitter.ajaxRequest("#fs", "chdir", { id: $("#start_dir").val() });
-        })
-});
-
-
-$("#fm-sort").on("click", ".sort", function(){
-    $.ajax({ type: "POST", url: baseUrl + "fm/sort/", data: "type=" + $(this).attr("data-id"), dataType: "JSON" })
-        .done(function() { location.reload(); })
-});
- */

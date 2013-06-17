@@ -75,7 +75,7 @@
             })
 
         var fs;
-        $.ajax({ type: "GET", url: 'fm/chdir/', dataType: "JSON", data: "id=" + start_id })
+        $.ajax({ type: "GET", url: 'fm/chdir/', dataType: "JSON", data: "id=" + start_id, cache: false })
             .done(function(res) {
                 var size = 0;
                 $.each(res, function(key, value) {
@@ -123,7 +123,7 @@
 
     function addFileToFS(value) {
 
-        var templateContent = $("#"+value["type"]+"Template").html();
+        var templateContent = $("#"+value["tab"]+"Template").html();
         var template = kendo.template(templateContent);
 
         var data = [
@@ -135,17 +135,18 @@
                 size:       formatSize(value["size"]),
                 ico:        value["ico"],
                 ext:        value["ext"],
+                type:       value["type"],
                 href:       $("#storage").val()+"/get/?id=" + value["id"]
             }
         ];
 
         var result = kendo.render(template, data);
 
-        if (value["type"] == "image") {
+        if (value["tab"] == "image") {
             $("#fm_images").append(result);
-        } else if (value["type"] == "video") {
+        } else if (value["tab"] == "video") {
             $("#fm_video").append(result);
-        } else if (value["type"] == "audio") {
+        } else if (value["tab"] == "audio") {
             $("#fm_audio").append(result);
         } else {
             $("#fm_files").append(result);
@@ -200,11 +201,16 @@
 
     $.ajax({ type: "GET", url: baseUrl + "fm/buffer/", dataType: "JSON" })
         .done(function(res) {
-            $(".bufferCount").text(res.length);
+            if (res && res.length) {
+                $(".bufferCount").text(res.length);
 
-            $.each(res, function(i, value) {
-                bufferPast(value);
-            });
+                $.each(res, function(i, value) {
+                    bufferPast(value);
+                });
+            }
+            else {
+                $(".bufferCount").text(0);
+            }
         });
 
     $("#clearBuffer").click(function(){
@@ -249,7 +255,12 @@
     function formatDate(date) {
         var timestamp = new Date(date);
         var monthNames = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ];
-        return timestamp.getHours() + ":" + timestamp.getMinutes() + ", " + timestamp.getDate() + "-" + monthNames[timestamp.getMonth()] + "-" + timestamp.getFullYear();
+        if (timestamp.getMinutes() < 10) {
+            var min = '0' + timestamp.getMinutes();
+        } else {
+            var min = timestamp.getMinutes() + '';
+        }
+        return timestamp.getHours() + ":" + min + ", " + timestamp.getDate() + "-" + monthNames[timestamp.getMonth()] + "-" + timestamp.getFullYear();
     }
 
     function formatSize(byteSize) {
@@ -263,4 +274,26 @@
         };
 
         return size;
+    }
+
+    function openFile(file) {
+        var type = $(file).attr("data-type");
+
+        var ext = $(file).attr("title");
+        ext = ext.substring(ext.lastIndexOf('.')+1);
+
+        if (type == "image") {
+            $(file).image("init").image("one").image("loadImg");
+        } else if (type == "audio") {
+            $(".fs-track-current").removeClass("fs-track-current").removeClass("icon-pause").addClass("icon-play");
+            $(".icon-play", file).addClass("fs-track-current");
+
+            $(file).player("load").player("play");
+        } else if (type == "video") {
+            $(file).video("init");
+        } else if (type == "all") {
+            //stop the browser from following
+            //e.preventDefault();
+            window.location.href = $("#storage").val()+"/get/?id=" + $(file).attr("data-id");
+        }
     }

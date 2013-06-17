@@ -3,10 +3,10 @@ importClass(com.mongodb.Mongo, com.mongodb.rhino.BSON)
 var connection = new Mongo()
 var db = connection.getDB('mediabox')
 
-function setCrop(_id, description, ws, x1, x2, y1, y2) {
+function setCrop(uid, _id, description, ws, x1, x2, y1, y2) {
     var collection = db.getCollection('crop')
 
-    var doc = BSON.to({image_id: _id, description: description, ws: ws, x1: x1, x2: x2, y1: y1, y2: y2})
+    var doc = BSON.to({uid: uid, image_id: _id, description: description, ws: ws, x1: x1, x2: x2, y1: y1, y2: y2})
     collection.insert(doc)
 
     return true
@@ -27,10 +27,10 @@ function getCrops(id) {
     return "[" + res.join(",") + "]";
 }
 
-function addTag(_id, tag) {
+function addTag(uid, _id, tag) {
     var collection = db.getCollection('imagetags')
 
-    var doc = BSON.to({image_id: _id, tag: tag})
+    var doc = BSON.to({uid: uid, image_id: _id, tag: tag})
     collection.insert(doc)
 
     return true
@@ -160,7 +160,7 @@ function _setTagsAndCrops(selected_tags, selected_crops) {
     return crops_and_tags
 }
 
-function getAllCrops(selected_crops, selected_tags) {
+function getAllCrops(uid, selected_crops, selected_tags) {
     var collection = db.getCollection('crop')
 
     var res = new Array()
@@ -168,10 +168,10 @@ function getAllCrops(selected_crops, selected_tags) {
     var crops_and_tags = _setTagsAndCrops(selected_tags, selected_crops)
 
     if (crops_and_tags.length > 0) {
-        var query = {image_id: {$in: crops_and_tags}}
+        var query = {uid: uid, image_id: {$in: crops_and_tags}}
         var crops = BSON.from(collection.find(BSON.to(query)).toArray());
     } else {
-        var query = {}
+        var query = {uid: uid}
         var crops = BSON.from(collection.find(BSON.to(query)).toArray());
     }
 
@@ -185,7 +185,7 @@ function getAllCrops(selected_crops, selected_tags) {
     return res
 }
 
-function getAllTags(selected_crops, selected_tags) {
+function getAllTags(uid, selected_crops, selected_tags) {
     var collection = db.getCollection('imagetags')
 
     var res = new Array()
@@ -193,10 +193,10 @@ function getAllTags(selected_crops, selected_tags) {
     var crops_and_tags = _setTagsAndCrops(selected_tags, selected_crops)
 
     if (crops_and_tags.length > 0) {
-        var query = {image_id: {$in: crops_and_tags}}
+        var query = {uid: uid, image_id: {$in: crops_and_tags}}
         var mongo_tags_res = BSON.from(collection.find(BSON.to(query)).toArray())
     } else {
-        var query = {}
+        var query = {uid: uid}
         var mongo_tags_res = BSON.from(collection.find(BSON.to(query)).toArray())
     }
 

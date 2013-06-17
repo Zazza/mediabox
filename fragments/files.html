@@ -8,37 +8,57 @@
 
     <div class="fs-type" id="fs-all" style="padding: 0;">
         <%& '/fs/all/' %>
-        <%& '/fs/fs-top/' %>
+        <div class="structure k-block nano">
+            <div class="fm_ajax-loader"></div>
+            <!-- FILES -->
 
-        <div id="fm_folders"></div>
-        <div id="fm_files"></div>
+            <div id="fm_folders"></div>
+            <div id="fm_files"></div>
+
+            <!-- END FILES -->
+        </div>
 
         <%& '/fs/fs-bottom/' %>
     </div>
 
     <div class="fs-type" id="fs-image" style="padding: 0;">
         <%& '/fs/images/' %>
-        <%& '/fs/fs-top/' %>
+        <div class="structure k-block">
+            <div class="fm_ajax-loader"></div>
+            <!-- FILES -->
 
-        <div id="fm_images"></div>
+            <div id="fm_images"></div>
+
+            <!-- END FILES -->
+        </div>
 
         <%& '/fs/fs-bottom/' %>
     </div>
 
     <div class="fs-type" id="fs-films" style="padding: 0;">
         <%& '/fs/video/' %>
-        <%& '/fs/fs-top/' %>
+        <div class="structure k-block">
+            <div class="fm_ajax-loader"></div>
+            <!-- FILES -->
 
-        <div id="fm_video"></div>
+            <div id="fm_video"></div>
+
+            <!-- END FILES -->
+        </div>
 
         <%& '/fs/fs-bottom/' %>
     </div>
 
     <div class="fs-type" id="fs-audio" style="padding: 0;">
         <%& '/fs/audio/' %>
-        <%& '/fs/fs-top/' %>
+        <div class="structure k-block">
+            <div class="fm_ajax-loader"></div>
+            <!-- FILES -->
 
-        <div id="fm_audio"></div>
+            <div id="fm_audio"></div>
+
+            <!-- END FILES -->
+        </div>
 
         <%& '/fs/fs-bottom/' %>
     </div>
@@ -58,7 +78,7 @@
 </script>
 
 <script type="text/x-kendo-template" id="allTemplate">
-    <div title="#: name #" data-type="all" data-id="#: id #" data-ext="#: ext #" class="dfile fm_file_li" style="cursor: pointer">
+    <div title="#: name #" data-type="#: type #" data-id="#: id #" data-ext="#: ext #" class="dfile fm_file_li" style="cursor: pointer">
         <div class="fm_unsellabel" id="#: name #">
             <div style="float: left; padding-right: 5px;"><a class="fm_pre"><img src="#: ico #" style="height: 15px;" alt="[FILE]" /></a></div>
             <div style="float: left;" class="fname">#: name #</div>

@@ -8,6 +8,8 @@ class Files extends Base {
     private $_totalsize = 0;
     private $_pre_img = null;
     private $_ico = null;
+    private $folders = array();
+    private $files = array();
     private $_type = array(
         "video"=>array("count"=>0,"size"=>0),
         "music"=>array("count"=>0,"size"=>0),
@@ -355,5 +357,98 @@ class Files extends Base {
         }
 
         return true;
+    }
+
+    public function scanFolders() {
+        chdir($this->_app["rel_upload"]);
+
+        return $this->printFoldersTree();
+    }
+
+    public function scanFiles() {
+        chdir($this->_app["rel_upload"]);
+
+        return $this->printFilesTree();
+    }
+
+    public function printFoldersTree() {
+        $d = @opendir(".");
+        if (!$d) return;
+        while (($e=readdir($d)) !== false) {
+            if ($e=='.' || $e=='..') continue;
+
+            // Нам нужны только подкаталоги.
+            if (!@is_dir($e)) continue;
+
+            $res["obj"] = "folder";
+            $res["name"] = $e;
+            $res["parent"] = getcwd();
+            if (getcwd() == $this->_app["rel_upload"]) {
+                $res["level"] = 0;
+            }
+            $res["date"] = filemtime($e);
+
+            $this->folders[] = $res;
+
+            // Входим в текущий подкаталог и печатаем его
+            if (!chdir($e)) continue;
+            $this->printFoldersTree();
+
+            // Возвращаемся назад
+            chdir("..");
+
+            // Отправляем данные в браузер, чтобы избежать видимости зависания
+            // для больших распечаток.
+            flush();
+        }
+        closedir($d);
+    }
+
+    public function printFilesTree() {
+        $d = @opendir(".");
+        if (!$d) return;
+        while (($e=readdir($d)) !== false) {
+            if ($e=='.' || $e=='..') continue;
+
+            // Нам нужны только файлы.
+            //if (!@is_dir($e)) continue;
+
+            if (is_file($e)) {
+                $res["obj"] = "file";
+                $res["name"] = $e;
+                $res["parent"] = getcwd();
+                if (getcwd() == $this->_app["rel_upload"]) {
+                    $res["level"] = 0;
+                }
+                $res["size"] = filesize($e);
+                $res["extension"] = mb_substr($e, mb_strrpos($e, ".")+1);
+                $res["date"] = filemtime($e);
+
+                $this->files[] = $res;
+            }
+
+            if (is_dir($e)) {
+                // Входим в текущий подкаталог и печатаем его
+                if (!chdir($e)) continue;
+
+                $this->printFilesTree();
+
+                // Возвращаемся назад
+                chdir("..");
+            }
+
+            // Отправляем данные в браузер, чтобы избежать видимости зависания
+            // для больших распечаток.
+            flush();
+        }
+        closedir($d);
+    }
+
+    public function getFoldersStructure() {
+        return $this->folders;
+    }
+
+    public function getFilesStructure() {
+        return $this->files;
     }
 }

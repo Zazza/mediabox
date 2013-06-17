@@ -3,7 +3,9 @@
      * Initialize
      */
     var player;
+    var slider;
     var mediaElement = "video-player";
+    var plugin_active;
 
     var methods = {
         init: function( options ) {
@@ -99,13 +101,17 @@
 
                     //player.load();
                     player.play();
+
+                    plugin_active = true;
                 },
                 error : function(player) {
                     console.log('medialement problem is detected: %o', player);
+                    $(".me-cannotplay").remove();
+                    $("#preview-scroll-right").append('<div class="video-unsupported" style="width: 640; height: 480;">Format not supported</div>');
+
+                    plugin_active = false;
                 }
             });
-
-            player.play();
 
             return this;
         },
@@ -113,8 +119,15 @@
             $("#video-preview").fadeOut();
             $("#splitter").delay(500).fadeIn();
 
-            player.setCurrentTime(0);
-            player.pause();
+            if (plugin_active) {
+                player.setCurrentTime(0);
+                player.pause();
+            }
+
+            if ($(".me-plugin").width() > 0)
+                $(".me-plugin").remove();
+            if ($(".video-unsupported").width() > 0)
+                $(".video-unsupported").remove();
         },
         load: function( options ) {
             var track = this;

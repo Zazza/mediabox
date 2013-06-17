@@ -3,6 +3,7 @@ importClass(com.mongodb.Mongo, com.mongodb.rhino.BSON)
 document.executeOnce('/sincerity/classes/')
 document.executeOnce('/sincerity/templates/')
 document.executeOnce('/data-auth/')
+document.executeOnce('/data-session/')
 
 AuthResource = Sincerity.Classes.define(function() {
 

@@ -4,6 +4,7 @@ document.executeOnce('/sincerity/classes/')
 document.executeOnce('/sincerity/templates/')
 document.executeOnce('/data-fm/')
 document.executeOnce('/data-auth/')
+document.executeOnce('/data-session/')
 document.executeOnce('/data-buffer/')
 
 FmResource = Sincerity.Classes.define(function() {
@@ -59,6 +60,9 @@ FmResource = Sincerity.Classes.define(function() {
 
                 return result
             }
+        } else if (action == "scan") {
+            var data = conversation.entity.text
+            return importRemote(uid_get(), data)
         }
     }
 
@@ -66,28 +70,25 @@ FmResource = Sincerity.Classes.define(function() {
         var auth = conversation.getCookie("auth")
         if (!auth || !session_check(auth.value)) {
             return
+        } else {
+            setToken(auth.value)
         }
 
         var action = conversation.locals.get('action')
         var buffer = conversation.getCookie("buffer")
 
+        /*
         // Set current directory id
-        var current_directory = conversation.getCookie("current_directory")
+        var current_directory = session_get("current_directory")
         if (!current_directory) {
-            var current_directory = conversation.createCookie("current_directory")
-
-            current_directory.value = 0
-            current_directory.maxAge = -1
-            current_directory.path = "/"
-            current_directory.save()
+            var current_directory = session_set("current_directory", 0)
         } else {
             if (conversation.query.get("id")) {
-                current_directory.value = conversation.query.get("id")
-                current_directory.maxAge = -1
-                current_directory.path = "/"
-                current_directory.save()
+                session_set("current_directory", conversation.query.get("id"))
+                current_directory = conversation.query.get("id")
             }
         }
+        */
 
         // Set files sort type
         var sort = conversation.getCookie("sort")
@@ -100,7 +101,8 @@ FmResource = Sincerity.Classes.define(function() {
             sort.save()
         }
 
-        var fsMenu = conversation.getCookie("fs_menu")
+        //var fsMenu = session_get("fs_menu")
+        current_directory = session_get("current_directory")
 
         if (action == "fs") {
             var id = conversation.query.get("id")
@@ -112,15 +114,18 @@ FmResource = Sincerity.Classes.define(function() {
         } else if (action == "getTypesNum") {
             return getType(uid_get(), conversation.query.get("id"));
         } else if (action == "chdir") {
-            return getFiles(uid_get(), conversation.query.get("id"), fsMenu.value, sort.value);
+            // Save current_directory
+            session_set("current_directory", conversation.query.get("id"))
+
+            return getFiles(uid_get(), conversation.query.get("id"), session_get("fs_menu"), sort.value);
         } else if (action == "upload") {
-            return uploadFile(uid_get(), conversation.query.get("file"), conversation.query.get("size"), conversation.query.get("extension"), current_directory.value);
+            return uploadFile(uid_get(), conversation.query.get("file"), conversation.query.get("size"), conversation.query.get("extension"), current_directory);
         } else if (action == "create") {
-            return addFolder(uid_get(), conversation.query.get("name"), current_directory.value);
+            return addFolder(uid_get(), conversation.query.get("name"), current_directory);
         } else if (action == "remove") {
             return removeFile(uid_get(), conversation.query.get("id"));
         } else if (action == "removeFileByName") {
-            return removeFileByName(uid_get(), conversation.query.get("name"), current_directory.value);
+            return removeFileByName(uid_get(), conversation.query.get("name"), current_directory);
         } else if (action == "rmFolder") {
             return rmFolder(uid_get(), conversation.query.get("id"))
         } else if (action == "getThumb") {
@@ -133,7 +138,7 @@ FmResource = Sincerity.Classes.define(function() {
         } else if (action == "past") {
             var buffer = getBuffer(uid_get())
 
-            bufferPast(uid_get(), buffer, current_directory.value)
+            bufferPast(uid_get(), buffer, current_directory)
 
             setBuffer(uid_get(), "");
 

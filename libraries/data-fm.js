@@ -140,6 +140,8 @@ function getFiles(uid, id, type, sort) {
     var ico
     var type
     var shortname
+    var ftype
+
     for (var i = 0; i < nodes.length; i++) {
         shortname = "";
 
@@ -162,7 +164,9 @@ function getFiles(uid, id, type, sort) {
                 '"id": "'+nodes[i]["_id"]+'",' +
                 '"name": "' + nodes[i]["name"] + '",' +
                 '"shortname": "'+shortname+'",' +
-                '"obj": "file", "type": "'+type+'",' +
+                '"obj": "file",' +
+                '"type": "image",' +
+                '"tab": "'+type+'",' +
                 '"size": "'+nodes[i]["size"]+'",' +
                 '"date": "' + nodes[i]["timestamp"] + '",' +
                 '"ico": "'+ico+'",' +
@@ -170,11 +174,13 @@ function getFiles(uid, id, type, sort) {
                 '"ext": "'+extension+'' +
                 '"}';
         } else {
-            files[files.length] = '{"id": "'+nodes[i]["_id"]+'",' +
+            files[files.length] = '{' +
+                '"id": "'+nodes[i]["_id"]+'",' +
                 '"name": "' + nodes[i]["name"] + '",' +
                 '"shortname": "'+shortname+'",' +
                 '"obj": "file",' +
-                '"type": "'+type+'",' +
+                '"type": "'+nodes[i]["type"]+'",' +
+                '"tab": "'+type+'",' +
                 '"size": "'+nodes[i]["size"]+'",' +
                 '"date": "' + nodes[i]["timestamp"] + '",' +
                 '"ico": "'+ico+'",' +
@@ -351,4 +357,55 @@ function bufferPast(uid, buffer, parent) {
             collection_folders.update(BSON.to({_id: {$oid: bufferArray[key].id}}), BSON.to(update), false, false)
         }
     }
+}
+
+function getFolderId_fullname(uid, fullname) {
+    var collection = db.getCollection('fs')
+
+    var query = {fullname: fullname, uid: uid}
+    var data = BSON.from(collection.findOne(BSON.to(query)));
+
+    return data._id;
+}
+
+function importRemote(uid, data) {
+    var res = Array()
+    var data = JSON.parse(data)
+    var tmp
+
+    for (var i=0; i<data.length; i++) {
+
+        if (data[i]["obj"] == "file") {
+            if (data[i]["level"] == 0) {
+                var parent = 0
+            } else {
+                var parent = getFolderId_fullname(uid, data[i]["parent"]).toString()
+            }
+
+            var collection = db.getCollection('files')
+            var type = get_type(data[i]["extension"].toLowerCase())
+            var doc = BSON.to({uid: uid, parent: parent, name: data[i]["name"], size: data[i]["size"], type: type, timestamp: new Date()})
+            collection.insert(doc)
+
+            //tmp = uploadFile(uid, data[i]["name"], data[i]["size"], data[i]["extension"], parent)
+
+            res[res.length] = '{"id": "' + doc.get('_id') + '", "obj": "file", "fullname": "' + data[i]["parent"] + "/" + data[i]["name"] + '"}'
+
+        } else if (data[i]["obj"] == "folder") {
+            if (data[i]["level"] == 0) {
+                var parent = "0"
+            } else {
+                var parent = getFolderId_fullname(uid, data[i]["parent"]).toString()
+            }
+            //addFolder(uid, data[i]["name"], parent)
+            var collection = db.getCollection('fs')
+
+            var doc = BSON.to({uid: uid, name: data[i]["name"], fullname: data[i]["parent"] + "/" + data[i]["name"], parent: parent, timestamp: new Date()})
+            collection.insert(doc)
+
+            //res[res.length] = '{id:' + doc.get('_id') + ', obj: "folder", fullname: ' + data[i]["parent"] + "/" + data[i]["name"] + '}'
+        }
+    }
+
+    return "[" + res.join(",") + "]";
 }

@@ -65,7 +65,8 @@
                             $("#imageview #allCrops").append("<span class='cropAll k-content'>" + value.description + "</span> ");
                         });
 
-                        $("#imageview").mCustomScrollbar({scrollInertia:150});
+                        //scrollbar
+                        //$("#imageview").mCustomScrollbar({scrollInertia:150});
                     })
             });
     }

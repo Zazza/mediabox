@@ -1,54 +1,56 @@
 <%
-var current_directory = conversation.getCookie("current_directory")
-var theme = conversation.getCookie("theme")
-var fsMenu = conversation.getCookie("fs_menu")
-var fsMenuLeft = conversation.getCookie("fs_menu_left")
-var volume = conversation.getCookie("volume")
+var current_directory = session_get("current_directory")
+var theme = session_get("theme")
+var fsMenu = session_get("fs_menu")
+var fsMenuLeft = session_get("fs_menu_left")
+var volume = session_get("volume")
 var storage =  application.globals.get('config.storage')
 
 if (theme)
-var current_theme = theme.value
+var current_theme = theme
 else
 var current_theme = application.globals.get('config.theme')
 
 if (fsMenu)
-var current_fs = fsMenu.value
+var current_fs = fsMenu
 else
 var current_fs = "all"
 
 if (fsMenuLeft)
-var current_fs_menu_left = fsMenuLeft.value
+var current_fs_menu_left = fsMenuLeft
 else
 var current_fs_menu_left = "tab-left-fs"
 
 if (current_directory)
-var startdir = current_directory.value
+var startdir = current_directory
 else
 var startdir = 0
 
 if (volume)
-var volume_level = volume.value
+var volume_level = volume
 else
 var volume_level = 50
 %>
-
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/html">
+<html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Multimedia Filemanager</title>
     <link href="<%= application.globals.get('config.baseUrl') %>kendo/styles/kendo.common.min.css" rel="stylesheet" type="text/css" />
     <link href="<%= application.globals.get('config.baseUrl') %>kendo/styles/kendo.<%= current_theme %>.min.css" rel="stylesheet" type="text/css" />
     <link href="<%= application.globals.get('config.baseUrl') %>css/bootstrap.min.css" rel="stylesheet" media="screen" />
-    <link href="<%= application.globals.get('config.baseUrl') %>css/jquery.mCustomScrollbar.css" rel="stylesheet" type="text/css" />
+
+    <!--<link href="<%= application.globals.get('config.baseUrl') %>css/jquery.mCustomScrollbar.css" rel="stylesheet" type="text/css" />-->
+
     <link href="<%= application.globals.get('config.baseUrl') %>css/swipebox.css" rel="stylesheet" type="text/css" />
     <link href="<%= application.globals.get('config.baseUrl') %>css/whhg.css" rel="stylesheet" type="text/css" />
     <link href="<%= application.globals.get('config.baseUrl') %>css/mediabox-style.css" rel="stylesheet" media="screen">
     <link href="<%= application.globals.get('config.baseUrl') %>css/jquery.Jcrop.min.css" rel="stylesheet" media="screen" />
-    <link href="<%= application.globals.get('config.baseUrl') %>css/mediaelement/mediaelementplayer.css" rel="stylesheet" type="text/css" />
 
-    <script src="<%= application.globals.get('config.baseUrl') %>js/jquery.min.js"></script>
-    <script src="<%= application.globals.get('config.baseUrl') %>js/mediaelement-and-player.min.js"></script>
+    <link href="<%= application.globals.get('config.baseUrl') %>css/jquery.contextMenu.css" rel="stylesheet" media="screen" />
+
+    <script src="<%= application.globals.get('config.baseUrl') %>js/jquery-1.10.1.js"></script>
+    <script src="<%= application.globals.get('config.baseUrl') %>js/mediaelement.min.js"></script>
+    <!--<link href="<%= application.globals.get('config.baseUrl') %>css/mediaelement/mediaelementplayer.css" rel="stylesheet" type="text/css" />-->
 </head>
 <body class="k-content">
 <div id="pageLoading" class="k-block">

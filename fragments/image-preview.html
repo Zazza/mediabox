@@ -1,4 +1,7 @@
+<!-- FOR SCROLLBAR
 <div id="image-preview" class="" style="display: none; overflow: hidden; width: 100%; padding: 0;">
+-->
+<div id="image-preview" class="" style="display: none; overflow: auto; padding: 0;"><!--width: 100%; -->
 
     <div style="overflow: hidden; padding: 8px 10px 2px 10px;" class="">
         <ul class="nav nav-pills pull-left" style="margin-bottom: 0;">
@@ -20,7 +23,10 @@
         </ul>
     </div>
 
+    <!-- FOR SCROLLBAR
     <div id="preview-scroll" style="overflow: hidden;" class="k-block">
+    -->
+    <div id="preview-scroll" style="overflow: auto;" class="k-block">
 
         <div class="k-widget" style="float: left; width: 160px; margin: 10px 10px 10px 5px; padding: 10px;">
             <div id="image-meta">
@@ -55,7 +61,7 @@
                 <div id="image-comments"></div>
 
                 <div id="image-comment-form">
-                    <textarea id="image-comment-editor"></textarea>
+                    <textarea id="image-comment-editor" class="k-content"></textarea>
                     <div><button id="image-comment-save" class="k-button">Save</button></div>
                 </div>
             </div>
@@ -87,3 +93,10 @@
     </div>
 
 </div>
+
+<script type="text/x-kendo-template" id="imageCommentsTemplate">
+    <div style="margin: 10px;">
+        <h5>#: time #</h5>
+        <div class="imageCommentText">#: text #</div>
+    </div>
+</script>

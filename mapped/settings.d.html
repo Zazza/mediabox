@@ -1,5 +1,6 @@
+<!DOCTYPE html>
 <%
-document.execute('/data-auth/')
+document.execute('/data-session/')
 
 var auth = conversation.getCookie("auth")
 
@@ -140,6 +141,27 @@ print('<meta http-equiv="refresh" content="0;URL='+application.globals.get('conf
         ths.select(function(dataItem) {
             return dataItem.value === "<%= current_theme %>";
         });
+
+        scan();
+        function scan() {
+            var res = new Object();
+
+            $.ajax({ type: "POST", url: $("#storage").val() + "/scan/", dataType: 'JSONP', //async : false,
+                success: function (data, textStatus) {
+                    $.ajax({ type: "POST", url: baseUrl + 'fm/scan/', data: $.toJSON(data) })//, dataType: "json"
+                            .done(function(res){
+                            var xhr = new XMLHttpRequest();
+
+                            xhr.open("POST", $("#storage").val() + "/export/", true);
+
+                            var fd = new FormData();
+                            if (xhr.upload) {
+                                fd.append('data', res);
+                                xhr.send(fd);
+                            }
+                        })
+                }})
+        }
     });
 </script>
 
