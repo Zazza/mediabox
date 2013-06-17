@@ -41,6 +41,7 @@
 
                     player.volume = $("#volume").val()/100;
 
+                    /*
                     var onStart = function() {
                         var dsec = parseInt(player.duration - Math.floor(player.duration / 60)*60);
                         if (!isNaN(dsec)) {
@@ -93,11 +94,12 @@
                             $(".playlist-track-current").player("load").player("play");
                         }
                     };
+                    */
 
                     //player.addEventListener('progress', onStart);
-                    player.addEventListener('canplay', onStart);
-                    player.addEventListener('timeupdate', onTimeupdate);
-                    player.addEventListener('ended', onEnd);
+                    //player.addEventListener('canplay', onStart);
+                    //player.addEventListener('timeupdate', onTimeupdate);
+                    //player.addEventListener('ended', onEnd);
 
                     //player.load();
                     player.play();
