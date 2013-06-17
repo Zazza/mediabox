@@ -15,6 +15,12 @@ $(window).resize(function() {
     $(".structure-img-fs").css("height", $(".fs-type").height() - 30);
     $("#imageview").css("height", $(window).height() - 95);
     $("#treeview").css("height", $(window).height() - 87);
+
+    if ($("#advanced-panel-left").width() == "230") {
+        $("#splitter").width($(window).width()-235);
+        $("#vertical").width($(window).width()-235-$("#left-vertical").width());
+        $("#advanced-panel-left").width("230px");
+    }
 });
 
 /**
@@ -86,7 +92,8 @@ $(document).ready(function() {
     $("#splitter").kendoSplitter({
         orientation: "horizontal",
         panes: [
-            { size: "200px", resizable: true, scrollable: true, min: "130px", max: "300px" },
+            //{ size: "200px", resizable: true, scrollable: true, min: "130px", max: "300px" },
+            { size: "250px", resizable: false, scrollable: true, min: "130px", max: "300px" },
             { resizable: true, scrollable: false }
             //{ size: "200px", resizable: false, scrollable: true, min: "130px", max: "300px" }
             //{ size: "0px", resizable: false, scrollable: false }
@@ -240,8 +247,8 @@ $(document).ready(function() {
         if ($('.adv-menu-div').is(':hidden')) {
             //var splitter = $("#splitter").data("kendoSplitter");
             //splitter.size("#advanced-panel", "230px");
-            $("#splitter").width($(window).width()-230);
-            $("#vertical").width($(window).width()-230-$("#left-vertical").width());
+            $("#splitter").width($(window).width()-235);
+            $("#vertical").width($(window).width()-235-$("#left-vertical").width());
             $("#advanced-panel-left").width("230px");
         }
 
