@@ -106,10 +106,17 @@
                         }
 
                         $(".track").removeClass("playlist-track-current");
-                        $(currenttrack).next().addClass("playlist-track-current");
 
-                        if (!$(".playlist-track-current").last()) {
+                        if ($(currenttrack).next().length) {
+                            $(currenttrack).next().addClass("playlist-track-current");
                             $(".playlist-track-current").player("load").player("play");
+                        } else {
+                            slider.value(0);
+                            $("#current-track-time").text("--:--");
+
+                            var current = $(".track-pause");
+                            $("i", current).removeClass("icon-pause").addClass("icon-play");
+                            $(current).removeClass("track-pause").addClass("track-play");
                         }
                     };
 
@@ -147,9 +154,6 @@
             if ($(".fs-track-current").width() > 0) {
                 $(".fs-track-current").removeClass("icon-play").addClass("icon-pause");
             }
-
-            // Unset bold at playlist tracks
-            $(".track").removeClass("playlist-track-current");
 
             var current = $(".track-play");
             $("i", current).removeClass("icon-play").addClass("icon-pause");
@@ -200,6 +204,7 @@ $(document).ready(function() {
     $("#pl-audio").on("dblclick", ".track", function() {
         $(this).player("load").player("play");
 
+        $(".track").removeClass("playlist-track-current");
         $(this).addClass("playlist-track-current");
 
         if ($(".fs-track-current").width() > 0) {
@@ -232,7 +237,7 @@ $(document).ready(function() {
         var currenttrack = $(".playlist-track-current");
 
         $(".track").removeClass("playlist-track-current");
-        $(currenttrack).next().addClass("playlist-track-current");
+        $(currenttrack).next(".track").addClass("playlist-track-current");
 
         $(".playlist-track-current").player("load").player("play");
     });

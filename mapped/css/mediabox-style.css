@@ -101,6 +101,10 @@ a:hover {color: black;}
 
 .structure-img-fs {overflow-y: auto;}
 
+.playlist-track-current {
+    font-weight: bold;
+}
+
 /* word-wrap */
 .name, .track-title, #current-track, .bufferFile .left, .uploader-long-name, .imageCommentText {
     white-space: pre-wrap;     /* css-3 */

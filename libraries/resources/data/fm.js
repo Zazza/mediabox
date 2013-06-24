@@ -61,6 +61,8 @@ FmResource = Sincerity.Classes.define(function() {
                 return result
             }
         } else if (action == "scan") {
+            conversation.mediaTypeName = "application/json"
+
             var data = conversation.entity.text
             return importRemote(uid_get(), data)
         }

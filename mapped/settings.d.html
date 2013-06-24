@@ -19,7 +19,7 @@ print('<meta http-equiv="refresh" content="0;URL='+application.globals.get('conf
 
 <div class="fm-body">
 
-    <form class="form-horizontal">
+    <!--<form class="form-horizontal">-->
         <div class="control-group">
             <label class="control-label">Theme</label>
             <div class="controls">
@@ -44,7 +44,10 @@ print('<meta http-equiv="refresh" content="0;URL='+application.globals.get('conf
                 <div id="rate-selector"></div>
             </div>
         </div>
-    </form>
+        <div class="control-group">
+            <button onclick="scan()" class="k-button">Scan remote</button>
+        </div>
+    <!--</form>-->
 
     <div id="advanced-panel" class="k-header">
         <div id="advanced-panel-left" class="k-content" style="float: left; width: 0;">
@@ -59,6 +62,26 @@ print('<meta http-equiv="refresh" content="0;URL='+application.globals.get('conf
 </div>
 
 <script>
+    function scan() {
+        $.ajax({ type: "POST", url: $("#storage").val() + "/scan/", dataType: 'JSONP', //async : false,
+            success: function (data, textStatus) {
+                $.ajax({ type: "POST", url: baseUrl + 'fm/scan/', data: $.toJSON(data) })//, dataType: "json"
+                        .done(function(res){
+                            var xhr = new XMLHttpRequest();
+
+                            xhr.open("POST", $("#storage").val() + "/export/", true);
+
+                            xhr.send(JSON.stringify(res));
+
+                            //var fd = new FormData();
+                            //if (xhr.upload) {
+                            //fd.append('data', JSON.stringify(res));
+                            //xhr.send(fd);
+                            //}
+                        })
+            }})
+    }
+
     $(document).ready(function() {
         var themes_data = [
             { text: "Black", value: "black" },
@@ -141,27 +164,6 @@ print('<meta http-equiv="refresh" content="0;URL='+application.globals.get('conf
         ths.select(function(dataItem) {
             return dataItem.value === "<%= current_theme %>";
         });
-
-        //scan();
-        function scan() {
-            var res = new Object();
-
-            $.ajax({ type: "POST", url: $("#storage").val() + "/scan/", dataType: 'JSONP', //async : false,
-                success: function (data, textStatus) {
-                    $.ajax({ type: "POST", url: baseUrl + 'fm/scan/', data: $.toJSON(data) })//, dataType: "json"
-                            .done(function(res){
-                            var xhr = new XMLHttpRequest();
-
-                            xhr.open("POST", $("#storage").val() + "/export/", true);
-
-                            var fd = new FormData();
-                            if (xhr.upload) {
-                                fd.append('data', res);
-                                xhr.send(fd);
-                            }
-                        })
-                }})
-        }
     });
 </script>
 

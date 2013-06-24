@@ -70,6 +70,7 @@ $(document).ready(function() {
 
             fd.append('files', file);
             fd.append('id', id);
+            fd.append('name', file.name);
             xhr.send(fd);
         }
 

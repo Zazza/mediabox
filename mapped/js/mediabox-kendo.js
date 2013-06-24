@@ -17,8 +17,8 @@ $(window).resize(function() {
     $("#treeview").css("height", $(window).height() - 87);
 
     if ($("#advanced-panel-left").width() == "230") {
-        $("#splitter").width($(window).width()-235);
-        $("#vertical").width($(window).width()-235-$("#left-vertical").width());
+        $("#splitter").width($(window).width()-228);
+        $("#vertical").width($(window).width()-228-$("#left-vertical").width());
         $("#advanced-panel-left").width("230px");
     }
 });

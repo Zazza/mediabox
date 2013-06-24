@@ -5,7 +5,7 @@
     var player;
     var slider;
     var mediaElement = "video-player";
-    var plugin_active;
+    var plugin_active = false;
 
     var methods = {
         init: function( options ) {
@@ -14,7 +14,7 @@
             $(this).addClass("current");
 
             $("#splitter").fadeOut();
-            $("#video-preview").delay(500).fadeIn();
+            $("#video-preview").fadeIn();
 
             $("#" + mediaElement).attr("src", $("#storage").val() + '/get/?id=' + $(track).attr('data-id'));
             $("#" + mediaElement).attr("type", 'video/' + $(track).attr('data-ext'));
@@ -31,75 +31,17 @@
             $("#video-meta > .download").html("");
             $("#video-meta > .download").attr("href", $("#storage").val() + '/get/?id=' + $(track).attr('data-id'));
 
+            /*
             player = new MediaElement(mediaElement, {
                 plugins: ['flash'],
                 defaultVideoWidth: 480,
                 defaultVideoHeight: 270,
                 pluginWidth: -1,
                 pluginHeight: -1,
+                //enablePseudoStreaming: true,
                 success: function(player, domObject){
 
                     player.volume = $("#volume").val()/100;
-
-                    /*
-                    var onStart = function() {
-                        var dsec = parseInt(player.duration - Math.floor(player.duration / 60)*60);
-                        if (!isNaN(dsec)) {
-                            if (dsec < 10) {
-                                dsec = "0" + dsec;
-                            }
-                            var duration = Math.floor(player.duration / 60) + ":" + dsec;
-                        } else {
-                            var duration = "--:--";
-                        }
-
-                        $("#current-track-duration").text(duration);
-
-                        $("#track-slider").html('<input class="slider" style="width: 215px;" />');
-
-                        slider = $(".slider").kendoSlider({
-                            showButtons: false,
-                            tickPlacement: "none",
-                            change: function(e) { player.setCurrentTime(e.value); },
-                            min: 0,
-                            max: player.duration
-                        }).data("kendoSlider");
-                    };
-                    var onTimeupdate = function() {
-                        slider.value(parseInt(player.currentTime, 10));
-
-                        var sec = parseInt(player.currentTime - Math.floor(player.currentTime / 60)*60);
-                        if (!isNaN(sec)) {
-                            if (sec < 10) {
-                                sec = "0" + sec;
-                            }
-                            var currentTime = Math.floor(player.currentTime / 60) + ":" + sec;
-                        } else {
-                            var currentTime = "--:--";
-                        }
-
-                        $("#current-track-time").text(currentTime);
-                    };
-                    var onEnd = function() {
-                        var currenttrack = $(".playlist-track-current");
-
-                        if ($(".fs-track-current").width() > 0) {
-                            $(".fs-track-current").removeClass("icon-pause").addClass("icon-play").removeClass("fs-track-current");
-                        }
-
-                        $(".track").removeClass("playlist-track-current");
-                        $(currenttrack).next().addClass("playlist-track-current");
-
-                        if (!$(".playlist-track-current").last()) {
-                            $(".playlist-track-current").player("load").player("play");
-                        }
-                    };
-                    */
-
-                    //player.addEventListener('progress', onStart);
-                    //player.addEventListener('canplay', onStart);
-                    //player.addEventListener('timeupdate', onTimeupdate);
-                    //player.addEventListener('ended', onEnd);
 
                     //player.load();
                     player.play();
@@ -114,32 +56,46 @@
                     plugin_active = false;
                 }
             });
+            */
+
+            player = new MediaElementPlayer("#" + mediaElement, {
+                plugins: ['flash', 'silverlight'],
+                success: function (mediaElement, domObject) {
+                    if (mediaElement.pluginType == 'flash') {
+                        mediaElement.addEventListener('canplay', function() {
+                            // Player is ready
+                            mediaElement.play();
+                        }, false);
+                    }
+
+                    console.log('mediaelement success');
+
+                    plugin_active = true;
+                },
+                error : function(player) {
+                    console.log('medialement problem is detected: %o', player);
+
+                    plugin_active = false;
+                }
+            });
 
             return this;
         },
         close: function() {
-            $("#video-preview").fadeOut();
-            $("#splitter").delay(500).fadeIn();
-
             if (plugin_active) {
-                player.setCurrentTime(0);
-                player.pause();
+                player.remove();
+            } else {
+                $('#preview-scroll-right').html('<video id="video-player" width="640" height="480" src="" type="" controls="controls" preload="true" autoplay="true"></video>');
             }
 
-            if ($(".me-plugin").width() > 0)
-                $(".me-plugin").remove();
-            if ($(".video-unsupported").width() > 0)
-                $(".video-unsupported").remove();
+            $("#video-preview").fadeOut();
+            $("#splitter").fadeIn();
         },
         load: function( options ) {
             var track = this;
 
             if (!player) {
                 $(track).player("init");
-            } else {
-                player.pause();
-                player.setSrc([{ src: $("#storage").val() + '/get/?id=' + $(track).attr('data-id'), type: 'audio/' + $(track).attr('data-ext') }]);
-                //player.load();
             }
 
             return this

@@ -31,8 +31,9 @@ $app->register(new Silex\Provider\DoctrineServiceProvider(), array(
 // FALSE if use on production
 $app['debug'] = true;
 
-//$ini_path['upload']  = "/upload/";
-$ini_path['upload']  = "/home/samba/Films";
+//$ini_path['upload']  = "upload/";
+//$ini_path['upload']  = "/home/samba/Music/03 - Indiependent";
+$ini_path['upload']  = "/home/samba/video";
 $app["rel_upload"] = $ini_path['upload'];
 $app["upload"] = __DIR__ . "/" . $ini_path['upload'];
 
@@ -67,20 +68,29 @@ $app->match('/save/', function (Request $request) use ($app) {
 
 $app->get('/get/', function (Request $request) use ($app) {
 
-    $file = __DIR__."/upload/".$request->query->get("id");
+    $sql = "SELECT fullname FROM files WHERE remote_id = ?";
+    $row = $app['db']->fetchAssoc($sql, array($request->query->get("id")));
+    $file = $row["fullname"];
+    $filename = mb_substr($file, mb_strrpos($file, "/")+1);
 
     if (file_exists($file)) {
-        $filename = str_replace(" ", "_", $request->query->get("id"));
-
-	    header ("Content-Type: ". mime_content_type($file));
+        header('Content-Description: File Transfer');
+	header ("Content-Type: ". mime_content_type($file));
         header ("Accept-Ranges: bytes");
         header ("Content-Length: " . filesize($file));
-        header ("Content-Disposition: attachment; filename=" . $request->query->get("id"));
+        header ("Content-Disposition: attachment; filename=" . $filename);
+        header ('Content-Transfer-Encoding: binary');
+        header ('Expires: 0');
+	header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+	header("Cache-Control: no-store, no-cache, must-revalidate");
+        header ('Cache-Control: must-revalidate');
+        header ('Pragma: public');
 
         return new Response(readfile($file), 200);
     }
 
     return new Response("", 404);
+
 });
 
 $app->get('/remove/', function (Request $request) use ($app) {
@@ -100,13 +110,56 @@ $app->match('/scan/', function (Request $request) use ($app) {
 
     $files->scanFolders();
     $files->scanFiles();
+    $folders    = $files->getFoldersStructure();
+    $files      = $files->getFilesStructure();
 
-    $res = json_encode(array_merge($files->getFoldersStructure(), $files->getFilesStructure()));
+    /*
+    foreach($files as $i=>$part) {
+        $sql = "INSERT INTO files (remote_id, fullname) VALUES (?, ?)";
+        $stmt = $app['db']->prepare($sql);
+        $stmt->bindValue(1, $i);
+        $stmt->bindValue(2, $part["fullname"]);
+        $stmt->execute();
+    }
+    */
+
+    $res = json_encode(array_merge($folders + $files));
     return new Response($request->query->get("callback") . "(" . $res . ")", 200);
 });
 
-$app->match('/export/', function (Request $request) use ($app) {
-    $data = json_decode($_POST['data'], true);
+$app->post('/export/', function (Request $request) use ($app) {
+//    $data = json_decode($_POST['data'], true);
+
+    header('Access-Control-Allow-Origin: *');
+    header('Access-Control-Allow-Methods: POST, GET, OPTIONS');
+    header('Access-Control-Allow-Headers: X-Requested-With, Content-Type');
+    header('Access-Control-Max-Age: 600');
+
+        $filename= __DIR__ . "/test";
+
+        $fout=fopen($filename,"wb");
+
+        if (!$fout) {
+	    return new Response("Error file open!", 500);
+        }
+
+        // Из stdin читаем данные отправленные методом POST - это и есть содержимое порций
+        $fin = fopen("php://input", "rb");
+        if ($fin) {
+            while (!feof($fin)) {
+                // Считаем 1Мб из stdin
+                $data=fread($fin, 1024*1024);
+                // Сохраним считанные данные в файл
+                fwrite($fout,$data);
+                }
+            fclose($fin);
+            }
+
+        fclose($fout);
+
+//    return new Response("Done!", 200);
+    $data=array();
+    $data=json_decode(file_get_contents($filename), true);
 
     foreach($data as $part) {
         $sql = "INSERT INTO files (remote_id, fullname) VALUES (?, ?)";

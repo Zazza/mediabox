@@ -7,7 +7,8 @@ function fs(uid, id) {
     var collection = db.getCollection('fs')
 
     var query = {uid: uid, parent: id.toString()}
-    var nodes = BSON.from(collection.find(BSON.to(query)).toArray());
+    var sort = {name: 1}
+    var nodes = BSON.from(collection.find(BSON.to(query)).sort(BSON.to(sort)).toArray());
 
     var tree = new Array();
 
@@ -113,7 +114,7 @@ function getFiles(uid, id, type, sort) {
         var collection = db.getCollection('fs')
 
         var query = {uid: uid, parent: id.toString()}
-        var sort = { sort : 1 }
+        var sort = {name: 1}
         var nodes = BSON.from(collection.find(BSON.to(query)).sort(BSON.to(sort)).toArray())
 
         for (var i = 0; i < nodes.length; i++) {
@@ -134,7 +135,7 @@ function getFiles(uid, id, type, sort) {
     } else {
         var query = {uid: uid, parent: id.toString(), type: type}
     }
-    var sort = { sort : 1 }
+    var sort = {name: 1}
     var nodes = BSON.from(collection.find(BSON.to(query)).sort(BSON.to(sort)).toArray());
 
     var ico
@@ -388,6 +389,9 @@ function importRemote(uid, data) {
             collection.insert(doc)
 
             //tmp = uploadFile(uid, data[i]["name"], data[i]["size"], data[i]["extension"], parent)
+            if (data[i]["thumb"]) {
+                uploadThumb(doc.get('_id'), data[i]["thumb"])
+            }
 
             res[res.length] = '{"id": "' + doc.get('_id') + '", "obj": "file", "fullname": "' + data[i]["parent"] + "/" + data[i]["name"] + '"}'
 

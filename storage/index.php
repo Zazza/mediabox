@@ -28,6 +28,22 @@ $app->register(new Silex\Provider\DoctrineServiceProvider(), array(
     ),
 ));
 
+$app['filetypes'] = array(
+    'bmp' => 'image/bmp',
+    'jpg' => 'image/jpeg',
+    'jpeg' => 'image/jpeg',
+    'gif' => 'image/gif',
+    'png' => 'image/png',
+    'ogg' => 'audio/ogg',
+    'mp3' => 'audio/mp3',
+    'mp4' => 'video/mp4',
+    'mov' => 'video/quicktime',
+    'wmv' => 'video/x-ms-wmv',
+    'flv' => 'video/x-flv',
+    'avi' => 'video/x-msvideo',
+    'mpg' => 'video/mpeg'
+);
+
 // FALSE if use on production
 $app['debug'] = true;
 
@@ -54,7 +70,13 @@ $app->get('/', function (Request $request) use ($app) {
 $app->match('/save/', function (Request $request) use ($app) {
     $save = new Save($app);
 
-    if ($save->handleUpload($request->request->get("id"))) {
+    if ($save->handleUpload($request->request->get("name"))) {
+        $sql = "INSERT INTO files (remote_id, fullname) VALUES (?, ?)";
+        $stmt = $app['db']->prepare($sql);
+        $stmt->bindValue(1, $request->request->get("id"));
+        $stmt->bindValue(2,  $this->_app['upload'] . "/" . $request->request->get("name"));
+        $stmt->execute();
+
         return new Response("", 200);
     } else {
         header('Access-Control-Allow-Origin: *');
@@ -67,22 +89,35 @@ $app->match('/save/', function (Request $request) use ($app) {
 });
 
 $app->get('/get/', function (Request $request) use ($app) {
-
     $sql = "SELECT fullname FROM files WHERE remote_id = ?";
     $row = $app['db']->fetchAssoc($sql, array($request->query->get("id")));
     $file = $row["fullname"];
     $filename = mb_substr($file, mb_strrpos($file, "/")+1);
 
     if (file_exists($file)) {
+
+        /*
+         * Не всегда корректно отпределяет тип файла, например для некоторых mp3
+         * возвращает Content-Type: application/octet-stream
+         * что приводит к ошибке проигрвания файла в IE
+         *
+        $finfo = finfo_open(FILEINFO_MIME_TYPE);
+        $content_type = finfo_file($finfo, $file);
+        finfo_close($finfo);
+        */
+        $content_type = $app['filetypes'][substr($file, strrpos($file, '.') + 1)];
+
         header('Content-Description: File Transfer');
-	    header ("Content-Type: ". mime_content_type($file));
-        header ("Accept-Ranges: bytes");
-        header ("Content-Length: " . filesize($file));
-        header ("Content-Disposition: attachment; filename=" . $filename);
-        header ('Content-Transfer-Encoding: binary');
-        header ('Expires: 0');
-        header ('Cache-Control: must-revalidate');
-        header ('Pragma: public');
+        header("Content-Type: " . $content_type);
+        header("Accept-Ranges: bytes");
+        header("Content-Length: " . filesize($file));
+        header("Content-Disposition: attachment; filename=" . urlencode($filename));
+        header('Content-Transfer-Encoding: binary');
+        header('Expires: 0');
+        header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+        header("Cache-Control: no-store, no-cache, must-revalidate");
+        header('Cache-Control: must-revalidate');
+        header('Pragma: public');
 
         return new Response(readfile($file), 200);
     }
@@ -105,44 +140,50 @@ $app->match('/scan/', function (Request $request) use ($app) {
     header('Access-Control-Allow-Headers: X-Requested-With, Content-Type');
     header('Access-Control-Max-Age: 600');
 
-    $files->scanFolders();
-    $files->scanFiles();
+    //$files->scanFolders();
+    //$files->scanFiles();
+    $files->scanFilesAndFolders();
     $folders    = $files->getFoldersStructure();
     $files      = $files->getFilesStructure();
-
-    /*
-    foreach($files as $i=>$part) {
-        $sql = "INSERT INTO files (remote_id, fullname) VALUES (?, ?)";
-        $stmt = $app['db']->prepare($sql);
-        $stmt->bindValue(1, $i);
-        $stmt->bindValue(2, $part["fullname"]);
-        $stmt->execute();
-    }
-    */
 
     $res = json_encode(array_merge($folders + $files));
     return new Response($request->query->get("callback") . "(" . $res . ")", 200);
 });
 
 $app->post('/export/', function (Request $request) use ($app) {
-    $data = json_decode($_POST['data'], true);
-/*
     header('Access-Control-Allow-Origin: *');
     header('Access-Control-Allow-Methods: POST, GET, OPTIONS');
     header('Access-Control-Allow-Headers: X-Requested-With, Content-Type');
     header('Access-Control-Max-Age: 600');
 
-    return new Response(json_encode($_POST), 200);
-*/
+    $filename= __DIR__ . "/test";
+
+    $fout=fopen($filename,"wb");
+
+    if (!$fout) {
+        return new Response("Error file open!", 500);
+    }
+
+    $fin = fopen("php://input", "rb");
+    if ($fin) {
+        while (!feof($fin)) {
+            $data=fread($fin, 1024*1024);
+            fwrite($fout,$data);
+        }
+        fclose($fin);
+    }
+
+    fclose($fout);
+
+    $data=json_decode(file_get_contents($filename), true);
+
     foreach($data as $part) {
         $sql = "INSERT INTO files (remote_id, fullname) VALUES (?, ?)";
         $stmt = $app['db']->prepare($sql);
         $stmt->bindValue(1, $part["id"]);
         $stmt->bindValue(2, $part["fullname"]);
         $stmt->execute();
-        //$row = $app['db']->fetchAssoc($sql, array($part["id"], $part["fullname"]));
     }
-    //print_r($row);
 
     header('Access-Control-Allow-Origin: *');
     header('Access-Control-Allow-Methods: POST, GET, OPTIONS');

@@ -10,6 +10,9 @@ class Files extends Base {
     private $_ico = null;
     private $folders = array();
     private $files = array();
+    private $_width = 143;
+    private $_height = 80;
+    private $_rgb = "0x000000";
     private $_type = array(
         "video"=>array("count"=>0,"size"=>0),
         "music"=>array("count"=>0,"size"=>0),
@@ -371,6 +374,58 @@ class Files extends Base {
         return $this->printFilesTree();
     }
 
+    public function scanFilesAndFolders() {
+        chdir($this->_app["rel_upload"]);
+
+        return $this->printFilesAndFoldersTree();
+    }
+
+    public function printFilesAndFoldersTree() {
+        $d = @opendir(".");
+        if (!$d) return;
+        while (($e=readdir($d)) !== false) {
+            if ($e=='.' || $e=='..') continue;
+
+            // Нам нужны только подкаталоги.
+            if (@is_dir($e)) {
+                $res["obj"] = "folder";
+                $res["name"] = $e;
+                $res["parent"] = getcwd();
+                if (getcwd() == $this->_app["rel_upload"]) {
+                    $res["level"] = 0;
+                }
+                $res["date"] = filemtime($e);
+
+                $this->folders[] = $res;
+            } else {
+                $res["obj"] = "file";
+                $res["name"] = $e;
+                $res["parent"] = getcwd();
+                if (getcwd() == $this->_app["rel_upload"]) {
+                    $res["level"] = 0;
+                }
+                $res["size"] = filesize($e);
+                $res["extension"] = mb_substr($e, mb_strrpos($e, ".")+1);
+                $res["date"] = filemtime($e);
+                $res["thumb"] = $this->_img_resize($e);
+
+                $this->files[] = $res;
+            }
+
+            // Входим в текущий подкаталог и печатаем его
+            if (!chdir($e)) continue;
+            $this->printFilesAndFoldersTree();
+
+            // Возвращаемся назад
+            chdir("..");
+
+            // Отправляем данные в браузер, чтобы избежать видимости зависания
+            // для больших распечаток.
+            flush();
+        }
+        closedir($d);
+    }
+
     public function printFoldersTree() {
         $d = @opendir(".");
         if (!$d) return;
@@ -423,6 +478,7 @@ class Files extends Base {
                 $res["size"] = filesize($e);
                 $res["extension"] = mb_substr($e, mb_strrpos($e, ".")+1);
                 $res["date"] = filemtime($e);
+                $res["thumb"] = $this->_img_resize($e);
 
                 $this->files[] = $res;
             }
@@ -450,5 +506,47 @@ class Files extends Base {
 
     public function getFilesStructure() {
         return $this->files;
+    }
+
+    private function _img_resize($src) {
+        if (!file_exists($src)) { return false; };
+
+        $size = getimagesize($src);
+
+        if ($size === false) { return false; };
+
+        $format = strtolower(substr($size['mime'], strpos($size['mime'], '/')+1));
+
+        $icfunc = "imagecreatefrom" . $format;
+        if (!function_exists($icfunc)) { return false; };
+
+        $x_ratio = $this->_width / $size[0];
+        $y_ratio = $this->_height / $size[1];
+
+
+        $ratio = min($x_ratio, $y_ratio);
+        $use_x_ratio = ($x_ratio == $ratio);
+
+        $new_width = $use_x_ratio ? $this->_width : floor($size[0] * $ratio);
+        $new_height = !$use_x_ratio ? $this->_height : floor($size[1] * $ratio);
+        $new_left = $use_x_ratio ? 0 : floor(($this->_width - $new_width) / 2);
+        $new_top = !$use_x_ratio ? 0 : floor(($this->_height - $new_height) / 2);
+
+        $isrc = $icfunc($src);
+        $idest = imagecreatetruecolor($this->_width, $this->_height);
+
+        imagefill($idest, 0, 0, $this->_rgb);
+        imagecopyresampled($idest, $isrc, $new_left, $new_top, 0, 0,
+            $new_width, $new_height, $size[0], $size[1]);
+
+        ob_start ();
+        imagepng($idest);
+        $image_data = ob_get_contents();
+        ob_end_clean ();
+
+        imagedestroy($isrc);
+        imagedestroy($idest);
+
+        return base64_encode($image_data);
     }
 }
