@@ -3,11 +3,10 @@ Mediabox
 
 Demo
 ---
-<b>URL</b>: [http://tushkan.com:8080/mediabox/](http://tushkan.com:8080/mediabox/)  
 
-<b>Email(login)</b>: demo  
-<b>Password</b>: demo
+Move to: [mediabox-php-yii](https://github.com/Zazza/mediabox-php-yii)
 
+Oldest:
 [1. Home](https://github.com/Zazza/mediabox/wiki/1.-Home)  
 [2. Setup](https://github.com/Zazza/mediabox/wiki/2.-Setup)  
 [3. Interface](https://github.com/Zazza/mediabox/wiki/3.-Interface)  
